@@ -151,7 +151,7 @@ ioClient.on('occupy_table', (res) => {
   printer1.println("________________________");
   printer1.newLine();
   printer1.newLine();
-  printer1.printQR("http://192.46.223.124:3000/table/"+res.id+"/"+res.number, {
+  printer1.printQR("http://192.46.223.124/table/"+res.id+"/"+res.number, {
     cellSize: 8,
     correction: 'H',
     model: 2
