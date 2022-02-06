@@ -67,7 +67,7 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
 	let [orderNumber, setOrderNumber] = React.useState(null);
 	function handlePlaceOrder() {	
 
-		Axios.post("http://192.46.223.124:3001/api/place/order", {
+		Axios.post("http://192.46.223.124/api/place/order", {
 			curTableID: curTableID,
 			cartContent: cartContent,
 		})

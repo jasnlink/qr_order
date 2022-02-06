@@ -9,7 +9,7 @@ import Axios from 'axios';
 import path from 'path';
 
 import { Server } from 'socket.io';
-var io = new Server(8000)
+var io = new Server(8000);
 
 io.on('connection', (socket) => {
     console.log('Client has connected...');
@@ -26,12 +26,12 @@ const __dirname = path.resolve();
 // public image directory
 const cdnDir = path.join(__dirname, 'public');
 // set website address
-const SITE = 'http://192.46.223.124:3001/';
+const SITE = 'http://192.46.223.124/';
 
 
 
 // set port, listen for requests
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3500;
 
 //database connection info
 var connection;

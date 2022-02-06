@@ -121,7 +121,7 @@ function Welcome({ curStep, handleStep, curTableID, handleTableID, curTableNumbe
 						<Card className={classes.welcomeCard}>
 							<CardMedia
 								className={classes.welcomeCardMedia}
-								image="http://192.46.223.124:3001/assets/mitsuki_logo_black.jpg"
+								image="http://192.46.223.124/assets/mitsuki_logo_black.jpg"
 								title="Image title"
 							/>
 								<CardContent className={classes.welcomeCardContent}>

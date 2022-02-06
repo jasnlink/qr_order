@@ -70,7 +70,7 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
 	let [isOrderListLoading, setIsOrderListLoading] = React.useState(true);
 	//fetch orders
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124:3001/api/fetch/orders", {
+		Axios.post("http://192.46.223.124/api/fetch/orders", {
 			curTableID: selTableID,
 		})
 		.then((response) => {

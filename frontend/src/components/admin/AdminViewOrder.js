@@ -55,7 +55,7 @@ function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurO
 	let [isInOrderListLoading, setIsInOrderListLoading] = React.useState(true);
 	//fetch in order items
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124:3001/api/fetch/in_order", {
+		Axios.post("http://192.46.223.124/api/fetch/in_order", {
 			selOrder: selOrderID,
 		})
 		.then((response) => {

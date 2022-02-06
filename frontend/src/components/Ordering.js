@@ -67,7 +67,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
 	let [isCategoryListLoading, setIsCategoryListLoading] = React.useState(true);
 	//fetch categories
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124:3001/api/fetch/timed_categories")
+		Axios.post("http://192.46.223.124/api/fetch/timed_categories")
 		.then((response) => {
 			setCategoryList(response.data);
 			setSelectedCat(response.data[0].category_id);
@@ -158,7 +158,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
 	let [isItemListLoading, setIsItemListLoading] = React.useState(true);
 	//fetch items
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124:3001/api/fetch/items", {
+		Axios.post("http://192.46.223.124/api/fetch/items", {
 			selCategoryID: selectedCat,
 		})
 		.then((response) => {

@@ -124,7 +124,7 @@ function AdminMenuManager({ curStep, handleStep }) {
 
 	//fetch categories
 	useEffect(()=> {
-		Axios.get("http://192.46.223.124:3001/api/fetch/categories")
+		Axios.get("http://192.46.223.124/api/fetch/categories")
 		.then((response) => {
 			setCategoryList(response.data);
 			setIsCategoryListLoading(false);
@@ -139,7 +139,7 @@ function AdminMenuManager({ curStep, handleStep }) {
 
 	//fetch menu items from selected category
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124:3001/api/fetch/items", {
+		Axios.post("http://192.46.223.124/api/fetch/items", {
 				selCategoryID: selCategoryID,
 			})
 		.then((response) => {
@@ -196,7 +196,7 @@ function AdminMenuManager({ curStep, handleStep }) {
 			formData.append('itemDesc', itemDesc);
 			formData.append('itemKitchenName', itemKitchenName);
 
-			Axios.post("http://192.46.223.124:3001/api/add/item", formData, {
+			Axios.post("http://192.46.223.124/api/add/item", formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data'
 				}
@@ -260,7 +260,7 @@ function AdminMenuManager({ curStep, handleStep }) {
 			formData.append('selItemDesc', selItemDesc);
 			formData.append('selItemKitchenName', selItemKitchenName);
 
-			Axios.post("http://192.46.223.124:3001/api/edit/item", formData, {
+			Axios.post("http://192.46.223.124/api/edit/item", formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data'
 				}
@@ -292,7 +292,7 @@ function AdminMenuManager({ curStep, handleStep }) {
 		//if image didnt change
 		if(selCategoryID && selItemID && selItemName && !itemMedia) {
 
-			Axios.post("http://192.46.223.124:3001/api/edit/item", {
+			Axios.post("http://192.46.223.124/api/edit/item", {
 				selCategoryID: selCategoryID,
 				selItemID: selItemID,
 				selItemName: selItemName,
@@ -377,7 +377,7 @@ function AdminMenuManager({ curStep, handleStep }) {
 		}
 
 		//send to backend
-		Axios.post("http://192.46.223.124:3001/api/move/item", {
+		Axios.post("http://192.46.223.124/api/move/item", {
 			selCategoryID: selCategoryID,
 			currentRowID: currentRowID,
 			currentRowOrderID: currentRowOrderID,
@@ -459,7 +459,7 @@ function AdminMenuManager({ curStep, handleStep }) {
 	}
 	function handleChangeItemCategory() {
 
-		Axios.post("http://192.46.223.124:3001/api/change/item", {
+		Axios.post("http://192.46.223.124/api/change/item", {
 				selItemID: selItemID,
 				selNewCategoryID: selNewCategoryID,
 				selCategoryID: selCategoryID
@@ -491,7 +491,7 @@ function AdminMenuManager({ curStep, handleStep }) {
 	function handleDeleteItem() {
 		if(selItemID) {
 
-			Axios.post("http://192.46.223.124:3001/api/delete/item", {
+			Axios.post("http://192.46.223.124/api/delete/item", {
 				selCategoryID: selCategoryID,
 				selItemID: selItemID
 			})
@@ -521,7 +521,7 @@ function AdminMenuManager({ curStep, handleStep }) {
 
 		if(selItemID) {
 
-			Axios.post("http://192.46.223.124:3001/api/toggle/item", {
+			Axios.post("http://192.46.223.124/api/toggle/item", {
 				selCategoryID: selCategoryID,
 				selItemID: selItemID,
 				disabled: disabled

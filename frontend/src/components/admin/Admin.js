@@ -64,7 +64,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 	let [isListLoading, setIsListLoading] = React.useState(true);
 	//fetch tables
 	useEffect(()=> {
-		Axios.get("http://192.46.223.124:3001/api/fetch/tables")
+		Axios.get("http://192.46.223.124/api/fetch/tables")
 		.then((response) => {
 			setTableList(response.data);
 			setIsListLoading(false);
@@ -114,7 +114,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 			if(seatTableChildCount.length === 0) {
 				setSeatTableChildCount(0);
 			}
-			Axios.post("http://192.46.223.124:3001/api/occupy/table", {
+			Axios.post("http://192.46.223.124/api/occupy/table", {
 				selTableID: selTableID,
 				selTableNumber: selTableNumber,
 				seatTableAdultCount: seatTableAdultCount,
@@ -135,7 +135,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 
 			handleTableOccupied(0);
 
-			Axios.post("http://192.46.223.124:3001/api/unoccupy/table", {
+			Axios.post("http://192.46.223.124/api/unoccupy/table", {
 				selTableID: selTableID,
 			})
 			.then((response) => {
@@ -155,7 +155,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 	function handleDeleteTable() {
 		if(selTableID) {
 
-			Axios.post("http://192.46.223.124:3001/api/delete/table", {
+			Axios.post("http://192.46.223.124/api/delete/table", {
 				selTableID: selTableID,
 			})
 			.then((response) => {
@@ -289,7 +289,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 		//check that enter key was pressed on num pad
 		if(isEnterPressed === 1) {
 			//try to find table
-			Axios.post("http://192.46.223.124:3001/api/find/table", {
+			Axios.post("http://192.46.223.124/api/find/table", {
 				selTableNumber: selTableNumber,
 			})
 			.then((response) => {
@@ -309,7 +309,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 				//if table not found
 				if(response.data.length === 0) {
 					//add table number as new table
-					Axios.post("http://192.46.223.124:3001/api/add/table", {
+					Axios.post("http://192.46.223.124/api/add/table", {
 						selTableNumber: selTableNumber,
 					})
 					.then((response) => {
@@ -324,7 +324,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 
 									);
 
-						Axios.get("http://192.46.223.124:3001/api/fetch/tables")
+						Axios.get("http://192.46.223.124/api/fetch/tables")
 						.then((response) => {
 							setTableList(response.data);
 							setIsListLoading(false);
@@ -358,7 +358,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 	
 
 	function handleTest() {
-		Axios.get("http://192.46.223.124:3001/api/do/test")
+		Axios.get("http://192.46.223.124/api/do/test")
 		.then((response) => {
 			console.log('yes');
 		})
@@ -366,7 +366,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
        		console.log("error ", e)});
 	}
 	function handlePrinterList() {
-		Axios.get("http://192.46.223.124:3001/api/do/printerslist")
+		Axios.get("http://192.46.223.124/api/do/printerslist")
 		.then((response) => {
 			console.log('yes');
 		})

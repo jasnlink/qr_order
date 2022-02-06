@@ -54,7 +54,7 @@ function OrderHistory({ curStep, handleStep, handleOrder, curTableID, curOrderTi
 	let [isOrderListLoading, setIsOrderListLoading] = React.useState(true);
 	//fetch orders
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124:3001/api/fetch/orders", {
+		Axios.post("http://192.46.223.124/api/fetch/orders", {
 			curTableID: curTableID,
 		})
 		.then((response) => {
