@@ -1,4 +1,4 @@
-# Food Ordering via QR Code with Table Management System
+# Scan to Order with Table Management System
  
 ## Technologies used:
 - react.js
