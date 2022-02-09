@@ -30,5 +30,8 @@
 - View and reprint placed orders
 
 ## Demo
+### Admin
 - http://192.46.223.124/admin
-- http://192.46.223.124/table/52
+
+### Customer
+- http://192.46.223.124/table/2/52
