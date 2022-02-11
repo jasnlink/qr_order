@@ -59,7 +59,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 	let theme = createMuiTheme();
 	theme = responsiveFontSizes(theme);
 
-
+	let [tableBrackets, setTableBrackets] = React.useState()	
 	let [tableList, setTableList] = React.useState();
 	let [isListLoading, setIsListLoading] = React.useState(true);
 	//fetch tables
@@ -67,12 +67,36 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 		Axios.get("http://192.46.223.124/api/fetch/tables")
 		.then((response) => {
 			setTableList(response.data);
-			setIsListLoading(false);
-			console.log("fetched");
+			tableRanger(response.data)
+				.then((res) => {
+					setIsListLoading(false);
+					console.log("fetched");	
+				})
+				.catch((e) => {
+       				console.log("error ", e)});
+					
+
 		})
 		.catch((e) => {
        		console.log("error ", e)});
 	}, []);
+
+	function tableRanger(data) {
+		// Sequence generator function (commonly referred to as "range", e.g. Clojure, PHP etc)
+		const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
+		// Search for biggest table number
+		var max = Math.max.apply(Math, data.map(o => o.table_number));
+		// Generate brackets up until biggest table number
+		var brackets = range(0, max, 10);
+		setTableBrackets(brackets);
+
+		console.log(max);
+		console.log(brackets);
+
+		return new Promise((resolve, reject) => {
+		    resolve(max);
+		  });
+	}
 
 	let [selTableAdultCount, setSelTableAdultCount] = React.useState(null);
 	let [selTableChildCount, setSelTableChildCount] = React.useState(null);
@@ -571,72 +595,98 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 				</Dialog>
 					<Grid container direction="row">
 						<Grid item xs={8}>
-							<Container maxWidth={false}>
+							<Container maxWidth={false} className={classes.adminTablesCardGridContainer}>
 							{isListLoading && (
 
 								<Typography>loading...</Typography>
 
 							)}
 							{!isListLoading && (
-								<Grid container spacing={2} className={classes.adminTablesCardGrid}>
-								{tableList.map((table, index) => (
 								<>
-									<Grid key={index} item xs={3}>
-									{table.occupied === 1 && (
-										<Card className={classes.adminTablesCardSeated} square>
-										<CardActionArea onClick={() => handleSelTable(table.table_id, table.table_number, table.occupied, table.adult_count, table.child_count, 0)}>
-												<CardContent>
-													<Grid container direction="column">
-														<Grid item>
-															<Typography variant="h6" color="textPrimary">
-																{table.table_number}
-															</Typography>
+								<Grid container spacing={2} direction="row" className={classes.adminTablesCardGrid}>
+								{tableBrackets.map((bracket, index) => (
+									<Grid container spacing={2} xs={12} className={classes.adminTablesBracketsGrid}>
+									<>
+								
+									{tableList.map((table, index) => (
+									<>
+									{bracket <= table.table_number && [ bracket+9 >= table.table_number && (
+									<>
+										<Grid key={index} item xs={3}>
+										{table.occupied === 1 && (
+											<Card className={classes.adminTablesCardSeated} square>
+											<CardActionArea onClick={() => handleSelTable(table.table_id, table.table_number, table.occupied, table.adult_count, table.child_count, 0)}>
+													<CardContent>
+														<Grid container direction="column">
+															<Grid item>
+																<Typography variant="h6" color="textPrimary">
+																	{table.table_number}
+																</Typography>
+															</Grid>
+															<Grid item>
+																<Typography variant="subtitle2" color="textPrimary">
+																	Seated
+																</Typography>
+															</Grid>
+															<Grid item>
+															{(() => {
+															  if (table.child_count) {
+															    return (
+																    	<Typography variant="subtitle1" color="textPrimary">
+																			{table.adult_count} adults | {table.child_count} children
+																		</Typography>
+																		)
+															  } else {
+															    return (
+																    	<Typography variant="subtitle1" color="textPrimary">
+																			{table.adult_count} adults
+																		</Typography>
+																		)
+															  }
+															})()}
+															</Grid>
 														</Grid>
-														<Grid item>
-															<Typography variant="subtitle2" color="textPrimary">
-																Seated
-															</Typography>
+													</CardContent>
+											</CardActionArea>
+											</Card>
+										)}
+										{table.occupied === 0 && (
+											<Card className={classes.adminTablesCardAvailable} square>
+											<CardActionArea onClick={() => handleSelTable(table.table_id, table.table_number, table.occupied, table.adult_count, table.child_count, 0)}>
+													<CardContent>
+														<Grid container direction="column">
+															<Grid item>
+																<Typography variant="h6" color="textPrimary">
+																	{table.table_number}
+																</Typography>
+															</Grid>
+															<Grid item>
+																<Typography variant="subtitle2" color="textPrimary">
+																	Available
+																</Typography>
+															</Grid>
+															<Grid item>
+																<Typography variant="subtitle1" color="textPrimary">
+																	---
+																</Typography>
+															</Grid>
 														</Grid>
-														<Grid item>
-															<Typography variant="subtitle1" color="textPrimary">
-																{table.adult_count} a : {table.child_count} c
-															</Typography>
-														</Grid>
-													</Grid>
-												</CardContent>
-										</CardActionArea>
-										</Card>
-									)}
-									{table.occupied === 0 && (
-										<Card className={classes.adminTablesCardAvailable} square>
-										<CardActionArea onClick={() => handleSelTable(table.table_id, table.table_number, table.occupied, table.adult_count, table.child_count, 0)}>
-												<CardContent>
-													<Grid container direction="column">
-														<Grid item>
-															<Typography variant="h6" color="textPrimary">
-																{table.table_number}
-															</Typography>
-														</Grid>
-														<Grid item>
-															<Typography variant="subtitle2" color="textPrimary">
-																Available
-															</Typography>
-														</Grid>
-														<Grid item>
-															<Typography variant="subtitle1" color="textPrimary">
-																---
-															</Typography>
-														</Grid>
-													</Grid>
-												</CardContent>
-										</CardActionArea>
-										</Card>
-									)}
-									</Grid>
+													</CardContent>
+											</CardActionArea>
+											</Card>
+										)}
+										</Grid>
+										</>
+										)]}
+									</>
+									))}
+								
 								</>
+									</Grid>
 								))}
-									
 								</Grid>
+								</>
+								
 							)}
 							</Container>
 						</Grid>
