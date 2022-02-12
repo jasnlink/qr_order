@@ -81,20 +81,14 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
        		console.log("error ", e)});
 	}, []);
 
+	//create brackets of 10s for table number groups
 	function tableRanger(data) {
-		// Sequence generator function (commonly referred to as "range", e.g. Clojure, PHP etc)
-		const range = (start, stop, step) => Array.from({ length: (stop - start) / step + 1}, (_, i) => start + (i * step));
-		// Search for biggest table number
-		var max = Math.max.apply(Math, data.map(o => o.table_number));
-		// Generate brackets up until biggest table number
-		var brackets = range(0, max, 10);
+		//create new Set (array that contains only unique values) 
+		const brackets = [...new Set(data.map(item => item.table_number - (item.table_number % 10)))]
 		setTableBrackets(brackets);
 
-		console.log(max);
-		console.log(brackets);
-
 		return new Promise((resolve, reject) => {
-		    resolve(max);
+		    resolve(brackets);
 		  });
 	}
 
@@ -605,6 +599,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 								<>
 								<Grid container spacing={2} direction="row" className={classes.adminTablesCardGrid}>
 								{tableBrackets.map((bracket, index) => (
+
 									<Grid container spacing={2} xs={12} className={classes.adminTablesBracketsGrid}>
 									<>
 								
@@ -683,8 +678,11 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 								
 								</>
 									</Grid>
+									
 								))}
+
 								</Grid>
+
 								</>
 								
 							)}

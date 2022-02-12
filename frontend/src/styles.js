@@ -146,7 +146,7 @@ const useStyles = makeStyles((theme) => ({
 	//Admin table manager styles
 	adminTablesCardGridContainer : {
 		overflow: 'auto',
-		maxHeight: '95vh',
+		maxHeight: '100vh',
 	},
 	adminTablesCardGrid : {
 		marginTop: theme.spacing(8),
