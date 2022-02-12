@@ -84,7 +84,8 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 	//create brackets of 10s for table number groups
 	function tableRanger(data) {
 		//create new Set (array that contains only unique values) 
-		const brackets = [...new Set(data.map(item => item.table_number - (item.table_number % 10)))]
+		//iterate through table list and add to set
+		const brackets = [...new Set(data.map(item => item.table_number - (item.table_number % 10)))];
 		setTableBrackets(brackets);
 
 		return new Promise((resolve, reject) => {
@@ -624,17 +625,22 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 																</Typography>
 															</Grid>
 															<Grid item>
-															{(() => {
+
+																    	<Typography variant="subtitle1" color="textPrimary">
+																			{table.adult_count} adults
+																		</Typography>
+																{(() => {
 															  if (table.child_count) {
 															    return (
-																    	<Typography variant="subtitle1" color="textPrimary">
-																			{table.adult_count} adults | {table.child_count} children
+																		<Typography variant="subtitle1" color="textPrimary">
+																			{table.child_count} children
 																		</Typography>
+
 																		)
 															  } else {
 															    return (
 																    	<Typography variant="subtitle1" color="textPrimary">
-																			{table.adult_count} adults
+																			---
 																		</Typography>
 																		)
 															  }
@@ -661,6 +667,9 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 																</Typography>
 															</Grid>
 															<Grid item>
+																<Typography variant="subtitle1" color="textPrimary">
+																	---
+																</Typography>
 																<Typography variant="subtitle1" color="textPrimary">
 																	---
 																</Typography>
@@ -871,7 +880,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 											</Grid>
 											<Grid item xs={4}>
 												<Card square className={classes.adminKeyPadEnterKey}>
-													<CardActionArea onClick={(event) => handleEnter(event)}>
+													<CardActionArea onClick={(event) => handleEnter(event)} disabled>
 															<CardContent>
 																<Typography variant="h6" color="textPrimary" align="center" className={classes.adminKeyPadEnterText}>
 																	ENTER
