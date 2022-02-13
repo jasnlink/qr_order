@@ -47,6 +47,8 @@ import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider }
 import useClasses from '../../classes'
 import styles from '../../styles';
 
+import CloseIcon from '@mui/icons-material/Close';
+
 import KeyPad from './KeyPad';
 
 
@@ -416,7 +418,21 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                         </Toolbar>
                     </AppBar>
                     <Dialog open={openSeatDialog} onClose={handleCloseSeatDialog}>
-                        <DialogTitle>How many to be seated?</DialogTitle>
+                        <DialogTitle>
+                        <Grid container alignItems="center">
+                        	<Grid item xs="11">
+	                        	<Typography variant="h5" color="textPrimary">
+		                            How many to be seated?
+		                        </Typography>
+                        	</Grid>
+                        	<Grid item xs="1">
+                        		<IconButton onClick={() => handleCloseSeatDialog()} color="inherit" size="large">
+	                            	<CloseIcon />
+	                        	</IconButton>
+                        	</Grid>
+                        </Grid>
+                        </DialogTitle>
+
                         <DialogContent>
                             <FormControl fullWidth>
                                 <TextField 
@@ -425,7 +441,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                     type="number"
                                     fullWidth
                                     margin="dense"
-                                    label="Number of adults"
+                                    label="Adults"
                                     value={seatTableAdultCount}
                                     InputProps={{
                                         readOnly: true,
@@ -435,7 +451,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                 <TextField 
                                     variant="filled"
                                     type="number"
-                                    label="Number of children"
+                                    label="Children"
                                     fullWidth
                                     margin="dense"
                                     value={seatTableChildCount}
@@ -453,11 +469,15 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                         	  />
                         </DialogContent>
                         <DialogActions>
-                            <Button variant="contained" onClick={() => handleCloseSeatDialog()}>
-                                Cancel
-                            </Button>
-                            <Button variant="contained" color="primary" disabled={seatTableAdultCount === '' || seatTableAdultCount <= 0} onClick={() => handleOccupyTable()}>
-                                Submit
+                            <Button 
+                            	fullWidth 
+                            	variant="contained" 
+                            	color="primary" 
+                            	disabled={seatTableAdultCount === '' || seatTableAdultCount <= 0} 
+                            	onClick={() => handleOccupyTable()} 
+                            	className={classes.adminSeatSubmitButton}
+                            >
+                                Seat
                             </Button>
                         </DialogActions>
                     </Dialog>

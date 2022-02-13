@@ -179,6 +179,13 @@ const styles = theme => ({
 		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(4),
 	},
+
+	adminSeatSubmitButton : {
+		paddingTop: '16px',
+		paddingBottom: '16px',
+		fontSize: '20px',
+	},
+	//Keypad styling
 	adminSeatKeyPad : {
 		color: 'white',
 		paddingBottom: '32px',
@@ -195,6 +202,8 @@ const styles = theme => ({
 	adminKeyPadEnterKey : {
 		background: '#3f51b5',
 	},
+
+	//Admin table orders
 	adminViewTableOrdersCardGrid : {
 		marginTop: theme.spacing(8),
 		marginBottom: theme.spacing(4),
