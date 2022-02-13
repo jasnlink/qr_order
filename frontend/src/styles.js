@@ -181,7 +181,7 @@ const styles = theme => ({
 	},
 	adminSeatKeyPad : {
 		color: 'white',
-		paddingBottom: '24px',
+		paddingBottom: '32px',
 	},
 	adminKeyPadDisplay : {
 		minHeight: '32px',

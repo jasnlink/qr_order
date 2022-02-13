@@ -38,6 +38,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircleSharp';
 import TranslateSharpIcon from '@mui/icons-material/TranslateSharp';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
+import HomeIcon from '@mui/icons-material/Home';
 
 import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import useClasses from '../classes'
@@ -190,7 +191,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                     >
                     <Grid item>
                         <IconButton onClick={() => handleResetCart()} color="inherit" size="large">
-                            <ArrowBackIosSharpIcon />
+                            <HomeIcon />
                         </IconButton>
                     </Grid>
                     <Grid item>
@@ -271,7 +272,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
             </Grid>
         </Container>
         <Fab color="primary" aria-label="add" className={classes.fab} onClick={toggleDrawer}>
-            <AddIcon />
+            <MenuIcon />
         </Fab>
         <Drawer classes={{ paper: classes.paper, }} anchor="bottom" open={drawerOpen} onClose={toggleDrawer}>
             <List className={classes.orderingDrawerCategoryList}>

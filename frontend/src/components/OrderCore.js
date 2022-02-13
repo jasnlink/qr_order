@@ -17,6 +17,8 @@ import AdminCategoryManager from './admin/AdminCategoryManager';
 import AdminMenuManager from './admin/AdminMenuManager';
 import AdminTimeManager from './admin/AdminTimeManager';
 
+import KeyPad from './admin/KeyPad';
+
 
 import useClasses from '../classes'
 import styles from '../styles';
@@ -60,6 +62,7 @@ function OrderCore() {
 						<Router>
 							<Switch>
 								<Route exact path="/admin" render={() => setStep(1000)} />
+								<Route exact path="/keypad" render={() => setStep(2000)} />
 							</Switch>
 						</Router>
 
@@ -190,6 +193,12 @@ function OrderCore() {
 							curStep={step} 
 							handleStep={step => setStep(step)}
 						/>
+					</div>
+					)
+			case 2000:
+				return (
+					<div>
+						<KeyPad />
 					</div>
 					)
 		}

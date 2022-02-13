@@ -47,6 +47,8 @@ import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider }
 import useClasses from '../../classes'
 import styles from '../../styles';
 
+import KeyPad from './KeyPad';
+
 
 
 function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber, handleTableNumber, selTableOccupied, handleTableOccupied }) {
@@ -414,7 +416,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                         </Toolbar>
                     </AppBar>
                     <Dialog open={openSeatDialog} onClose={handleCloseSeatDialog}>
-                        <DialogTitle>Seat Cover Number</DialogTitle>
+                        <DialogTitle>How many to be seated?</DialogTitle>
                         <DialogContent>
                             <FormControl fullWidth>
                                 <TextField 
@@ -423,7 +425,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                     type="number"
                                     fullWidth
                                     margin="dense"
-                                    label="Adults"
+                                    label="Number of adults"
                                     value={seatTableAdultCount}
                                     InputProps={{
                                         readOnly: true,
@@ -433,7 +435,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                 <TextField 
                                     variant="filled"
                                     type="number"
-                                    label="Children"
+                                    label="Number of children"
                                     fullWidth
                                     margin="dense"
                                     value={seatTableChildCount}
@@ -443,141 +445,12 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                     onFocus={() => setSeatBoxFocus(1)}												
                                 />
                             </FormControl>
-                            <Grid container direction="row">
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 1)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        1
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 2)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        2
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 3)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        3
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 4)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        4
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 5)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        5
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 6)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        6
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 7)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        7
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 8)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        8
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 9)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        9
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-
-                                <Grid item xs={4}>
-                                    <Card className={classes.adminSeatKeyPad} square>
-                                        <CardContent>
-                                            <Typography variant="h6" align="center">
-                                                
-                                            </Typography>
-                                        </CardContent>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Card square>
-                                        <CardActionArea onClick={(event) => handleSeatNum(event, 0)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                        0
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Card className={classes.adminKeyPadBackSpace} square>
-                                        <CardActionArea onClick={(event) => handleSeatBackSpace(event)}>
-                                                <CardContent>
-                                                    <Typography variant="h6" color="error" align="center">
-                                                        DEL
-                                                    </Typography>
-                                                </CardContent>
-                                        </CardActionArea>
-                                    </Card>
-                                </Grid>
-                            </Grid>
+                            <KeyPad 
+                            	handlePadNum={handleSeatNum} 
+                            	handleBackSpace={handleSeatBackSpace} 
+                            	handleEnter
+                            	usage="seat"
+                        	  />
                         </DialogContent>
                         <DialogActions>
                             <Button variant="contained" onClick={() => handleCloseSeatDialog()}>
@@ -753,143 +626,12 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                             </Card>
                                         </Grid>
                                         <Grid item>
-                                            <Grid container direction="row">
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 1)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        1
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 2)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        2
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 3)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        3
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 4)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        4
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 5)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        5
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 6)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        6
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 7)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        7
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 8)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        8
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 9)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        9
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-
-                                                <Grid item xs={4}>
-                                                    <Card className={classes.adminKeyPadBackSpace} square>
-                                                        <CardActionArea onClick={(event) => handleBackSpace(event)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="error" align="center">
-                                                                        DEL
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Card square>
-                                                        <CardActionArea onClick={(event) => handlePadNum(event, 0)}>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center">
-                                                                        0
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-                                                <Grid item xs={4}>
-                                                    <Card square className={classes.adminKeyPadEnterKey}>
-                                                        <CardActionArea onClick={(event) => handleEnter(event)} disabled>
-                                                                <CardContent>
-                                                                    <Typography variant="h6" color="textPrimary" align="center" className={classes.adminKeyPadEnterText}>
-                                                                        ENTER
-                                                                    </Typography>
-                                                                </CardContent>
-                                                        </CardActionArea>
-                                                    </Card>
-                                                </Grid>
-                                            </Grid>
+                                            <KeyPad 
+                                            	handlePadNum={handlePadNum} 
+                                            	handleBackSpace={handleBackSpace} 
+                                            	handleEnter={handleEnter}
+                                            	usage="table"
+                                            	  />
                                         </Grid>
                                     </Grid>
                                     <List>
