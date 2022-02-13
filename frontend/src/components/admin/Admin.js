@@ -1,3 +1,27 @@
+
+
+
+
+
+/* 		###################### Admin Component ######################
+
+		This is the first page of the management side of the app. This is meant to be displayed on a tablet.
+
+		---
+
+		The main feature in this component is the table management system.
+
+		There are paths towards other parts of the management side including:
+		- Category Manager
+		- Menu Manager
+		- Time Slot Manager
+
+		##################################################################
+ */
+
+
+
+
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 

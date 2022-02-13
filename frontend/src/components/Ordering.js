@@ -185,9 +185,6 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                         justifyContent="space-between"
                         alignItems="center"
                         container
-                    
-                        
-                        
                     >
                     <Grid item>
                         <IconButton onClick={() => handleResetCart()} color="inherit" size="large">
@@ -234,7 +231,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
             </AppBar>
         <Container className={classes.menuCardGrid} maxWidth="md">
         
-            <Grid container spacing={0}>
+            <Grid container spacing={0} alignItems="stretch">
             {isItemListLoading && (
 
                 <Typography>loading...</Typography>
@@ -244,8 +241,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
             <>
             {itemList.map((item, index) => (
                 
-                <Grid key={index} item xs={4} sm={4} md={4}>
-                    <Card className={classes.menuCard} variant="outlined" elevation={0} square >
+                <Grid component={Card} key={index} item xs={4} className={classes.menuCard} variant="outlined" elevation={0} square >
                     <CardActionArea onClick={(event) => openDialog(event, item.item_id, item.item_name, item.item_desc, item.item_img_url)}>
                         <CardMedia
                             className={classes.menuCardMedia}
@@ -262,7 +258,6 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                             </StyledEngineProvider>
                             </CardContent>
                     </CardActionArea>
-                    </Card>
                 </Grid>
                 
                 ))}
