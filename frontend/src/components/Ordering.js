@@ -351,6 +351,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                                 disabled={selectedQuantity < 2}
                                 size="large"
                                 className={classes.dialogAjust}
+                                sx={{ color: '#1976d2' }}
                             >
                                 <RemoveCircleIcon />
                             </IconButton>
