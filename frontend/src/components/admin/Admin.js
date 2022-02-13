@@ -40,11 +40,12 @@ import { 	Typography,
  			TableBody,
  			TableContainer,
  			TableCell,
- 			TableRow   } from '@material-ui/core';
+ 			TableRow   } from '@mui/material';
 
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
-import useStyles from '../../styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import useClasses from '../../classes'
+import styles from '../../styles';
 
 
 
@@ -53,10 +54,10 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 
 
 	//Apply css styles from styles.js
-	const classes = useStyles();
+	const classes = useClasses(styles);
 
 	//Auto responsive font sizes by viewport
-	let theme = createMuiTheme();
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
 	let [tableBrackets, setTableBrackets] = React.useState()	
@@ -394,533 +395,530 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 	}
 
 
-	return (
-<>	
-		<CssBaseline />
-		<main>
-		<AppBar position="fixed">
-					<Toolbar variant="dense">
-						<Grid
-							justify="space-between"
-							alignItems="center"
-							container
-						>
-							<Grid item>
-								<Typography variant="h6">
-				  					Table Manager
-				  				</Typography>
-							</Grid>
-			              </Grid>
-					</Toolbar>
-				</AppBar>
-				<Dialog open={openSeatDialog} onClose={handleCloseSeatDialog}>
-					<DialogTitle>Seat Cover Number</DialogTitle>
-					<DialogContent>
-						<FormControl fullWidth>
-							<TextField 
-								autoFocus
-								variant="filled"
-								type="number"
-								fullWidth
-								margin="dense"
-								label="Adults"
-								value={seatTableAdultCount}
-								InputProps={{
-						        	readOnly: true,
-						        }}
-						        onFocus={() => setSeatBoxFocus(0)}												
-							/>
-							<TextField 
-								variant="filled"
-								type="number"
-								label="Children"
-								fullWidth
-								margin="dense"
-								value={seatTableChildCount}
-								InputProps={{
-						        	readOnly: true,
-						        }}
-						        onFocus={() => setSeatBoxFocus(1)}												
-							/>
-						</FormControl>
-						<Grid container direction="row">
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 1)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													1
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 2)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													2
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 3)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													3
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
+	return <>	
+            <CssBaseline />
+            <main>
+            <AppBar position="fixed">
+                        <Toolbar variant="dense">
+                            <Grid
+                                justifyContent="space-between"
+                                alignItems="center"
+                                container
+                            >
+                                <Grid item>
+                                    <Typography variant="h6">
+                                        Table Manager
+                                    </Typography>
+                                </Grid>
+                              </Grid>
+                        </Toolbar>
+                    </AppBar>
+                    <Dialog open={openSeatDialog} onClose={handleCloseSeatDialog}>
+                        <DialogTitle>Seat Cover Number</DialogTitle>
+                        <DialogContent>
+                            <FormControl fullWidth>
+                                <TextField 
+                                    autoFocus
+                                    variant="filled"
+                                    type="number"
+                                    fullWidth
+                                    margin="dense"
+                                    label="Adults"
+                                    value={seatTableAdultCount}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    onFocus={() => setSeatBoxFocus(0)}												
+                                />
+                                <TextField 
+                                    variant="filled"
+                                    type="number"
+                                    label="Children"
+                                    fullWidth
+                                    margin="dense"
+                                    value={seatTableChildCount}
+                                    InputProps={{
+                                        readOnly: true,
+                                    }}
+                                    onFocus={() => setSeatBoxFocus(1)}												
+                                />
+                            </FormControl>
+                            <Grid container direction="row">
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 1)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        1
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 2)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        2
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 3)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        3
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
 
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 4)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													4
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 5)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													5
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 6)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													6
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 4)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        4
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 5)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        5
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 6)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        6
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
 
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 7)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													7
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 8)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													8
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 9)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													9
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 7)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        7
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 8)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        8
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 9)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        9
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
 
-							<Grid item xs={4}>
-								<Card className={classes.adminSeatKeyPad} square>
-									<CardContent>
-										<Typography variant="h6" align="center">
-											
-										</Typography>
-									</CardContent>
-								</Card>
-							</Grid>
-							<Grid item xs={4}>
-								<Card square>
-									<CardActionArea onClick={(event) => handleSeatNum(event, 0)}>
-											<CardContent>
-												<Typography variant="h6" color="textPrimary" align="center">
-													0
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
-							<Grid item xs={4}>
-								<Card className={classes.adminKeyPadBackSpace} square>
-									<CardActionArea onClick={(event) => handleSeatBackSpace(event)}>
-											<CardContent>
-												<Typography variant="h6" color="error" align="center">
-													DEL
-												</Typography>
-											</CardContent>
-									</CardActionArea>
-								</Card>
-							</Grid>
-						</Grid>
-					</DialogContent>
-					<DialogActions>
-						<Button variant="contained" color="default" onClick={() => handleCloseSeatDialog()}>
-							Cancel
-						</Button>
-						<Button variant="contained" color="primary" disabled={seatTableAdultCount === '' || seatTableAdultCount <= 0} onClick={() => handleOccupyTable()}>
-							Submit
-						</Button>
-					</DialogActions>
-				</Dialog>
-					<Grid container direction="row">
-						<Grid item xs={8}>
-							<Container maxWidth={false} className={classes.adminTablesCardGridContainer}>
-							{isListLoading && (
+                                <Grid item xs={4}>
+                                    <Card className={classes.adminSeatKeyPad} square>
+                                        <CardContent>
+                                            <Typography variant="h6" align="center">
+                                                
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Card square>
+                                        <CardActionArea onClick={(event) => handleSeatNum(event, 0)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                        0
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Card className={classes.adminKeyPadBackSpace} square>
+                                        <CardActionArea onClick={(event) => handleSeatBackSpace(event)}>
+                                                <CardContent>
+                                                    <Typography variant="h6" color="error" align="center">
+                                                        DEL
+                                                    </Typography>
+                                                </CardContent>
+                                        </CardActionArea>
+                                    </Card>
+                                </Grid>
+                            </Grid>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button variant="contained" onClick={() => handleCloseSeatDialog()}>
+                                Cancel
+                            </Button>
+                            <Button variant="contained" color="primary" disabled={seatTableAdultCount === '' || seatTableAdultCount <= 0} onClick={() => handleOccupyTable()}>
+                                Submit
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                        <Grid container direction="row">
+                            <Grid item xs={8}>
+                                <Container maxWidth={false} className={classes.adminTablesCardGridContainer}>
+                                {isListLoading && (
 
-								<Typography>loading...</Typography>
+                                    <Typography>loading...</Typography>
 
-							)}
-							{!isListLoading && (
-								<>
-								<Grid container spacing={2} direction="row" className={classes.adminTablesCardGrid}>
-								{tableBrackets.map((bracket, index) => (
+                                )}
+                                {!isListLoading && (
+                                    <>
+                                    <Grid container spacing={2} direction="row" className={classes.adminTablesCardGrid}>
+                                    {tableBrackets.map((bracket, index) => (
 
-									<Grid container spacing={2} xs={12} className={classes.adminTablesBracketsGrid}>
-									<>
-								
-									{tableList.map((table, index) => (
-									<>
-									{bracket <= table.table_number && [ bracket+9 >= table.table_number && (
-									<>
-										<Grid key={index} item xs={3}>
-										{table.occupied === 1 && (
-											<Card className={classes.adminTablesCardSeated} square>
-											<CardActionArea onClick={() => handleSelTable(table.table_id, table.table_number, table.occupied, table.adult_count, table.child_count, 0)}>
-													<CardContent>
-														<Grid container direction="column">
-															<Grid item>
-																<Typography variant="h6" color="textPrimary">
-																	{table.table_number}
-																</Typography>
-															</Grid>
-															<Grid item>
-																<Typography variant="subtitle2" color="textPrimary">
-																	Seated
-																</Typography>
-															</Grid>
-															<Grid item>
+                                        <Grid container spacing={2} xs={12} className={classes.adminTablesBracketsGrid}>
+                                        <>
+                                    
+                                        {tableList.map((table, index) => (
+                                        <>
+                                        {bracket <= table.table_number && [ bracket+9 >= table.table_number && (
+                                        <>
+                                            <Grid key={index} item xs={3}>
+                                            {table.occupied === 1 && (
+                                                <Card className={classes.adminTablesCardSeated} square>
+                                                <CardActionArea onClick={() => handleSelTable(table.table_id, table.table_number, table.occupied, table.adult_count, table.child_count, 0)}>
+                                                        <CardContent>
+                                                            <Grid container direction="column">
+                                                                <Grid item>
+                                                                    <Typography variant="h6" color="textPrimary">
+                                                                        {table.table_number}
+                                                                    </Typography>
+                                                                </Grid>
+                                                                <Grid item>
+                                                                    <Typography variant="subtitle2" color="textPrimary">
+                                                                        Seated
+                                                                    </Typography>
+                                                                </Grid>
+                                                                <Grid item>
 
-																    	<Typography variant="subtitle1" color="textPrimary">
-																			{table.adult_count} adults
-																		</Typography>
-																{(() => {
-															  if (table.child_count) {
-															    return (
-																		<Typography variant="subtitle1" color="textPrimary">
-																			{table.child_count} children
-																		</Typography>
+                                                                            <Typography variant="subtitle1" color="textPrimary">
+                                                                                {table.adult_count} adults
+                                                                            </Typography>
+                                                                    {(() => {
+                                                                  if (table.child_count) {
+                                                                    return (
+                                                                            <Typography variant="subtitle1" color="textPrimary">
+                                                                                {table.child_count} children
+                                                                            </Typography>
 
-																		)
-															  } else {
-															    return (
-																    	<Typography variant="subtitle1" color="textPrimary">
-																			---
-																		</Typography>
-																		)
-															  }
-															})()}
-															</Grid>
-														</Grid>
-													</CardContent>
-											</CardActionArea>
-											</Card>
-										)}
-										{table.occupied === 0 && (
-											<Card className={classes.adminTablesCardAvailable} square>
-											<CardActionArea onClick={() => handleSelTable(table.table_id, table.table_number, table.occupied, table.adult_count, table.child_count, 0)}>
-													<CardContent>
-														<Grid container direction="column">
-															<Grid item>
-																<Typography variant="h6" color="textPrimary">
-																	{table.table_number}
-																</Typography>
-															</Grid>
-															<Grid item>
-																<Typography variant="subtitle2" color="textPrimary">
-																	Available
-																</Typography>
-															</Grid>
-															<Grid item>
-																<Typography variant="subtitle1" color="textPrimary">
-																	---
-																</Typography>
-																<Typography variant="subtitle1" color="textPrimary">
-																	---
-																</Typography>
-															</Grid>
-														</Grid>
-													</CardContent>
-											</CardActionArea>
-											</Card>
-										)}
-										</Grid>
-										</>
-										)]}
-									</>
-									))}
-								
-								</>
-									</Grid>
-									
-								))}
+                                                                            )
+                                                                  } else {
+                                                                    return (
+                                                                            <Typography variant="subtitle1" color="textPrimary">
+                                                                                ---
+                                                                            </Typography>
+                                                                            )
+                                                                  }
+                                                                })()}
+                                                                </Grid>
+                                                            </Grid>
+                                                        </CardContent>
+                                                </CardActionArea>
+                                                </Card>
+                                            )}
+                                            {table.occupied === 0 && (
+                                                <Card className={classes.adminTablesCardAvailable} square>
+                                                <CardActionArea onClick={() => handleSelTable(table.table_id, table.table_number, table.occupied, table.adult_count, table.child_count, 0)}>
+                                                        <CardContent>
+                                                            <Grid container direction="column">
+                                                                <Grid item>
+                                                                    <Typography variant="h6" color="textPrimary">
+                                                                        {table.table_number}
+                                                                    </Typography>
+                                                                </Grid>
+                                                                <Grid item>
+                                                                    <Typography variant="subtitle2" color="textPrimary">
+                                                                        Available
+                                                                    </Typography>
+                                                                </Grid>
+                                                                <Grid item>
+                                                                    <Typography variant="subtitle1" color="textPrimary">
+                                                                        ---
+                                                                    </Typography>
+                                                                    <Typography variant="subtitle1" color="textPrimary">
+                                                                        ---
+                                                                    </Typography>
+                                                                </Grid>
+                                                            </Grid>
+                                                        </CardContent>
+                                                </CardActionArea>
+                                                </Card>
+                                            )}
+                                            </Grid>
+                                            </>
+                                            )]}
+                                        </>
+                                        ))}
+                                    
+                                    </>
+                                        </Grid>
+                                        
+                                    ))}
 
-								</Grid>
+                                    </Grid>
 
-								</>
-								
-							)}
-							</Container>
-						</Grid>
-						<Grid item xs={4}>
-						<Paper elevation={1}>
-							<Container maxWidth={false} className={classes.adminNavigationContainer}>
-							{selTableID !== null && (
+                                    </>
+                                    
+                                )}
+                                </Container>
+                            </Grid>
+                            <Grid item xs={4}>
+                            <Paper elevation={1}>
+                                <Container maxWidth={false} className={classes.adminNavigationContainer}>
+                                {selTableID !== null && (
 
-									<List>
-										<ListItem>
-											<Typography variant="h5" color="textPrimary" align="center">
-												Table {selTableNumber}
-											</Typography>
-										</ListItem>
-										<Divider />
-										{selTableOccupied === 1 && (
-										   	<ListItem button onClick={() => handleOccupyTable()}>
-										   		<ListItemText primary="Close Table" />
-										   	</ListItem>
-										)}
-										{selTableOccupied === 0 && (
-										    <ListItem button onClick={() => handleOccupyButton()}>
-										    	<ListItemText primary="Seat Table" />
-										    </ListItem>
-										)}
-										<ListItem disabled={selTableOccupied === 0} button>
-											<ListItemText primary="Print QR Code" />
-										</ListItem>
-										<ListItem button disabled={selTableOccupied === 0} onClick={() => handleStep(1001)}>
-											<ListItemText primary="View Orders" />
-										</ListItem>
-										<ListItem button onClick={() => handleDeleteTable()}>
-											<ListItemText primary="Remove Table" />
-										</ListItem>
-										<Divider />
-										<ListItem button onClick={() => handleSelTable(null, null, null, 0)}>
-											<ListItemText primary="Go Back" />
-										</ListItem>
-									</List>
+                                        <List>
+                                            <ListItem>
+                                                <Typography variant="h5" color="textPrimary" align="center">
+                                                    Table {selTableNumber}
+                                                </Typography>
+                                            </ListItem>
+                                            <Divider />
+                                            {selTableOccupied === 1 && (
+                                                <ListItem button onClick={() => handleOccupyTable()}>
+                                                    <ListItemText primary="Close Table" />
+                                                </ListItem>
+                                            )}
+                                            {selTableOccupied === 0 && (
+                                                <ListItem button onClick={() => handleOccupyButton()}>
+                                                    <ListItemText primary="Seat Table" />
+                                                </ListItem>
+                                            )}
+                                            <ListItem disabled={selTableOccupied === 0} button>
+                                                <ListItemText primary="Print QR Code" />
+                                            </ListItem>
+                                            <ListItem button disabled={selTableOccupied === 0} onClick={() => handleStep(1001)}>
+                                                <ListItemText primary="View Orders" />
+                                            </ListItem>
+                                            <ListItem button onClick={() => handleDeleteTable()}>
+                                                <ListItemText primary="Remove Table" />
+                                            </ListItem>
+                                            <Divider />
+                                            <ListItem button onClick={() => handleSelTable(null, null, null, 0)}>
+                                                <ListItemText primary="Go Back" />
+                                            </ListItem>
+                                        </List>
 
-								)}
-							{selTableID === null && (
-								<>
-								<Grid container direction="column" justify="space-around" className={classes.adminNavigationGridColumn}>
-									<Grid item className={classes.adminNavigationTitle}>
-										<Typography variant="h4" color="textPrimary" align="center">
-											Table number
-										</Typography>
-									</Grid>
-									<Grid item>
-										<Card square>
-											<CardContent>
-												<Typography className={classes.adminKeyPadDisplay} variant="h5" color="textPrimary" align="center">
-													<DisplayPadNum />
-												</Typography>
-											</CardContent>
-										</Card>
-									</Grid>
-									<Grid item>
-										<Grid container direction="row">
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 1)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	1
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 2)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	2
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 3)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	3
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
+                                    )}
+                                {selTableID === null && (
+                                    <>
+                                    <Grid container direction="column" justifyContent="space-around" className={classes.adminNavigationGridColumn}>
+                                        <Grid item className={classes.adminNavigationTitle}>
+                                            <Typography variant="h4" color="textPrimary" align="center">
+                                                Table number
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item>
+                                            <Card square>
+                                                <CardContent>
+                                                    <Typography className={classes.adminKeyPadDisplay} variant="h5" color="textPrimary" align="center">
+                                                        <DisplayPadNum />
+                                                    </Typography>
+                                                </CardContent>
+                                            </Card>
+                                        </Grid>
+                                        <Grid item>
+                                            <Grid container direction="row">
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 1)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        1
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 2)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        2
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 3)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        3
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
 
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 4)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	4
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 5)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	5
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 6)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	6
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 4)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        4
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 5)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        5
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 6)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        6
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
 
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 7)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	7
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 8)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	8
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 9)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	9
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 7)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        7
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 8)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        8
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 9)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        9
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
 
-											<Grid item xs={4}>
-												<Card className={classes.adminKeyPadBackSpace} square>
-													<CardActionArea onClick={(event) => handleBackSpace(event)}>
-															<CardContent>
-																<Typography variant="h6" color="error" align="center">
-																	DEL
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
-											<Grid item xs={4}>
-												<Card square>
-													<CardActionArea onClick={(event) => handlePadNum(event, 0)}>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center">
-																	0
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
-											<Grid item xs={4}>
-												<Card square className={classes.adminKeyPadEnterKey}>
-													<CardActionArea onClick={(event) => handleEnter(event)} disabled>
-															<CardContent>
-																<Typography variant="h6" color="textPrimary" align="center" className={classes.adminKeyPadEnterText}>
-																	ENTER
-																</Typography>
-															</CardContent>
-													</CardActionArea>
-												</Card>
-											</Grid>
-										</Grid>
-									</Grid>
-								</Grid>
-								<List>
-									<Divider />
-									<ListItem button onClick={() => handleStep(1010)}>
-										<ListItemText primary="Category Manager" />
-									</ListItem>
-									<ListItem button onClick={() => handleStep(1020)}>
-										<ListItemText primary="Menu Manager" />
-									</ListItem>
-									<ListItem button onClick={() => handleStep(1030)}>
-										<ListItemText primary="Time Manager" />
-									</ListItem>
-									<ListItem button onClick={() => handleTest()}>
-										<ListItemText primary="test" />
-									</ListItem>
-									<ListItem button onClick={() => handlePrinterList()}>
-										<ListItemText primary="List Printers" />
-									</ListItem>
-								</List>
-								</>
-							)}
+                                                <Grid item xs={4}>
+                                                    <Card className={classes.adminKeyPadBackSpace} square>
+                                                        <CardActionArea onClick={(event) => handleBackSpace(event)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="error" align="center">
+                                                                        DEL
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square>
+                                                        <CardActionArea onClick={(event) => handlePadNum(event, 0)}>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center">
+                                                                        0
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Card square className={classes.adminKeyPadEnterKey}>
+                                                        <CardActionArea onClick={(event) => handleEnter(event)} disabled>
+                                                                <CardContent>
+                                                                    <Typography variant="h6" color="textPrimary" align="center" className={classes.adminKeyPadEnterText}>
+                                                                        ENTER
+                                                                    </Typography>
+                                                                </CardContent>
+                                                        </CardActionArea>
+                                                    </Card>
+                                                </Grid>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                    <List>
+                                        <Divider />
+                                        <ListItem button onClick={() => handleStep(1010)}>
+                                            <ListItemText primary="Category Manager" />
+                                        </ListItem>
+                                        <ListItem button onClick={() => handleStep(1020)}>
+                                            <ListItemText primary="Menu Manager" />
+                                        </ListItem>
+                                        <ListItem button onClick={() => handleStep(1030)}>
+                                            <ListItemText primary="Time Manager" />
+                                        </ListItem>
+                                        <ListItem button onClick={() => handleTest()}>
+                                            <ListItemText primary="test" />
+                                        </ListItem>
+                                        <ListItem button onClick={() => handlePrinterList()}>
+                                            <ListItemText primary="List Printers" />
+                                        </ListItem>
+                                    </List>
+                                    </>
+                                )}
 
-							</Container>
-							</Paper>
-						</Grid>
-					</Grid>
-			</main>
-	</>
-
-		)
+                                </Container>
+                                </Paper>
+                            </Grid>
+                        </Grid>
+                </main>
+        </>;
 
 }
 

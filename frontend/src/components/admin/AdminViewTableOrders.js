@@ -35,24 +35,25 @@ import { 	Typography,
  			TableBody,
  			TableContainer,
  			TableCell,
- 			TableRow   } from '@material-ui/core';
+ 			TableRow   } from '@mui/material';
 
 
-import ArrowBackIosSharpIcon from '@material-ui/icons/ArrowBackIosSharp';
+import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
 
 
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
-import useStyles from '../../styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import useClasses from '../../classes'
+import styles from '../../styles';
 
 
 function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, selOrderID, handleOrderID, adminCurTableNumber, adminCurOrderTime, handleOrderTime }) {
 
 	//Apply css styles from styles.js
-	const classes = useStyles();
+	const classes = useClasses(styles);
 
 	//Auto responsive font sizes by viewport
-	let theme = createMuiTheme();
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
 	function handleGoback() {
@@ -81,117 +82,114 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
        		console.log("error ", e)});
 	}, []);
 
-	return (
-<>	
-		<CssBaseline />
-		<main>
-		<AppBar position="fixed">
-			<Toolbar variant="dense">
-				<Grid
-					justify="space-between"
-					alignItems="center"
-					container
-				>
-					<Grid item>
-						<Typography variant="h6">
-		  					Table Manager
-		  				</Typography>
-					</Grid>
-	              </Grid>
-			</Toolbar>
-		</AppBar>
-			<Grid container direction="row">
-				<Grid item xs={8}>
-					<Container maxWidth={false}>
-						<Grid container direction="column" spacing={2} className={classes.adminViewTableOrdersCardGrid}>
-						{isOrderListLoading && (
+	return <>	
+            <CssBaseline />
+            <main>
+            <AppBar position="fixed">
+                <Toolbar variant="dense">
+                    <Grid
+                        justifyContent="space-between"
+                        alignItems="center"
+                        container
+                    >
+                        <Grid item>
+                            <Typography variant="h6">
+                                Table Manager
+                            </Typography>
+                        </Grid>
+                      </Grid>
+                </Toolbar>
+            </AppBar>
+                <Grid container direction="row">
+                    <Grid item xs={8}>
+                        <Container maxWidth={false}>
+                            <Grid container direction="column" spacing={2} className={classes.adminViewTableOrdersCardGrid}>
+                            {isOrderListLoading && (
 
-								<Typography>loading...</Typography>
+                                    <Typography>loading...</Typography>
 
-						)}
-						{!isOrderListLoading && [ orderList.length === 0 && (
+                            )}
+                            {!isOrderListLoading && [ orderList.length === 0 && (
 
-								<Typography>No orders placed...</Typography>
+                                    <Typography>No orders placed...</Typography>
 
-						)]}
-						{!isOrderListLoading && [ orderList.length > 0 && (
-						<>
-						{orderList.map((order, index) => (
-							<Grid item key={index}>
-								<Card className={classes.Card}>
-								<CardActionArea onClick={() => handleViewOrder(order.placed_order_id, order.time_placed)}>
-									<Grid className={classes.adminViewTableOrdersCard} container alignItems="center" justify="space-around">
-										<Grid item>
-											<Typography variant="subtitle1" color="textPrimary">
-												{index+1}.
-											</Typography>
-										</Grid>
-										<Grid item>
-											<Typography variant="subtitle1" color="textPrimary">
-												Order #{order.placed_order_id}
-											</Typography>
-										</Grid>
-										<Grid item>
-											<Typography variant="subtitle1" color="textPrimary">
-												{order.time_placed}
-											</Typography>
-										</Grid>
-									</Grid>
-								</CardActionArea>
-								</Card>
-							</Grid>
-						))}
-						</>
-						)]}
-						</Grid>
-					</Container>
-				</Grid>
-				<Grid item xs={4}>
-					<Paper elevation={1}>
-						<Container maxWidth={false} className={classes.adminNavigationContainer}>
-							<List>
-							{selOrderID === null && (
-								<>
-								<ListItem>
-									<Typography variant="h5" color="textPrimary" align="center">
-										Table {adminCurTableNumber}
-									</Typography>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleStep(curStep-1)}>
-									<ListItemText primary="Go Back" />
-								</ListItem>
-								</>
-							)}
-							{selOrderID !== null && (
-								<>
-								<ListItem>
-									<Typography variant="h5" color="textPrimary" align="center">
-										Order #{selOrderID}
-									</Typography>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleStep(curStep+1)}>
-									<ListItemText primary="View Order" />
-								</ListItem>
-								<ListItem button>
-									<ListItemText primary="Print Order" />
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleGoback()}>
-									<ListItemText primary="Go Back" />
-								</ListItem>
-								</>
-							)}
-							</List>
-						</Container>
-					</Paper>
-				</Grid>
-			</Grid>
-		</main>
-</>
-
-	)
+                            )]}
+                            {!isOrderListLoading && [ orderList.length > 0 && (
+                            <>
+                            {orderList.map((order, index) => (
+                                <Grid item key={index}>
+                                    <Card className={classes.Card}>
+                                    <CardActionArea onClick={() => handleViewOrder(order.placed_order_id, order.time_placed)}>
+                                        <Grid className={classes.adminViewTableOrdersCard} container alignItems="center" justifyContent="space-around">
+                                            <Grid item>
+                                                <Typography variant="subtitle1" color="textPrimary">
+                                                    {index+1}.
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="subtitle1" color="textPrimary">
+                                                    Order #{order.placed_order_id}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <Typography variant="subtitle1" color="textPrimary">
+                                                    {order.time_placed}
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </CardActionArea>
+                                    </Card>
+                                </Grid>
+                            ))}
+                            </>
+                            )]}
+                            </Grid>
+                        </Container>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paper elevation={1}>
+                            <Container maxWidth={false} className={classes.adminNavigationContainer}>
+                                <List>
+                                {selOrderID === null && (
+                                    <>
+                                    <ListItem>
+                                        <Typography variant="h5" color="textPrimary" align="center">
+                                            Table {adminCurTableNumber}
+                                        </Typography>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleStep(curStep-1)}>
+                                        <ListItemText primary="Go Back" />
+                                    </ListItem>
+                                    </>
+                                )}
+                                {selOrderID !== null && (
+                                    <>
+                                    <ListItem>
+                                        <Typography variant="h5" color="textPrimary" align="center">
+                                            Order #{selOrderID}
+                                        </Typography>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleStep(curStep+1)}>
+                                        <ListItemText primary="View Order" />
+                                    </ListItem>
+                                    <ListItem button>
+                                        <ListItemText primary="Print Order" />
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleGoback()}>
+                                        <ListItemText primary="Go Back" />
+                                    </ListItem>
+                                    </>
+                                )}
+                                </List>
+                            </Container>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </main>
+    </>;
 }
 
 export default AdminViewTableOrders;

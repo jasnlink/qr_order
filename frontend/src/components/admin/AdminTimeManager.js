@@ -40,24 +40,25 @@ import { 	Typography,
  			TableRow,
  			FormControl,
  			Select,
- 			InputLabel   } from '@material-ui/core';
+ 			InputLabel   } from '@mui/material';
 
-import ToggleButton from '@material-ui/lab/ToggleButton';
-import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
+import ToggleButton from '@mui/lab/ToggleButton';
+import ToggleButtonGroup from '@mui/lab/ToggleButtonGroup';
 
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
-import useStyles from '../../styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import useClasses from '../../classes'
+import styles from '../../styles';
 
 
 function AdminTimeManager({ curStep, handleStep }) {
 
 
 	//Apply css styles from styles.js
-	const classes = useStyles();
+	const classes = useClasses(styles);
 
 	//Auto responsive font sizes by viewport
-	let theme = createMuiTheme();
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
 
@@ -306,238 +307,236 @@ function AdminTimeManager({ curStep, handleStep }) {
 		}
 	}
 	
-	return (
-<>	
-		<CssBaseline />
-		<main>
-		<AppBar position="fixed">
-			<Toolbar variant="dense">
-				<Grid
-					justify="space-between"
-					alignItems="center"
-					container
-				>
-					<Grid item>
-						<Typography variant="h6">
-		  					Table Manager
-		  				</Typography>
-					</Grid>
-	              </Grid>
-			</Toolbar>
-		</AppBar>
-		<Grid container direction="row">
-				<Grid item xs={2} className={classes.adminTimeGroupListContainer}>
-					<Container className={classes.adminTimeGroupCardGrid} maxWidth="md">
-							{isTimeGroupListLoading && (
+	return <>	
+            <CssBaseline />
+            <main>
+            <AppBar position="fixed">
+                <Toolbar variant="dense">
+                    <Grid
+                        justifyContent="space-between"
+                        alignItems="center"
+                        container
+                    >
+                        <Grid item>
+                            <Typography variant="h6">
+                                Table Manager
+                            </Typography>
+                        </Grid>
+                      </Grid>
+                </Toolbar>
+            </AppBar>
+            <Grid container direction="row">
+                    <Grid item xs={2} className={classes.adminTimeGroupListContainer}>
+                        <Container className={classes.adminTimeGroupCardGrid} maxWidth="md">
+                                {isTimeGroupListLoading && (
 
-								<Typography>loading...</Typography>
+                                    <Typography>loading...</Typography>
 
-							)}
-							{!isTimeGroupListLoading && (
+                                )}
+                                {!isTimeGroupListLoading && (
 
-								<Grid container direction="column" spacing={2}>
-								{timeGroupList.map((timegroup, index) => (
-									<Grid item key={index}>
-										<Card className={classes.Card}>
-											<CardActionArea onClick={() => handleSelTimeGroup(timegroup.time_group_id, timegroup.time_group_name, timegroup.from_time, timegroup.to_time)}>
-												<Grid className={classes.adminTimeGroupCard} container alignItems="center" justify="space-around">
-													<Grid item>
-														<Typography variant="subtitle2" color="textPrimary">
-															{timegroup.time_group_name}
-														</Typography>
-													</Grid>
-												</Grid>
-											</CardActionArea>
-										</Card>
-									</Grid>
-								))}
-								</Grid>
+                                    <Grid container direction="column" spacing={2}>
+                                    {timeGroupList.map((timegroup, index) => (
+                                        <Grid item key={index}>
+                                            <Card className={classes.Card}>
+                                                <CardActionArea onClick={() => handleSelTimeGroup(timegroup.time_group_id, timegroup.time_group_name, timegroup.from_time, timegroup.to_time)}>
+                                                    <Grid className={classes.adminTimeGroupCard} container alignItems="center" justifyContent="space-around">
+                                                        <Grid item>
+                                                            <Typography variant="subtitle2" color="textPrimary">
+                                                                {timegroup.time_group_name}
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                </CardActionArea>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                                    </Grid>
 
-							)}
-					</Container>
-				</Grid>
-				<Grid item xs={6} className={classes.adminTimeGroupListContainer}>
+                                )}
+                        </Container>
+                    </Grid>
+                    <Grid item xs={6} className={classes.adminTimeGroupListContainer}>
 
-						<Container className={classes.adminTimeManagerCardGrid} maxWidth="md">	
-							{isTimeDataLoading && [ selTimeGroupID && [ !showAddTimeGroup && [ !showEditTimeGroup &&   (
+                            <Container className={classes.adminTimeManagerCardGrid} maxWidth="md">	
+                                {isTimeDataLoading && [ selTimeGroupID && [ !showAddTimeGroup && [ !showEditTimeGroup &&   (
 
-								<Typography>loading...</Typography>
+                                    <Typography>loading...</Typography>
 
-							)]]]}
-							{!isTimeDataLoading && [ selTimeGroupID && [ !showAddTimeGroup && [ !showEditTimeGroup &&   (						
-								<Grid container direction="column" spacing={2}>
-									<Grid item>
-										<Card className={classes.adminTimeManagerCard}>
-										<Typography variant="h5">
-											{selTimeGroupName} Schedule
-										</Typography>
-											<ToggleButtonGroup value={selDays} onChange={handleSelDays} className={classes.adminTimeManagerButtonGroup}>
-											    <ToggleButton value="1">Mon</ToggleButton>
-											    <ToggleButton value="2">Tue</ToggleButton>
-											    <ToggleButton value="3">Wed</ToggleButton>
-											    <ToggleButton value="4">Thu</ToggleButton>
-											    <ToggleButton value="5">Fri</ToggleButton>
-											    <ToggleButton value="6">Sat</ToggleButton>
-											    <ToggleButton value="0">Sun</ToggleButton>
-										    </ToggleButtonGroup>
-										    <Grid container direction="row" spacing={4} className={classes.adminTimeManagerTimeBlock}>
-										    	<Grid item>
-										    		<Grid container direction="column">
-										    			<Grid item>
-											    			<Typography variant="subtitle2">
-											    				Start Time
-											    			</Typography>
-										    			</Grid>
-										    			<Grid item>
-											    			<TextField type="time" variant="filled" value={fromTime} onChange={(e) => setFromTime(e.target.value)} />
-										    			</Grid>
-										    		</Grid>
-										    	</Grid>
-										    	<Grid item>
-										    		<Grid container direction="column">
-										    			<Grid item>
-											    			<Typography variant="subtitle2">
-											    				End Time
-											    			</Typography>
-										    			</Grid>
-										    			<Grid item>
-											    			<TextField type="time" variant="filled" value={toTime} onChange={(e) => setToTime(e.target.value)} />
-										    			</Grid>
-										    		</Grid>
-										    	</Grid>
-										    </Grid>
-										    <Divider />
-										    <Grid item className={classes.adminTimeManagerAppliedCategories}>
-											    <Typography variant="h6">
-											    	Applied Categories
-											    </Typography>
-											    <FormControl className={classes.adminTimeManagerSelect}>
-											    	<InputLabel>Categories</InputLabel>
-													<Select
-														multiple 
-														value={selCategories}
-														onChange={handleSelCategories}
-														variant="filled"
-													>
-														{categoryList.map((category, index) => (
-												            <MenuItem key={index} value={category.category_id}>
-												              {category.category_name}
-												            </MenuItem>
-												          ))}
-													</Select>
-												</FormControl>
-											</Grid>
-										</Card>
-									</Grid>
-								</Grid>
-							)]]]}
-						</Container>
+                                )]]]}
+                                {!isTimeDataLoading && [ selTimeGroupID && [ !showAddTimeGroup && [ !showEditTimeGroup &&   (						
+                                    <Grid container direction="column" spacing={2}>
+                                        <Grid item>
+                                            <Card className={classes.adminTimeManagerCard}>
+                                            <Typography variant="h5">
+                                                {selTimeGroupName} Schedule
+                                            </Typography>
+                                                <ToggleButtonGroup value={selDays} onChange={handleSelDays} className={classes.adminTimeManagerButtonGroup}>
+                                                    <ToggleButton value="1">Mon</ToggleButton>
+                                                    <ToggleButton value="2">Tue</ToggleButton>
+                                                    <ToggleButton value="3">Wed</ToggleButton>
+                                                    <ToggleButton value="4">Thu</ToggleButton>
+                                                    <ToggleButton value="5">Fri</ToggleButton>
+                                                    <ToggleButton value="6">Sat</ToggleButton>
+                                                    <ToggleButton value="0">Sun</ToggleButton>
+                                                </ToggleButtonGroup>
+                                                <Grid container direction="row" spacing={4} className={classes.adminTimeManagerTimeBlock}>
+                                                    <Grid item>
+                                                        <Grid container direction="column">
+                                                            <Grid item>
+                                                                <Typography variant="subtitle2">
+                                                                    Start Time
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item>
+                                                                <TextField type="time" variant="filled" value={fromTime} onChange={(e) => setFromTime(e.target.value)} />
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Grid container direction="column">
+                                                            <Grid item>
+                                                                <Typography variant="subtitle2">
+                                                                    End Time
+                                                                </Typography>
+                                                            </Grid>
+                                                            <Grid item>
+                                                                <TextField type="time" variant="filled" value={toTime} onChange={(e) => setToTime(e.target.value)} />
+                                                            </Grid>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Grid>
+                                                <Divider />
+                                                <Grid item className={classes.adminTimeManagerAppliedCategories}>
+                                                    <Typography variant="h6">
+                                                        Applied Categories
+                                                    </Typography>
+                                                    <FormControl className={classes.adminTimeManagerSelect}>
+                                                        <InputLabel>Categories</InputLabel>
+                                                        <Select
+                                                            multiple 
+                                                            value={selCategories}
+                                                            onChange={handleSelCategories}
+                                                            variant="filled"
+                                                        >
+                                                            {categoryList.map((category, index) => (
+                                                                <MenuItem key={index} value={category.category_id}>
+                                                                  {category.category_name}
+                                                                </MenuItem>
+                                                              ))}
+                                                        </Select>
+                                                    </FormControl>
+                                                </Grid>
+                                            </Card>
+                                        </Grid>
+                                    </Grid>
+                                )]]]}
+                            </Container>
 
-				</Grid>
-				<Grid item xs={4}>
-					<Paper elevation={1}>
-						<Container maxWidth={false} className={classes.adminNavigationContainer}>
-							<List>
-								<ListItem>
-									<Typography variant="h5" color="textPrimary" align="center">
-										Time Manager
-									</Typography>
-								</ListItem>
-								<Divider />
-							{!showAddTimeGroup && [ !showEditTimeGroup && (
-								<>
-								<ListItem button disabled={selTimeGroupID === null} onClick={() => handleSaveChanges()}>
-									<ListItemText primary="Save Changes"/>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleAddTimeGroupButton()}>
-									<ListItemText primary="Add New Time Group"/>
-								</ListItem>
-								<ListItem button disabled={selTimeGroupID === null} onClick={() => handleEditTimeGroupButton()}>
-									<ListItemText primary="Change Time Group Name"/>
-								</ListItem>
-								<ListItem button disabled={selTimeGroupID === null} onClick={() => handleDeleteTimeGroup()}>
-									<ListItemText primary="Remove Time Group"/>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleStep(1000)}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-							)]}
-							{showAddTimeGroup && [ !showEditTimeGroup &&  (
-								<>
-								<ListItem>
-									<Grid container spacing={2} alignItems="flex-start" justify="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
-										<Grid item>
-											<Typography variant="h5">
-												Add New Timegroup
-											</Typography>
-										</Grid>
-										<Grid item>
-											<TextField 
-												id="timegroup" 
-												label="Timegroup Name"
-												onChange={(e) => {setNewTimeGroupName(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={newTimeGroupName} 
-											/>
-										</Grid>
-										<Grid item>
-											<Button variant="contained" color="primary" disabled={newTimeGroupName === ''} onClick={() => handleAddTimeGroup()}>
-												Add Timegroup
-											</Button>
-										</Grid>
-									</Grid>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleAddTimeGroupButton()}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-							)]}
-							{!showAddTimeGroup && [ showEditTimeGroup &&  (
-								<>
-								<ListItem>
-									<Grid container spacing={2} alignItems="flex-start" justify="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
-										<Grid item>
-											<Typography variant="h5">
-												Change Timegroup Name
-											</Typography>
-										</Grid>
-										<Grid item>
-											<TextField 
-												id="timegroup" 
-												label="Timegroup Name"
-												onChange={(e) => {setNewTimeGroupName(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={newTimeGroupName} 
-											/>
-										</Grid>
-										<Grid item>
-											<Button variant="contained" color="primary" disabled={newTimeGroupName === ''} onClick={() => handleEditTimeGroup()}>
-												Change Name
-											</Button>
-										</Grid>
-									</Grid>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleEditTimeGroupButton()}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-							)]}
-							</List>
-						</Container>
-					</Paper>
-				</Grid>
-		</Grid>
-		</main>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paper elevation={1}>
+                            <Container maxWidth={false} className={classes.adminNavigationContainer}>
+                                <List>
+                                    <ListItem>
+                                        <Typography variant="h5" color="textPrimary" align="center">
+                                            Time Manager
+                                        </Typography>
+                                    </ListItem>
+                                    <Divider />
+                                {!showAddTimeGroup && [ !showEditTimeGroup && (
+                                    <>
+                                    <ListItem button disabled={selTimeGroupID === null} onClick={() => handleSaveChanges()}>
+                                        <ListItemText primary="Save Changes"/>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleAddTimeGroupButton()}>
+                                        <ListItemText primary="Add New Time Group"/>
+                                    </ListItem>
+                                    <ListItem button disabled={selTimeGroupID === null} onClick={() => handleEditTimeGroupButton()}>
+                                        <ListItemText primary="Change Time Group Name"/>
+                                    </ListItem>
+                                    <ListItem button disabled={selTimeGroupID === null} onClick={() => handleDeleteTimeGroup()}>
+                                        <ListItemText primary="Remove Time Group"/>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleStep(1000)}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                )]}
+                                {showAddTimeGroup && [ !showEditTimeGroup &&  (
+                                    <>
+                                    <ListItem>
+                                        <Grid container spacing={2} alignItems="flex-start" justifyContent="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
+                                            <Grid item>
+                                                <Typography variant="h5">
+                                                    Add New Timegroup
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField 
+                                                    id="timegroup" 
+                                                    label="Timegroup Name"
+                                                    onChange={(e) => {setNewTimeGroupName(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={newTimeGroupName} 
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <Button variant="contained" color="primary" disabled={newTimeGroupName === ''} onClick={() => handleAddTimeGroup()}>
+                                                    Add Timegroup
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleAddTimeGroupButton()}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                )]}
+                                {!showAddTimeGroup && [ showEditTimeGroup &&  (
+                                    <>
+                                    <ListItem>
+                                        <Grid container spacing={2} alignItems="flex-start" justifyContent="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
+                                            <Grid item>
+                                                <Typography variant="h5">
+                                                    Change Timegroup Name
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField 
+                                                    id="timegroup" 
+                                                    label="Timegroup Name"
+                                                    onChange={(e) => {setNewTimeGroupName(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={newTimeGroupName} 
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <Button variant="contained" color="primary" disabled={newTimeGroupName === ''} onClick={() => handleEditTimeGroup()}>
+                                                    Change Name
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleEditTimeGroupButton()}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                )]}
+                                </List>
+                            </Container>
+                        </Paper>
+                    </Grid>
+            </Grid>
+            </main>
 
-</>
-		)
+    </>;
 }
 
 export default AdminTimeManager;

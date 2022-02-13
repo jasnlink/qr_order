@@ -35,20 +35,21 @@ import { 	Typography,
  			TableBody,
  			TableContainer,
  			TableCell,
- 			TableRow   } from '@material-ui/core';
+ 			TableRow   } from '@mui/material';
 
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
-import useStyles from '../../styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import useClasses from '../../classes'
+import styles from '../../styles';
 
 
 function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurOrderTime }) {
 
 	//Apply css styles from styles.js
-	const classes = useStyles();
+	const classes = useClasses(styles);
 
 	//Auto responsive font sizes by viewport
-	let theme = createMuiTheme();
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
 	let [inOrderList, setInOrderList] = React.useState();
@@ -68,98 +69,96 @@ function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurO
 
 
 
-	return (
-<>	
-		<CssBaseline />
-		<main>
-		<AppBar position="fixed">
-			<Toolbar variant="dense">
-				<Grid
-					justify="space-between"
-					alignItems="center"
-					container
-				>
-					<Grid item>
-						<Typography variant="h6">
-		  					Table Manager
-		  				</Typography>
-					</Grid>
-	              </Grid>
-			</Toolbar>
-		</AppBar>
-			<Grid container direction="row">
-				<Grid item xs={8}>
-					<Container maxWidth={false}>
-						<Container className={classes.adminOrderDetailsCardGrid} maxWidth="md">
-							<Card>
-								<CardContent className={classes.adminOrderCardContent}>
-								{isInOrderListLoading && (
+	return <>	
+            <CssBaseline />
+            <main>
+            <AppBar position="fixed">
+                <Toolbar variant="dense">
+                    <Grid
+                        justifyContent="space-between"
+                        alignItems="center"
+                        container
+                    >
+                        <Grid item>
+                            <Typography variant="h6">
+                                Table Manager
+                            </Typography>
+                        </Grid>
+                      </Grid>
+                </Toolbar>
+            </AppBar>
+                <Grid container direction="row">
+                    <Grid item xs={8}>
+                        <Container maxWidth={false}>
+                            <Container className={classes.adminOrderDetailsCardGrid} maxWidth="md">
+                                <Card>
+                                    <CardContent className={classes.adminOrderCardContent}>
+                                    {isInOrderListLoading && (
 
-								<Typography>loading...</Typography>
+                                    <Typography>loading...</Typography>
 
-								)}
-								{!isInOrderListLoading && (
-								<>
-									<Grid container justify="space-between">
-										<Grid item className={classes.adminOrderDetailsCardTitle}>
-											<Typography variant="h6" color="textPrimary">
-												Order #{selOrderID}
-											</Typography>
-										</Grid>
-										<Grid item className={classes.adminOrderDetailsCardTitle}>
-											<Typography variant="h6" color="textPrimary">
-												{adminCurOrderTime}
-											</Typography>
-										</Grid>
-									</Grid>
-									<Divider />
-									<TableContainer>
-										<Table>
-											<TableBody>
-												{inOrderList.map((item, index) => (
-													<TableRow key={index}>
-														<TableCell>{index+1}.</TableCell>
-														<TableCell align="right"><Chip label={item.quantity} /></TableCell>												
-														<TableCell>{item.item_name}</TableCell>
-													</TableRow>
-												))}
-											</TableBody>
-										</Table>
-									</TableContainer>
-								</>
-								)}
-								</CardContent>
-							</Card>
-						</Container>
-					</Container>
-				</Grid>
-				<Grid item xs={4}>
-					<Paper elevation={1}>
-						<Container maxWidth={false} className={classes.adminNavigationContainer}>
-							<List>
-								<>
-								<ListItem>
-									<Typography variant="h5" color="textPrimary" align="center">
-										Order #{selOrderID}
-									</Typography>
-								</ListItem>
-								<Divider />
-								<ListItem button>
-									<ListItemText primary="Print Order" />
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleStep(curStep-1)}>
-									<ListItemText primary="Go Back" />
-								</ListItem>
-								</>
-							</List>
-						</Container>
-					</Paper>
-				</Grid>
-			</Grid>
-		</main>
-</>
-	)
+                                    )}
+                                    {!isInOrderListLoading && (
+                                    <>
+                                        <Grid container justifyContent="space-between">
+                                            <Grid item className={classes.adminOrderDetailsCardTitle}>
+                                                <Typography variant="h6" color="textPrimary">
+                                                    Order #{selOrderID}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item className={classes.adminOrderDetailsCardTitle}>
+                                                <Typography variant="h6" color="textPrimary">
+                                                    {adminCurOrderTime}
+                                                </Typography>
+                                            </Grid>
+                                        </Grid>
+                                        <Divider />
+                                        <TableContainer>
+                                            <Table>
+                                                <TableBody>
+                                                    {inOrderList.map((item, index) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell>{index+1}.</TableCell>
+                                                            <TableCell align="right"><Chip label={item.quantity} /></TableCell>												
+                                                            <TableCell>{item.item_name}</TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                            </Table>
+                                        </TableContainer>
+                                    </>
+                                    )}
+                                    </CardContent>
+                                </Card>
+                            </Container>
+                        </Container>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paper elevation={1}>
+                            <Container maxWidth={false} className={classes.adminNavigationContainer}>
+                                <List>
+                                    <>
+                                    <ListItem>
+                                        <Typography variant="h5" color="textPrimary" align="center">
+                                            Order #{selOrderID}
+                                        </Typography>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button>
+                                        <ListItemText primary="Print Order" />
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleStep(curStep-1)}>
+                                        <ListItemText primary="Go Back" />
+                                    </ListItem>
+                                    </>
+                                </List>
+                            </Container>
+                        </Paper>
+                    </Grid>
+                </Grid>
+            </main>
+    </>;
 }
 
 export default AdminViewOrder;

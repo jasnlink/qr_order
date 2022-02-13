@@ -34,10 +34,10 @@ import { 	Typography,
  			TableBody,
  			TableContainer,
  			TableCell,
- 			TableRow   } from '@material-ui/core';
+ 			TableRow   } from '@mui/material';
 
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import useStyles from '../../styles';
 
 
@@ -48,45 +48,43 @@ function AdminAddTable({ curStep, handleStep }) {
 	const classes = useStyles();
 
 	//Auto responsive font sizes by viewport
-	let theme = createMuiTheme();
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
 
-	return (
-<>	
-		<CssBaseline />
-		<main>
-		<AppBar position="fixed">
-			<Toolbar variant="dense">
-				<Grid
-					justify="space-between"
-					alignItems="center"
-					container
-				>
-					<Grid item>
-						<Typography variant="h6">
-		  					Table Manager
-		  				</Typography>
-					</Grid>
-	              </Grid>
-			</Toolbar>
-		</AppBar>
-		<Grid container direction="row">
-				<Grid item xs={8}>
-					<Container maxWidth={false}>
-					</Container>
-				</Grid>
-				<Grid item xs={4}>
-					<Paper elevation={1}>
-						<Container maxWidth={false} className={classes.adminNavigationContainer}>
-						</Container>
-					</Paper>
-				</Grid>
-		</Grid>
-		</main>
+	return <>	
+            <CssBaseline />
+            <main>
+            <AppBar position="fixed">
+                <Toolbar variant="dense">
+                    <Grid
+                        justifyContent="space-between"
+                        alignItems="center"
+                        container
+                    >
+                        <Grid item>
+                            <Typography variant="h6">
+                                Table Manager
+                            </Typography>
+                        </Grid>
+                      </Grid>
+                </Toolbar>
+            </AppBar>
+            <Grid container direction="row">
+                    <Grid item xs={8}>
+                        <Container maxWidth={false}>
+                        </Container>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paper elevation={1}>
+                            <Container maxWidth={false} className={classes.adminNavigationContainer}>
+                            </Container>
+                        </Paper>
+                    </Grid>
+            </Grid>
+            </main>
 
-</>
-		)
+    </>;
 }
 
 export default AdminAddTable;

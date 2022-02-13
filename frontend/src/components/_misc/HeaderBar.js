@@ -8,14 +8,14 @@ import { 	Typography,
  			Container, 
  			IconButton, 
  			Menu, 
- 			MenuItem } from '@material-ui/core';
+ 			MenuItem } from '@mui/material';
 
- import TranslateSharpIcon from '@material-ui/icons/TranslateSharp';
- import MenuIcon from '@material-ui/icons/Menu';
- import ArrowBackIosSharpIcon from '@material-ui/icons/ArrowBackIosSharp';
+ import TranslateSharpIcon from '@mui/icons-material/TranslateSharp';
+ import MenuIcon from '@mui/icons-material/Menu';
+ import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
 
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 
 import useStyles from '../styles';
 
@@ -53,7 +53,7 @@ function CurrentTitle(props) {
 function HeaderBar({ curStep, handleStep }) {
 
 	const classes = useStyles();
-	let theme = createMuiTheme();
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
 	//Menu open and close handling
@@ -70,58 +70,58 @@ function HeaderBar({ curStep, handleStep }) {
 
 
 	return (
-				<AppBar position="fixed">
-					<Toolbar variant="dense">
-						<Grid
-							justify="space-between"
-							alignItems="center"
-							container
-						
-							
-							
-						>
-					{curStep !== 1 && (
-						<IconButton onClick={() => handleStep(curStep-1)} color="inherit">
-							<ArrowBackIosSharpIcon />
-						</IconButton>
-					)}
-						<Grid item>
-							<CurrentTitle curStep={curStep} />
-						</Grid>
-						<Grid item>
-				              <IconButton
-				                aria-label="change current language"
-				                aria-controls="menu-appbar"
-				                aria-haspopup="true"
-				                onClick={handleMenu}
-				                color="inherit" 
-				                edge="end"
-				              >
-				                <TranslateSharpIcon />
-				              </IconButton>
-				              <Menu
-				                id="menu-appbar"
-				                anchorEl={anchorEl}
-				                anchorOrigin={{
-				                  vertical: 'top',
-				                  horizontal: 'right',
-				                }}
-				                keepMounted
-				                transformOrigin={{
-				                  vertical: 'top',
-				                  horizontal: 'right',
-				                }}
-				                open={open}
-				                onClose={handleClose}
-				              >
-				                <MenuItem onClick={handleClose}>English</MenuItem>
-				                <MenuItem onClick={handleClose}>Français</MenuItem>
-				              </Menu>
-				              </Grid>
-			              </Grid>
-					</Toolbar>
-				</AppBar>
-			)
+        <AppBar position="fixed">
+            <Toolbar variant="dense">
+                <Grid
+                    justifyContent="space-between"
+                    alignItems="center"
+                    container
+                
+                    
+                    
+                >
+            {curStep !== 1 && (
+                <IconButton onClick={() => handleStep(curStep-1)} color="inherit" size="large">
+                    <ArrowBackIosSharpIcon />
+                </IconButton>
+            )}
+                <Grid item>
+                    <CurrentTitle curStep={curStep} />
+                </Grid>
+                <Grid item>
+                      <IconButton
+                          aria-label="change current language"
+                          aria-controls="menu-appbar"
+                          aria-haspopup="true"
+                          onClick={handleMenu}
+                          color="inherit"
+                          edge="end"
+                          size="large">
+                        <TranslateSharpIcon />
+                      </IconButton>
+                      <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        open={open}
+                        onClose={handleClose}
+                      >
+                        <MenuItem onClick={handleClose}>English</MenuItem>
+                        <MenuItem onClick={handleClose}>Français</MenuItem>
+                      </Menu>
+                      </Grid>
+                  </Grid>
+            </Toolbar>
+        </AppBar>
+    );
 
 
 }

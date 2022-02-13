@@ -27,15 +27,16 @@ import { 	Typography,
  			Menu,
  			MenuItem,
  			AppBar,
- 			Toolbar   } from '@material-ui/core';
+ 			Toolbar   } from '@mui/material';
 
 
-import TranslateSharpIcon from '@material-ui/icons/TranslateSharp';
-import MenuIcon from '@material-ui/icons/Menu';
-import ArrowBackIosSharpIcon from '@material-ui/icons/ArrowBackIosSharp';
+import TranslateSharpIcon from '@mui/icons-material/TranslateSharp';
+import MenuIcon from '@mui/icons-material/Menu';
+import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
-import useStyles from '../styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import useClasses from '../classes'
+import styles from '../styles';
 
 
 function OrderHistory({ curStep, handleStep, handleOrder, curTableID, curOrderTime, handleOrderTime }) {
@@ -74,125 +75,122 @@ function OrderHistory({ curStep, handleStep, handleOrder, curTableID, curOrderTi
   	}
 
 	//Apply css styles from styles.js
-	const classes = useStyles();
+	const classes = useClasses(styles);
 
 	//Auto responsive font sizes by viewport
-	let theme = createMuiTheme();
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
 
-	return (
-		<>
-		<CssBaseline />
-				<main>
-				<AppBar position="fixed">
-					<Toolbar variant="dense">
-						<Grid
-							justify="space-between"
-							alignItems="center"
-							container
-						>
-							<Grid item>
-								<IconButton onClick={() => handleStep(1)} color="inherit">
-									<ArrowBackIosSharpIcon />
-								</IconButton>
-							</Grid>
-							<Grid item>
-								<Typography variant="h6">
-				  					Vos commandes
-				  				</Typography>
-							</Grid>
-							<Grid item>
-				              <IconButton
-				                aria-label="change current language"
-				                aria-controls="menu-appbar"
-				                aria-haspopup="true"
-				                onClick={handleMenu}
-				                color="inherit" 
-				                edge="end"
-				              >
-				                <TranslateSharpIcon />
-				              </IconButton>
-				              <Menu
-				                id="menu-appbar"
-				                anchorEl={anchorEl}
-				                anchorOrigin={{
-				                  vertical: 'top',
-				                  horizontal: 'right',
-				                }}
-				                keepMounted
-				                transformOrigin={{
-				                  vertical: 'top',
-				                  horizontal: 'right',
-				                }}
-				                open={open}
-				                onClose={handleClose}
-				              >
-				                <MenuItem className={classes.PrimaryText} onClick={handleClose}>English</MenuItem>
-				                <MenuItem className={classes.PrimaryText} onClick={handleClose}>Français</MenuItem>
-				              </Menu>
-				              </Grid>
-			              </Grid>
-					</Toolbar>
-				</AppBar>
-				<Container className={classes.cartCardGrid} maxWidth="md">
-					<Grid container direction="column" spacing={2}>
-					{isOrderListLoading && (
+	return <>
+    <CssBaseline />
+            <main>
+            <AppBar position="fixed">
+                <Toolbar variant="dense">
+                    <Grid
+                        justifyContent="space-between"
+                        alignItems="center"
+                        container
+                    >
+                        <Grid item>
+                            <IconButton onClick={() => handleStep(1)} color="inherit" size="large">
+                                <ArrowBackIosSharpIcon />
+                            </IconButton>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6">
+                                Vos commandes
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                          <IconButton
+                              aria-label="change current language"
+                              aria-controls="menu-appbar"
+                              aria-haspopup="true"
+                              onClick={handleMenu}
+                              color="inherit"
+                              edge="end"
+                              size="large">
+                            <TranslateSharpIcon />
+                          </IconButton>
+                          <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                              vertical: 'top',
+                              horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'right',
+                            }}
+                            open={open}
+                            onClose={handleClose}
+                          >
+                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>English</MenuItem>
+                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>Français</MenuItem>
+                          </Menu>
+                          </Grid>
+                      </Grid>
+                </Toolbar>
+            </AppBar>
+            <Container className={classes.cartCardGrid} maxWidth="md">
+                <Grid container direction="column" spacing={2}>
+                {isOrderListLoading && (
 
-								<Typography>loading...</Typography>
+                            <Typography>loading...</Typography>
 
-					)}
-					{!isOrderListLoading && [ orderList.length === 0 && (
+                )}
+                {!isOrderListLoading && [ orderList.length === 0 && (
 
-								<Typography>Aucune commande placée...</Typography>
+                            <Typography>Aucune commande placée...</Typography>
 
-					)]}
-					{!isOrderListLoading && [ orderList.length > 0 && (
-					<>
-					{orderList.map((order, index) => (
-						<Grid item key={index}>
-							<Card className={classes.Card}>
-								<Grid className={classes.historyCard} container alignItems="center" justify="space-around">
-									<Grid item>
-										<Typography variant="subtitle2" color="textPrimary">
-											{index+1}.
-										</Typography>
-									</Grid>
-									<Grid item>
-										<Typography variant="subtitle2" color="textPrimary">
-											Commande #{order.placed_order_id}
-										</Typography>
-									</Grid>
-									<Grid item>
-										<Typography variant="subtitle2" color="textPrimary">
-											{order.time_placed}
-										</Typography>
-									</Grid>
-									<Grid item>
-										<CardActions>
-											<Button
-												variant="contained"
-												color="primary"
-												onClick={(event) => handleViewOrder(event, order.placed_order_id, order.time_placed)}
-											>
-												Voir
-											</Button>
-										</CardActions>
-									</Grid>
-								</Grid>
-							</Card>
-						</Grid>
-					))}
-					</>
-					)]}
-					</Grid>
-				</Container>
-				</main>
+                )]}
+                {!isOrderListLoading && [ orderList.length > 0 && (
+                <>
+                {orderList.map((order, index) => (
+                    <Grid item key={index}>
+                        <Card className={classes.Card}>
+                            <Grid className={classes.historyCard} container alignItems="center" justifyContent="space-around">
+                                <Grid item>
+                                    <Typography variant="subtitle2" color="textPrimary">
+                                        {index+1}.
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography variant="subtitle2" color="textPrimary">
+                                        Commande #{order.placed_order_id}
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <Typography variant="subtitle2" color="textPrimary">
+                                        {order.time_placed}
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <CardActions>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={(event) => handleViewOrder(event, order.placed_order_id, order.time_placed)}
+                                        >
+                                            Voir
+                                        </Button>
+                                    </CardActions>
+                                </Grid>
+                            </Grid>
+                        </Card>
+                    </Grid>
+                ))}
+                </>
+                )]}
+                </Grid>
+            </Container>
+            </main>
 
 
-			</>
-
-		)
+        </>;
 
 }
 

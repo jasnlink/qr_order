@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles((theme) => ({
+const styles = theme => ({
+
 
 	container: {
 		height: '100%',
@@ -69,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
 	dialogText : {
 		paddingRight: theme.spacing(3),
 		paddingLeft: theme.spacing(3),
+	},
+	dialogAdjust : {
+		color: '#1976d2',
 	},
 	dialogButton : {
 		marginRight: theme.spacing(2),
@@ -345,6 +348,6 @@ const useStyles = makeStyles((theme) => ({
 		color:'#ffffff'
 	}
 
-}));
+});
 
-export default useStyles;
+export default styles;

@@ -40,22 +40,23 @@ import { 	Typography,
  			TableContainer,
  			TableCell,
  			TableRow,
- 			TextField   } from '@material-ui/core';
+ 			TextField   } from '@mui/material';
 
 import Image from 'material-ui-image'
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
-import useStyles from '../../styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import useClasses from '../../classes'
+import styles from '../../styles';
 
 
 function AdminMenuManager({ curStep, handleStep }) {
 
 
-		//Apply css styles from styles.js
-	const classes = useStyles();
+	//Apply css styles from styles.js
+	const classes = useClasses(styles);
 
 	//Auto responsive font sizes by viewport
-	let theme = createMuiTheme();
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
 	let [selCategoryID, setSelCategoryID] = React.useState(null);
@@ -536,359 +537,357 @@ function AdminMenuManager({ curStep, handleStep }) {
 
 	}
 
-	return (
-<>	
-		<CssBaseline />
-		<main>
-		<AppBar position="fixed">
-			<Toolbar variant="dense">
-				<Grid
-					justify="space-between"
-					alignItems="center"
-					container
-				>
-					<Grid item>
-						<Typography variant="h6">
-		  					Table Manager
-		  				</Typography>
-					</Grid>
-	              </Grid>
-			</Toolbar>
-		</AppBar>
-		<Grid container direction="row">
-				<Grid item xs={4} className={classes.adminMenuListContainer}>
-						<Container className={classes.adminMenuManagerCategoryCardGrid} maxWidth="md">
-							{isCategoryListLoading && (
+	return <>	
+            <CssBaseline />
+            <main>
+            <AppBar position="fixed">
+                <Toolbar variant="dense">
+                    <Grid
+                        justifyContent="space-between"
+                        alignItems="center"
+                        container
+                    >
+                        <Grid item>
+                            <Typography variant="h6">
+                                Table Manager
+                            </Typography>
+                        </Grid>
+                      </Grid>
+                </Toolbar>
+            </AppBar>
+            <Grid container direction="row">
+                    <Grid item xs={4} className={classes.adminMenuListContainer}>
+                            <Container className={classes.adminMenuManagerCategoryCardGrid} maxWidth="md">
+                                {isCategoryListLoading && (
 
-								<Typography>loading...</Typography>
+                                    <Typography>loading...</Typography>
 
-							)}
-							{!isCategoryListLoading && (
-								<Grid container direction="column" spacing={2}>
-									<Grid item>
-										<Typography variant="h5" color="textPrimary">
-											Categories
-										</Typography>
-									</Grid>
-								{categoryList.map((category, index) => (
-									<Grid item key={index}>
-										<Card className={classes.Card}>
-										<CardActionArea onClick={() => handleSelectCategory(category.category_id, category.category_name)}>
-											<Grid className={classes.adminMenuManagerCategoryCard} container alignItems="center" justify="space-between">
-												<Grid item>
-													<Typography variant="subtitle2" color="textPrimary">
-														{category.category_name}
-													</Typography>
-												</Grid>
-												<Grid item>
-													<Typography variant="subtitle2" color="textPrimary">
-														{category.disabled === 0 ? ("Enabled") : ("Disabled")}
-													</Typography>
-												</Grid>
-											</Grid>
-										</CardActionArea>
-										</Card>
-									</Grid>
-								))}
-								</Grid>
+                                )}
+                                {!isCategoryListLoading && (
+                                    <Grid container direction="column" spacing={2}>
+                                        <Grid item>
+                                            <Typography variant="h5" color="textPrimary">
+                                                Categories
+                                            </Typography>
+                                        </Grid>
+                                    {categoryList.map((category, index) => (
+                                        <Grid item key={index}>
+                                            <Card className={classes.Card}>
+                                            <CardActionArea onClick={() => handleSelectCategory(category.category_id, category.category_name)}>
+                                                <Grid className={classes.adminMenuManagerCategoryCard} container alignItems="center" justifyContent="space-between">
+                                                    <Grid item>
+                                                        <Typography variant="subtitle2" color="textPrimary">
+                                                            {category.category_name}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Typography variant="subtitle2" color="textPrimary">
+                                                            {category.disabled === 0 ? ("Enabled") : ("Disabled")}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </CardActionArea>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                                    </Grid>
 
-								)}
-						</Container>
-				</Grid>
-				<Grid item xs={4} className={classes.adminMenuListContainer}>
-						<Container className={classes.adminMenuManagerItemCardGrid} maxWidth="md">
-						{isItemListLoading && [ selCategoryID &&
+                                    )}
+                            </Container>
+                    </Grid>
+                    <Grid item xs={4} className={classes.adminMenuListContainer}>
+                            <Container className={classes.adminMenuManagerItemCardGrid} maxWidth="md">
+                            {isItemListLoading && [ selCategoryID &&
 
-							<Typography>loading...</Typography>
+                                <Typography>loading...</Typography>
 
-						]}
-						{!isItemListLoading && [ selCategoryID &&
-							<Grid container direction="column" spacing={2}>
-								<Grid item>
-									<Typography variant="h5" color="textPrimary">
-										{selCategoryName}
-									</Typography>
-								</Grid>
-							{itemList.map((item, index) => (
-								<Grid item key={index}>
-									<Card className={classes.Card}>
-									<CardActionArea onClick={() => handleSelectItem(item.item_id, index, item.item_order_index, item.item_name, item.item_desc, item.item_kitchen_name, item.item_img_url, item.disabled)}>
-										<Grid container alignItems="center" justify="space-between" className={classes.adminMenuManagerItemCard}>
-											<Grid item>
-												<Avatar className={classes.adminMenuManagerItemMedia} src={item.item_img_url} variant="rounded" />
-											</Grid>
-											<Grid item>
-												<Typography variant="subtitle2" color="textPrimary">
-													{item.item_name}
-												</Typography>
-											</Grid>
-											<Grid item>
-												<Typography variant="subtitle2" color="textPrimary">
-													{item.disabled === 0 ? ("Enabled") : ("Disabled")}
-												</Typography>
-											</Grid>
-										</Grid>
-									</CardActionArea>
-									</Card>
-								</Grid>
-							))}
-							</Grid>
-						]}
-						{!isItemListLoading && [ selCategoryID && [ itemList.length === 0 &&
+                            ]}
+                            {!isItemListLoading && [ selCategoryID &&
+                                <Grid container direction="column" spacing={2}>
+                                    <Grid item>
+                                        <Typography variant="h5" color="textPrimary">
+                                            {selCategoryName}
+                                        </Typography>
+                                    </Grid>
+                                {itemList.map((item, index) => (
+                                    <Grid item key={index}>
+                                        <Card className={classes.Card}>
+                                        <CardActionArea onClick={() => handleSelectItem(item.item_id, index, item.item_order_index, item.item_name, item.item_desc, item.item_kitchen_name, item.item_img_url, item.disabled)}>
+                                            <Grid container alignItems="center" justifyContent="space-between" className={classes.adminMenuManagerItemCard}>
+                                                <Grid item>
+                                                    <Avatar className={classes.adminMenuManagerItemMedia} src={item.item_img_url} variant="rounded" />
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography variant="subtitle2" color="textPrimary">
+                                                        {item.item_name}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item>
+                                                    <Typography variant="subtitle2" color="textPrimary">
+                                                        {item.disabled === 0 ? ("Enabled") : ("Disabled")}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </CardActionArea>
+                                        </Card>
+                                    </Grid>
+                                ))}
+                                </Grid>
+                            ]}
+                            {!isItemListLoading && [ selCategoryID && [ itemList.length === 0 &&
 
-							<Typography>Category has no items...</Typography>
+                                <Typography>Category has no items...</Typography>
 
-						]]}
-						</Container>
-				</Grid>
-				<Grid item xs={4}>
-					<Paper elevation={1}>
-						<Container maxWidth={false} className={classes.adminNavigationContainer}>
-							<List>
-								<ListItem>
-									<Typography variant="h5" color="textPrimary" align="center">
-										Menu Manager
-									</Typography>
-								</ListItem>
-								<Divider />
-								{showCreateItem === null && [  showEditItem === null && [ showMoveItem === null &&  [ showChangeItemCategory === null && (
-								<>
-								<ListItem button disabled={selCategoryID === null} onClick={() => handleAddNewButton()}>
-									<ListItemText primary="Add New Item"/>
-								</ListItem>
-								<ListItem button disabled={selItemID === null} onClick={() => handleEditButton()}>
-									<ListItemText primary="Edit Item"/>
-								</ListItem>
-								<ListItem button disabled={selItemID === null} onClick={() => handleMoveButton()}>
-									<ListItemText primary="Move Item"/>
-								</ListItem>
-								<ListItem button disabled={selItemID === null} onClick={() => handleChangeItemCategoryButton()}>
-									<ListItemText primary="Change Item Category"/>
-								</ListItem>
-								<ListItem button disabled={selItemID === null} onClick={() => handleToggleItem()}>
-									{(() => {
-									  if (selItemDisabled) {
-									    return <ListItemText primary="Enable Item" />;
-									  } else {
-									    return <ListItemText primary="Disable Item" />;
-									  }
-									})()}
-								</ListItem>
-								<ListItem button disabled={selItemID === null} onClick={() => handleDeleteItem()}>
-									<ListItemText primary="Remove Item"/>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleStep(1000)}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-								)]]]}
-								{showCreateItem === 1 && (
-								<>
-								<ListItem>
-									<Grid container spacing={2} alignItems="flex-start" justify="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
-										<Grid item>
-											<Typography variant="h5">
-												Add New Item to {selCategoryName}
-											</Typography>
-										</Grid>
-										<Grid item>
-											<img src={itemMediaTempURL} className={classes.adminMenuManagerItemImage} hidden={!itemMediaTempURL}/>
-										</Grid>
-										<Grid item>
-												<input
-											        accept="image/*"
-											        id="contained-button-file"
-											        type="file"
-											        onChange={handleFileUpload}
-											        hidden
-											    />
-											    <label htmlFor="contained-button-file">
-											      <Button variant="outlined" color="primary" component="span">
-											      	Upload Image
-											      </Button>
-											    </label>
-										</Grid>
-										<Grid item>
-											<TextField 
-												id="item-name" 
-												label="Item Name"
-												onChange={(e) => {setItemName(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={itemName} 
-											/>
-										</Grid>
-										<Grid item>
-											<TextField 
-												id="item-desc" 
-												label="Item Description"
-												onChange={(e) => {setItemDesc(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={itemDesc}
-												multiline={true}
-												rows={6}
-											/>
-										</Grid>
-										<Grid item>
-											<TextField 
-												id="item-kitchen-name" 
-												label="Item Kitchen Name"
-												onChange={(e) => {setItemKitchenName(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={itemKitchenName}
-											/>
-										</Grid>
-										<Grid item>
-											<Button variant="contained" color="primary" onClick={() => handleAddNewItem()} disabled={itemName === '' || itemMediaTempURL === null}>
-												Submit
-											</Button>
-										</Grid>
-									</Grid>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleCancelNewItem()}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-								)}
-								{showEditItem === 1 && (
-								<>
-								<ListItem>
-									<Grid container spacing={2} alignItems="flex-start" justify="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
-										<Grid item>
-											<Typography variant="h5">
-												Edit {selItemName}
-											</Typography>
-										</Grid>
-										<Grid item>
-											<img src={selItemMedia} className={classes.adminMenuManagerItemImage} hidden={!selItemMedia}/>
-										</Grid>
-										<Grid item>
-											<img src={itemMediaTempURL} className={classes.adminMenuManagerItemImage} hidden={!itemMediaTempURL}/>
-										</Grid>
-										<Grid item>
-												<input
-											        accept="image/*"
-											        id="contained-button-file"
-											        type="file"
-											        onChange={handleFileUpload}
-											        hidden
-											    />
-											    <label htmlFor="contained-button-file">
-											      <Button variant="outlined" color="primary" component="span">
-											      	Change Image
-											      </Button>
-											    </label>
-										</Grid>
-										<Divider />
-										<Grid item>
-											<TextField 
-												id="item-name" 
-												label="Item Name"
-												onChange={(e) => {setSelItemName(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={selItemName} 
-											/>
-										</Grid>
-										<Grid item>
-											<TextField 
-												id="item-desc" 
-												label="Item Description"
-												onChange={(e) => {setSelItemDesc(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={selItemDesc}
-												multiline={true}
-												rows={6}
-											/>
-										</Grid>
-										<Grid item>
-											<TextField 
-												id="item-kitchen-name" 
-												label="Item Kitchen Name"
-												onChange={(e) => {setSelItemKitchenName(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={selItemKitchenName}
-											/>
-										</Grid>
-										<Grid item>
-											<Button variant="contained" color="primary" onClick={() => handleEditItem()} disabled={selItemName === ''}>
-												Save
-											</Button>
-										</Grid>
-									</Grid>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleCancelEditItem()}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-								)}
-								{showMoveItem === 1 && (
-								<>
-								<ListItem>
-									<Typography variant="h6">
-										Move {selItemName}
-									</Typography>
-								</ListItem>
-								<ListItem button onClick={() => handleMoveItem(1)} disabled={selItemMap === 0}>
-									<ListItemText primary="Move Item Up" />
-								</ListItem>
-								<ListItem button onClick={() => handleMoveItem(0)} disabled={selItemMap === itemList.length-1}>
-									<ListItemText primary="Move Item Down" />
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleCancelMoveItem()}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-								)}
-								{showChangeItemCategory === 1 && (
-								<>
-								<ListItem>
-									<Grid container spacing={2} alignItems="flex-start" justify="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
-										<Grid item>
-											<Typography variant="h5">
-												Change {selItemName} Category
-											</Typography>
-										</Grid>
-										<Grid item>
-											<FormControl>
-												<InputLabel>Category</InputLabel>
-													<Select value={selNewCategoryID}>
-													{categoryList.map((category, index) => (
-														<MenuItem key={index} value={category.category_id} onClick={() => handleSelNewCategory(category.category_id, category.category_name)}>{category.category_name}</MenuItem>
-													))}
-													</Select>
-											</FormControl>
-										</Grid>
-										<Grid item>
-											<Button variant="contained" color="primary" onClick={() => handleChangeItemCategory()}>
-												Submit
-											</Button>
-										</Grid>
-									</Grid>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleCancelChangeItemCategory()}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-								)}
-							</List>
-						</Container>
-					</Paper>
-				</Grid>
-		</Grid>
-		</main>
+                            ]]}
+                            </Container>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paper elevation={1}>
+                            <Container maxWidth={false} className={classes.adminNavigationContainer}>
+                                <List>
+                                    <ListItem>
+                                        <Typography variant="h5" color="textPrimary" align="center">
+                                            Menu Manager
+                                        </Typography>
+                                    </ListItem>
+                                    <Divider />
+                                    {showCreateItem === null && [  showEditItem === null && [ showMoveItem === null &&  [ showChangeItemCategory === null && (
+                                    <>
+                                    <ListItem button disabled={selCategoryID === null} onClick={() => handleAddNewButton()}>
+                                        <ListItemText primary="Add New Item"/>
+                                    </ListItem>
+                                    <ListItem button disabled={selItemID === null} onClick={() => handleEditButton()}>
+                                        <ListItemText primary="Edit Item"/>
+                                    </ListItem>
+                                    <ListItem button disabled={selItemID === null} onClick={() => handleMoveButton()}>
+                                        <ListItemText primary="Move Item"/>
+                                    </ListItem>
+                                    <ListItem button disabled={selItemID === null} onClick={() => handleChangeItemCategoryButton()}>
+                                        <ListItemText primary="Change Item Category"/>
+                                    </ListItem>
+                                    <ListItem button disabled={selItemID === null} onClick={() => handleToggleItem()}>
+                                        {(() => {
+                                          if (selItemDisabled) {
+                                            return <ListItemText primary="Enable Item" />;
+                                          } else {
+                                            return <ListItemText primary="Disable Item" />;
+                                          }
+                                        })()}
+                                    </ListItem>
+                                    <ListItem button disabled={selItemID === null} onClick={() => handleDeleteItem()}>
+                                        <ListItemText primary="Remove Item"/>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleStep(1000)}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                    )]]]}
+                                    {showCreateItem === 1 && (
+                                    <>
+                                    <ListItem>
+                                        <Grid container spacing={2} alignItems="flex-start" justifyContent="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
+                                            <Grid item>
+                                                <Typography variant="h5">
+                                                    Add New Item to {selCategoryName}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <img src={itemMediaTempURL} className={classes.adminMenuManagerItemImage} hidden={!itemMediaTempURL}/>
+                                            </Grid>
+                                            <Grid item>
+                                                    <input
+                                                        accept="image/*"
+                                                        id="contained-button-file"
+                                                        type="file"
+                                                        onChange={handleFileUpload}
+                                                        hidden
+                                                    />
+                                                    <label htmlFor="contained-button-file">
+                                                      <Button variant="outlined" color="primary" component="span">
+                                                        Upload Image
+                                                      </Button>
+                                                    </label>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField 
+                                                    id="item-name" 
+                                                    label="Item Name"
+                                                    onChange={(e) => {setItemName(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={itemName} 
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField 
+                                                    id="item-desc" 
+                                                    label="Item Description"
+                                                    onChange={(e) => {setItemDesc(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={itemDesc}
+                                                    multiline={true}
+                                                    rows={6}
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField 
+                                                    id="item-kitchen-name" 
+                                                    label="Item Kitchen Name"
+                                                    onChange={(e) => {setItemKitchenName(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={itemKitchenName}
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <Button variant="contained" color="primary" onClick={() => handleAddNewItem()} disabled={itemName === '' || itemMediaTempURL === null}>
+                                                    Submit
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleCancelNewItem()}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                    )}
+                                    {showEditItem === 1 && (
+                                    <>
+                                    <ListItem>
+                                        <Grid container spacing={2} alignItems="flex-start" justifyContent="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
+                                            <Grid item>
+                                                <Typography variant="h5">
+                                                    Edit {selItemName}
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <img src={selItemMedia} className={classes.adminMenuManagerItemImage} hidden={!selItemMedia}/>
+                                            </Grid>
+                                            <Grid item>
+                                                <img src={itemMediaTempURL} className={classes.adminMenuManagerItemImage} hidden={!itemMediaTempURL}/>
+                                            </Grid>
+                                            <Grid item>
+                                                    <input
+                                                        accept="image/*"
+                                                        id="contained-button-file"
+                                                        type="file"
+                                                        onChange={handleFileUpload}
+                                                        hidden
+                                                    />
+                                                    <label htmlFor="contained-button-file">
+                                                      <Button variant="outlined" color="primary" component="span">
+                                                        Change Image
+                                                      </Button>
+                                                    </label>
+                                            </Grid>
+                                            <Divider />
+                                            <Grid item>
+                                                <TextField 
+                                                    id="item-name" 
+                                                    label="Item Name"
+                                                    onChange={(e) => {setSelItemName(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={selItemName} 
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField 
+                                                    id="item-desc" 
+                                                    label="Item Description"
+                                                    onChange={(e) => {setSelItemDesc(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={selItemDesc}
+                                                    multiline={true}
+                                                    rows={6}
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField 
+                                                    id="item-kitchen-name" 
+                                                    label="Item Kitchen Name"
+                                                    onChange={(e) => {setSelItemKitchenName(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={selItemKitchenName}
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <Button variant="contained" color="primary" onClick={() => handleEditItem()} disabled={selItemName === ''}>
+                                                    Save
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleCancelEditItem()}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                    )}
+                                    {showMoveItem === 1 && (
+                                    <>
+                                    <ListItem>
+                                        <Typography variant="h6">
+                                            Move {selItemName}
+                                        </Typography>
+                                    </ListItem>
+                                    <ListItem button onClick={() => handleMoveItem(1)} disabled={selItemMap === 0}>
+                                        <ListItemText primary="Move Item Up" />
+                                    </ListItem>
+                                    <ListItem button onClick={() => handleMoveItem(0)} disabled={selItemMap === itemList.length-1}>
+                                        <ListItemText primary="Move Item Down" />
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleCancelMoveItem()}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                    )}
+                                    {showChangeItemCategory === 1 && (
+                                    <>
+                                    <ListItem>
+                                        <Grid container spacing={2} alignItems="flex-start" justifyContent="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
+                                            <Grid item>
+                                                <Typography variant="h5">
+                                                    Change {selItemName} Category
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <FormControl>
+                                                    <InputLabel>Category</InputLabel>
+                                                        <Select value={selNewCategoryID}>
+                                                        {categoryList.map((category, index) => (
+                                                            <MenuItem key={index} value={category.category_id} onClick={() => handleSelNewCategory(category.category_id, category.category_name)}>{category.category_name}</MenuItem>
+                                                        ))}
+                                                        </Select>
+                                                </FormControl>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button variant="contained" color="primary" onClick={() => handleChangeItemCategory()}>
+                                                    Submit
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleCancelChangeItemCategory()}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                    )}
+                                </List>
+                            </Container>
+                        </Paper>
+                    </Grid>
+            </Grid>
+            </main>
 
-</>
-		)
+    </>;
 }
 
 export default AdminMenuManager;

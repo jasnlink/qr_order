@@ -39,21 +39,22 @@ import { 	Typography,
  			TextField,
  			FormControl,
  			Select,
- 			InputLabel   } from '@material-ui/core';
+ 			InputLabel   } from '@mui/material';
 
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
-import useStyles from '../../styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import useClasses from '../../classes'
+import styles from '../../styles';
 
 
 function AdminCategoryManager({ curStep, handleStep }) {
 
 
 	//Apply css styles from styles.js
-	const classes = useStyles();
+	const classes = useClasses(styles);
 
 	//Auto responsive font sizes by viewport
-	let theme = createMuiTheme();
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 	
 
@@ -331,251 +332,249 @@ function AdminCategoryManager({ curStep, handleStep }) {
 
 
 
-	return (
-<>	
-		<CssBaseline />
-		<main>
-		<AppBar position="fixed">
-			<Toolbar variant="dense">
-				<Grid
-					justify="space-between"
-					alignItems="center"
-					container
-				>
-					<Grid item>
-						<Typography variant="h6">
-		  					Table Manager
-		  				</Typography>
-					</Grid>
-	              </Grid>
-			</Toolbar>
-		</AppBar>
-		<Grid container direction="row">
-				<Grid item xs={8}>
-					<Container maxWidth={false} className={classes.adminCategoryManagerCardGridContainer}>
-						<Container className={classes.adminCategoryManagerCardGrid} maxWidth="md">
-							{isListLoading && (
+	return <>	
+            <CssBaseline />
+            <main>
+            <AppBar position="fixed">
+                <Toolbar variant="dense">
+                    <Grid
+                        justifyContent="space-between"
+                        alignItems="center"
+                        container
+                    >
+                        <Grid item>
+                            <Typography variant="h6">
+                                Table Manager
+                            </Typography>
+                        </Grid>
+                      </Grid>
+                </Toolbar>
+            </AppBar>
+            <Grid container direction="row">
+                    <Grid item xs={8}>
+                        <Container maxWidth={false} className={classes.adminCategoryManagerCardGridContainer}>
+                            <Container className={classes.adminCategoryManagerCardGrid} maxWidth="md">
+                                {isListLoading && (
 
-								<Typography>loading...</Typography>
+                                    <Typography>loading...</Typography>
 
-							)}
-							{!isListLoading && (
-								<Grid container direction="column" spacing={2}>
-								{categoryList.map((category, index) => (
-									<Grid item key={category.category_id}>
-										<Card className={classes.Card}>
-										<CardActionArea onClick={() => handleSelCategory(category.category_id, category.category_name, index+1, category.category_order_index, category.disabled)}>
-											<Grid className={classes.adminCategoryManagerCard} container alignItems="center" justify="space-between">
-												<Grid item>
-													<Typography variant="subtitle2" color="textPrimary">
-														{index+1}.
-													</Typography>
-												</Grid>
-												<Grid item>
-													<Typography variant="subtitle2" color="textPrimary">
-														{category.category_name}
-													</Typography>
-												</Grid>
-												<Grid item>
-													<Typography variant="subtitle2" color="textPrimary">
-														{category.disabled === 0 ? ("Enabled") : ("Disabled")}
-													</Typography>
-												</Grid>
-											</Grid>
-										</CardActionArea>
-										</Card>
-									</Grid>
-								))}
-								</Grid>
+                                )}
+                                {!isListLoading && (
+                                    <Grid container direction="column" spacing={2}>
+                                    {categoryList.map((category, index) => (
+                                        <Grid item key={category.category_id}>
+                                            <Card className={classes.Card}>
+                                            <CardActionArea onClick={() => handleSelCategory(category.category_id, category.category_name, index+1, category.category_order_index, category.disabled)}>
+                                                <Grid className={classes.adminCategoryManagerCard} container alignItems="center" justifyContent="space-between">
+                                                    <Grid item>
+                                                        <Typography variant="subtitle2" color="textPrimary">
+                                                            {index+1}.
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Typography variant="subtitle2" color="textPrimary">
+                                                            {category.category_name}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Typography variant="subtitle2" color="textPrimary">
+                                                            {category.disabled === 0 ? ("Enabled") : ("Disabled")}
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </CardActionArea>
+                                            </Card>
+                                        </Grid>
+                                    ))}
+                                    </Grid>
 
-								)}
+                                    )}
 
-						</Container>
-					</Container>
-				</Grid>
-				<Grid item xs={4}>
-					<Paper elevation={1}>
-						<Container maxWidth={false} className={classes.adminNavigationContainer}>
-
-
-							<List>
-								<ListItem>
-									<Typography variant="h5" color="textPrimary" align="center">
-										Category Manager
-									</Typography>
-								</ListItem>
-								{selDispCategory && [ showCreateCategory === null &&
-								<ListItem>
-									<Typography variant="h6" color="textPrimary" align="center">
-										{selDispCategory}. {selCategoryName}
-									</Typography>
-								</ListItem>
-								]}
-								<Divider />
-								{showCreateCategory === null && [ 
-									showMoveCategory === null && [
-										showEditCategory === null &&
-								<>
-								<ListItem button onClick={() => handleCreateClick()}>
-									<ListItemText primary="Add New Category" />
-								</ListItem>	
-								<ListItem button disabled={selCategory === null} onClick={() => handleEditClick()}>
-									<ListItemText primary="Edit Category" />
-								</ListItem>															
-								<ListItem button disabled={selCategory === null} onClick={() => handleMoveCategoryClick()}>
-									<ListItemText primary="Move Category" />
-								</ListItem>
-								<ListItem button disabled={selCategory === null} onClick={() => handleToggleCategory()}>
-									{(() => {
-									  if (isDisabled) {
-									    return <ListItemText primary="Enable Category" />;
-									  } else {
-									    return <ListItemText primary="Disable Category" />;
-									  }
-									})()}
-								</ListItem>
-								<ListItem button disabled={selCategory === null} onClick={() => handleDeleteCategory()}>
-									<ListItemText primary="Remove Category" />
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleStep(1000)}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-								]]}
-								{showMoveCategory === 1 && (
-								<>
-								<ListItem button onClick={() => handleMoveCategory(1)} disabled={selDispCategory-1 === 0}>
-									<ListItemText primary="Move Category Up" />
-								</ListItem>
-								<ListItem button onClick={() => handleMoveCategory(0)} disabled={selDispCategory-1 === categoryList.length-1}>
-									<ListItemText primary="Move Category Down" />
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleMoveCategoryClick()}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-								)}
-								{showEditCategory === 1 && (
-								<>
-								<ListItem>
-								<form>
-									<Grid container spacing={2} alignItems="flex-start" justify="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
-										<Grid item>
-											<Typography variant="h5">
-												Edit Category
-											</Typography>
-										</Grid>
-										<Grid item>
-											<TextField 
-												id="category" 
-												label="Category Name"
-												onChange={(e) => {setSelCategoryName(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={selCategoryName} 
-											/>
-										</Grid>
-										<Grid item className={classes.adminCategoryManagerSelectedPrinters}>
-										    <Typography variant="h6">
-										    	Selected Printers
-										    </Typography>
-										    <FormControl className={classes.adminCategoryManagerSelect}>
-										    	<InputLabel>Printers</InputLabel>
-												<Select
-													multiple 
-													value={selPrinters}
-													onChange={handleSelPrinters}
-													variant="filled"
-												>
-													{printerList.map((printer, index) => (
-											            <MenuItem key={index} value={printer.printer_id}>
-											              {printer.printer_name}
-											            </MenuItem>
-											          ))}
-												</Select>
-											</FormControl>
-										</Grid>
-										<Grid item>
-											<Button variant="contained" color="primary" onClick={() => handleEditCategory()} disabled={!selCategoryName}>
-												Save Edit
-											</Button>
-										</Grid>
-									</Grid>
-								</form>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleEditClick()}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-								)}
-								{showCreateCategory === 1 && (
-								<>
-								<ListItem>
-								<form>
-									<Grid container spacing={2} alignItems="flex-start" justify="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
-										<Grid item>
-											<Typography variant="h5">
-												Create New Category
-											</Typography>
-										</Grid>
-										<Grid item>
-											<TextField 
-												id="category" 
-												label="Category Name"
-												onChange={(e) => {setCategoryName(e.target.value)}} 
-												variant="filled" 
-												fullWidth
-												value={categoryName} 
-											/>
-										</Grid>
-										<Grid item className={classes.adminCategoryManagerSelectedPrinters}>
-										    <Typography variant="h6">
-										    	Selected Printers
-										    </Typography>
-										    <FormControl className={classes.adminCategoryManagerSelect}>
-										    	<InputLabel>Printers</InputLabel>
-												<Select
-													multiple 
-													value={selPrinters}
-													onChange={handleSelPrinters}
-													variant="filled"
-												>
-													{printerList.map((printer, index) => (
-											            <MenuItem key={index} value={printer.printer_id}>
-											              {printer.printer_name}
-											            </MenuItem>
-											          ))}
-												</Select>
-											</FormControl>
-										</Grid>
-										<Grid item>
-											<Button variant="contained" color="primary" onClick={() => handleCreateCategory()}>
-												Add Category
-											</Button>
-										</Grid>
-									</Grid>
-								</form>
-								</ListItem>
-								<Divider />
-								<ListItem button onClick={() => handleCreateClick()}>
-									<ListItemText primary="Go Back"/>
-								</ListItem>
-								</>
-								)}
-							</List>
+                            </Container>
+                        </Container>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Paper elevation={1}>
+                            <Container maxWidth={false} className={classes.adminNavigationContainer}>
 
 
-						</Container>
-					</Paper>
-				</Grid>
-		</Grid>
-		</main>
+                                <List>
+                                    <ListItem>
+                                        <Typography variant="h5" color="textPrimary" align="center">
+                                            Category Manager
+                                        </Typography>
+                                    </ListItem>
+                                    {selDispCategory && [ showCreateCategory === null &&
+                                    <ListItem>
+                                        <Typography variant="h6" color="textPrimary" align="center">
+                                            {selDispCategory}. {selCategoryName}
+                                        </Typography>
+                                    </ListItem>
+                                    ]}
+                                    <Divider />
+                                    {showCreateCategory === null && [ 
+                                        showMoveCategory === null && [
+                                            showEditCategory === null &&
+                                    <>
+                                    <ListItem button onClick={() => handleCreateClick()}>
+                                        <ListItemText primary="Add New Category" />
+                                    </ListItem>	
+                                    <ListItem button disabled={selCategory === null} onClick={() => handleEditClick()}>
+                                        <ListItemText primary="Edit Category" />
+                                    </ListItem>															
+                                    <ListItem button disabled={selCategory === null} onClick={() => handleMoveCategoryClick()}>
+                                        <ListItemText primary="Move Category" />
+                                    </ListItem>
+                                    <ListItem button disabled={selCategory === null} onClick={() => handleToggleCategory()}>
+                                        {(() => {
+                                          if (isDisabled) {
+                                            return <ListItemText primary="Enable Category" />;
+                                          } else {
+                                            return <ListItemText primary="Disable Category" />;
+                                          }
+                                        })()}
+                                    </ListItem>
+                                    <ListItem button disabled={selCategory === null} onClick={() => handleDeleteCategory()}>
+                                        <ListItemText primary="Remove Category" />
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleStep(1000)}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                    ]]}
+                                    {showMoveCategory === 1 && (
+                                    <>
+                                    <ListItem button onClick={() => handleMoveCategory(1)} disabled={selDispCategory-1 === 0}>
+                                        <ListItemText primary="Move Category Up" />
+                                    </ListItem>
+                                    <ListItem button onClick={() => handleMoveCategory(0)} disabled={selDispCategory-1 === categoryList.length-1}>
+                                        <ListItemText primary="Move Category Down" />
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleMoveCategoryClick()}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                    )}
+                                    {showEditCategory === 1 && (
+                                    <>
+                                    <ListItem>
+                                    <form>
+                                        <Grid container spacing={2} alignItems="flex-start" justifyContent="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
+                                            <Grid item>
+                                                <Typography variant="h5">
+                                                    Edit Category
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField 
+                                                    id="category" 
+                                                    label="Category Name"
+                                                    onChange={(e) => {setSelCategoryName(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={selCategoryName} 
+                                                />
+                                            </Grid>
+                                            <Grid item className={classes.adminCategoryManagerSelectedPrinters}>
+                                                <Typography variant="h6">
+                                                    Selected Printers
+                                                </Typography>
+                                                <FormControl className={classes.adminCategoryManagerSelect}>
+                                                    <InputLabel>Printers</InputLabel>
+                                                    <Select
+                                                        multiple 
+                                                        value={selPrinters}
+                                                        onChange={handleSelPrinters}
+                                                        variant="filled"
+                                                    >
+                                                        {printerList.map((printer, index) => (
+                                                            <MenuItem key={index} value={printer.printer_id}>
+                                                              {printer.printer_name}
+                                                            </MenuItem>
+                                                          ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button variant="contained" color="primary" onClick={() => handleEditCategory()} disabled={!selCategoryName}>
+                                                    Save Edit
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </form>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleEditClick()}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                    )}
+                                    {showCreateCategory === 1 && (
+                                    <>
+                                    <ListItem>
+                                    <form>
+                                        <Grid container spacing={2} alignItems="flex-start" justifyContent="center" direction="column" className={classes.adminCategoryManagerCreateCategoryContainer}>
+                                            <Grid item>
+                                                <Typography variant="h5">
+                                                    Create New Category
+                                                </Typography>
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField 
+                                                    id="category" 
+                                                    label="Category Name"
+                                                    onChange={(e) => {setCategoryName(e.target.value)}} 
+                                                    variant="filled" 
+                                                    fullWidth
+                                                    value={categoryName} 
+                                                />
+                                            </Grid>
+                                            <Grid item className={classes.adminCategoryManagerSelectedPrinters}>
+                                                <Typography variant="h6">
+                                                    Selected Printers
+                                                </Typography>
+                                                <FormControl className={classes.adminCategoryManagerSelect}>
+                                                    <InputLabel>Printers</InputLabel>
+                                                    <Select
+                                                        multiple 
+                                                        value={selPrinters}
+                                                        onChange={handleSelPrinters}
+                                                        variant="filled"
+                                                    >
+                                                        {printerList.map((printer, index) => (
+                                                            <MenuItem key={index} value={printer.printer_id}>
+                                                              {printer.printer_name}
+                                                            </MenuItem>
+                                                          ))}
+                                                    </Select>
+                                                </FormControl>
+                                            </Grid>
+                                            <Grid item>
+                                                <Button variant="contained" color="primary" onClick={() => handleCreateCategory()}>
+                                                    Add Category
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </form>
+                                    </ListItem>
+                                    <Divider />
+                                    <ListItem button onClick={() => handleCreateClick()}>
+                                        <ListItemText primary="Go Back"/>
+                                    </ListItem>
+                                    </>
+                                    )}
+                                </List>
 
-</>
-		)
+
+                            </Container>
+                        </Paper>
+                    </Grid>
+            </Grid>
+            </main>
+
+    </>;
 }
 
 export default AdminCategoryManager;

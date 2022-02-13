@@ -20,21 +20,22 @@ import { 	Avatar,
  			Menu,
  			MenuItem,
  			Dialog,
- 			DialogContent   } from '@material-ui/core';
+ 			DialogContent   } from '@mui/material';
 
 import Image from 'material-ui-image';
-import { palette } from '@material-ui/system';
+import { palette } from '@mui/system';
 
-import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp';
-import AddCircleSharpIcon from '@material-ui/icons/AddCircleSharp';
-import TranslateSharpIcon from '@material-ui/icons/TranslateSharp';
-import MenuIcon from '@material-ui/icons/Menu';
-import ArrowBackIosSharpIcon from '@material-ui/icons/ArrowBackIosSharp';
-import CheckCircleSharpIcon from '@material-ui/icons/CheckCircleSharp';
+import RemoveCircleSharpIcon from '@mui/icons-material/RemoveCircleSharp';
+import AddCircleSharpIcon from '@mui/icons-material/AddCircleSharp';
+import TranslateSharpIcon from '@mui/icons-material/TranslateSharp';
+import MenuIcon from '@mui/icons-material/Menu';
+import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
+import CheckCircleSharpIcon from '@mui/icons-material/CheckCircleSharp';
 
 
-import { createMuiTheme, responsiveFontSizes, ThemeProvider } from '@material-ui/core/styles';
-import useStyles from '../styles';
+import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import useClasses from '../classes'
+import styles from '../styles';
 
 
 
@@ -93,10 +94,11 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
 			)
 	}
 
-  	//Styling functions
-	const classes = useStyles();
-	//Responsive text styles
-	let theme = createMuiTheme();
+	//Apply css styles from styles.js
+	const classes = useClasses(styles);
+
+	//Auto responsive font sizes by viewport
+	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
 	//Increment cart item
@@ -133,148 +135,145 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
 
 
 
-	return (
-		<>
-			<CssBaseline />
-			<main>
-				<AppBar position="fixed">
-					<Toolbar variant="dense">
-						<Grid
-							justify="space-between"
-							alignItems="center"
-							container
-						
-							
-							
-						>
-						<Grid item>
-							<IconButton onClick={() => handleStep(curStep-1)} color="inherit">
-								<ArrowBackIosSharpIcon />
-							</IconButton>
-						</Grid>
-						<Grid item>
-							<Typography variant="h6">
-			  					Panier
-			  				</Typography>
-						</Grid>
-						<Grid item>
-				              <IconButton
-				                aria-label="change current language"
-				                aria-controls="menu-appbar"
-				                aria-haspopup="true"
-				                onClick={handleMenu}
-				                color="inherit" 
-				                edge="end"
-				              >
-				                <TranslateSharpIcon />
-				              </IconButton>
-				              <Menu
-				                id="menu-appbar"
-				                anchorEl={anchorEl}
-				                anchorOrigin={{
-				                  vertical: 'top',
-				                  horizontal: 'right',
-				                }}
-				                keepMounted
-				                transformOrigin={{
-				                  vertical: 'top',
-				                  horizontal: 'right',
-				                }}
-				                open={open}
-				                onClose={handleClose}
-				              >
-				                <MenuItem className={classes.PrimaryText} onClick={handleClose}>English</MenuItem>
-				                <MenuItem className={classes.PrimaryText} onClick={handleClose}>Français</MenuItem>
-				              </Menu>
-				              </Grid>
-			              </Grid>
-					</Toolbar>
-				</AppBar>
-			<Container className={classes.cartCardGrid} maxWidth="md">
-				<Grid container direction="column" spacing={1}>
-				{cartContent.map((cart, index) => (
-					<Grid item key={index}>
-						<Card className={classes.cartCard}>
-							<Grid container alignItems="center" justify="space-between">
-								<Grid item>
-									<Avatar className={classes.cartMedia} src={cart.itemImg} variant="rounded" />
-								</Grid>
-								<Grid item>
-									<Typography variant="subtitle2" color="textPrimary">
-										{cart.itemName}
-									</Typography>
-								</Grid>
-								<Grid item>
-									<CardActions>
-										<Chip label={cart.itemQty} />
-										<Grid container direction="column">
-											<Grid item>
-												<IconButton
-													color="primary" 
-													onClick={(event) => handleIncrement(event, index)}
-												>
-													<AddCircleSharpIcon />
-												</IconButton>
-											</Grid>
-											<Grid item>
-												<IconButton 
-													color="primary" 
-													onClick={(event) => handleDecrement(event, index)}
-												>
-													<RemoveCircleSharpIcon />
-												</IconButton>
-											</Grid>
-										</Grid>
-									</CardActions>
-								</Grid>
-							</Grid>
-						</Card>
-					</Grid>
-				))}
-				</Grid>
-			</Container>
-			<AppBar color="default" className={classes.cartNav} position="fixed">
-				<Toolbar>
-				<Grid container justify="center">
-					<Button className={classes.cartButton} disabled={cartContent.length === 0} onClick={() => handlePlaceOrder()} variant="contained" color="primary" >
-						Passer la commande
-					</Button>
-				</Grid>
-				</Toolbar>
-			</AppBar>
+	return <>
+        <CssBaseline />
+        <main>
+            <AppBar position="fixed">
+                <Toolbar variant="dense">
+                    <Grid
+                        justifyContent="space-between"
+                        alignItems="center"
+                        container
+                    
+                        
+                        
+                    >
+                    <Grid item>
+                        <IconButton onClick={() => handleStep(curStep-1)} color="inherit" size="large">
+                            <ArrowBackIosSharpIcon />
+                        </IconButton>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h6">
+                            Panier
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                          <IconButton
+                              aria-label="change current language"
+                              aria-controls="menu-appbar"
+                              aria-haspopup="true"
+                              onClick={handleMenu}
+                              color="inherit"
+                              edge="end"
+                              size="large">
+                            <TranslateSharpIcon />
+                          </IconButton>
+                          <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorEl}
+                            anchorOrigin={{
+                              vertical: 'top',
+                              horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'right',
+                            }}
+                            open={open}
+                            onClose={handleClose}
+                          >
+                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>English</MenuItem>
+                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>Français</MenuItem>
+                          </Menu>
+                          </Grid>
+                      </Grid>
+                </Toolbar>
+            </AppBar>
+        <Container className={classes.cartCardGrid} maxWidth="md">
+            <Grid container direction="column" spacing={1}>
+            {cartContent.map((cart, index) => (
+                <Grid item key={index}>
+                    <Card className={classes.cartCard}>
+                        <Grid container alignItems="center" justifyContent="space-between">
+                            <Grid item>
+                                <Avatar className={classes.cartMedia} src={cart.itemImg} variant="rounded" />
+                            </Grid>
+                            <Grid item>
+                                <Typography variant="subtitle2" color="textPrimary">
+                                    {cart.itemName}
+                                </Typography>
+                            </Grid>
+                            <Grid item>
+                                <CardActions>
+                                    <Chip label={cart.itemQty} />
+                                    <Grid container direction="column">
+                                        <Grid item>
+                                            <IconButton
+                                                color="primary"
+                                                onClick={(event) => handleIncrement(event, index)}
+                                                size="large">
+                                                <AddCircleSharpIcon />
+                                            </IconButton>
+                                        </Grid>
+                                        <Grid item>
+                                            <IconButton
+                                                color="primary"
+                                                onClick={(event) => handleDecrement(event, index)}
+                                                size="large">
+                                                <RemoveCircleSharpIcon />
+                                            </IconButton>
+                                        </Grid>
+                                    </Grid>
+                                </CardActions>
+                            </Grid>
+                        </Grid>
+                    </Card>
+                </Grid>
+            ))}
+            </Grid>
+        </Container>
+        <AppBar color="default" className={classes.cartNav} position="fixed">
+            <Toolbar>
+            <Grid container justifyContent="center">
+                <Button className={classes.cartButton} disabled={cartContent.length === 0} onClick={() => handlePlaceOrder()} variant="contained" color="primary" >
+                    Passer la commande
+                </Button>
+            </Grid>
+            </Toolbar>
+        </AppBar>
 
 
-			<Dialog open={placeOpen} onClose={closePlaceDialog} maxWidth="sm" disableBackdropClick={true}>
-			<DialogContent className={classes.cartDialog}>
-				<Grid container direction="column" justify="center" alignItems="center" spacing={2}>
-					<Grid item className={classes.cartDialogIcon}>
-						<CheckCircleSharpIcon style={{fontSize: '84px', color: 'green'}} />
-					</Grid>
-					<Grid item>
-						<Typography variant="h6" color="textPrimary">
-							#{orderNumber}
-						</Typography>
-					</Grid>
-					<Grid item>
-						<Typography variant="h4" color="textPrimary">
-							Envoyé
-						</Typography>
-					</Grid>
-					<Grid item>
-						<OrderTime />
-					</Grid>
-					<Grid item>
-						<Button onClick={closePlaceDialog} variant="contained" color="primary" className={classes.cartDialogButton}>
-							Suivant
-						</Button>
-					</Grid>
-				</Grid>
-			</DialogContent>
-			</Dialog>
-			</main>
-		</>
-
-		)
+        <Dialog open={placeOpen} onClose={closePlaceDialog} maxWidth="sm">
+        <DialogContent className={classes.cartDialog}>
+            <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
+                <Grid item className={classes.cartDialogIcon}>
+                    <CheckCircleSharpIcon style={{fontSize: '84px', color: 'green'}} />
+                </Grid>
+                <Grid item>
+                    <Typography variant="h6" color="textPrimary">
+                        #{orderNumber}
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <Typography variant="h4" color="textPrimary">
+                        Envoyé
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <OrderTime />
+                </Grid>
+                <Grid item>
+                    <Button onClick={closePlaceDialog} variant="contained" color="primary" className={classes.cartDialogButton}>
+                        Suivant
+                    </Button>
+                </Grid>
+            </Grid>
+        </DialogContent>
+        </Dialog>
+        </main>
+    </>;
 }
 
 export default PlaceOrder;

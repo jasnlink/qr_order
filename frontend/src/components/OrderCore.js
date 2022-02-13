@@ -18,6 +18,9 @@ import AdminMenuManager from './admin/AdminMenuManager';
 import AdminTimeManager from './admin/AdminTimeManager';
 
 
+import useClasses from '../classes'
+import styles from '../styles';
+
 function OrderCore() {
 
 	const [step, setStep] = useState(1);
@@ -47,10 +50,8 @@ function OrderCore() {
 	let [adminCurOrderTime, setAdminCurOrderTime] = React.useState(null);
 
 
-  	function DoAdmin() {
-  		setStep(1000);
-  		return (<></>);
-  	}
+	const classes = useClasses(styles);
+
 
 	switch(step) {
 			case 1:
@@ -58,9 +59,7 @@ function OrderCore() {
 					<div>
 						<Router>
 							<Switch>
-								<Route path="/admin" exact>
-									<DoAdmin />
-								</Route>
+								<Route exact path="/admin" render={() => setStep(1000)} />
 							</Switch>
 						</Router>
 
