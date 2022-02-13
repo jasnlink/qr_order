@@ -403,6 +403,24 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 	}, [selTableNumber]);
 
 
+
+	function handlePrintQr() {
+		if(selTableID) {
+			Axios.post("http://192.46.223.124/api/print/table", {
+				selTableID: selTableID,
+				selTableNumber: selTableNumber,
+				selTableAdultCount: selTableAdultCount,
+				selTableChildCount: selTableChildCount,
+			})
+			.then((response) => {
+				console.log('yes');
+			})
+			.catch((e) => {
+	       		console.log("error ", e)});
+		}
+	}
+
+
 	
 
 	function handleTest() {
@@ -637,7 +655,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                                 </ListItem>
                                             )}
                                             <ListItem disabled={selTableOccupied === 0} button>
-                                                <ListItemText primary="Print QR Code" />
+                                                <ListItemText primary="Print QR Code" onClick={() => handlePrintQr()} />
                                             </ListItem>
                                             <ListItem button disabled={selTableOccupied === 0} onClick={() => handleStep(1001)}>
                                                 <ListItemText primary="View Orders" />

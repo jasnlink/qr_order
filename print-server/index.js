@@ -134,7 +134,7 @@ ioClient.on('test', (response) => {
 });
 
 
-ioClient.on('occupy_table', (res) => {
+ioClient.on('print_table', (res) => {
 
   printer1.alignCenter();
   printer1.bold(true);
@@ -222,3 +222,5 @@ ioClient.on('print_order', (tableInfo, res) => {
 
 
 })
+
+

@@ -411,7 +411,7 @@ app.post('/api/occupy/table', (req, res) => {
         }
         console.log('Occupying table...', result.affectedRows);
 
-        io.emit('occupy_table', {id: selTableID, number: selTableNumber, adults: seatTableAdultCount, children: seatTableChildCount});
+        io.emit('print_table', {id: selTableID, number: selTableNumber, adults: seatTableAdultCount, children: seatTableChildCount});
         console.log('Sending print job...');
 
         //fetch updated table list
@@ -479,7 +479,7 @@ app.post('/api/delete/table', (req, res) => {
 });
 
 
-//find table
+//find table when input from kaypad
 app.post('/api/find/table', (req, res) => {
 
     const selTableNumber = req.body.selTableNumber;
@@ -497,7 +497,7 @@ app.post('/api/find/table', (req, res) => {
 
 
 
-//Add table
+//Add table from keypad input if table not found
 app.post('/api/add/table', (req, res) => {
 
     console.log('Table not found...');
@@ -516,6 +516,24 @@ app.post('/api/add/table', (req, res) => {
         res.send(result);
 
     });
+});
+
+
+//Print table QR code
+app.post('/api/print/table', (req, res) => {
+
+    console.log('Printing table QR code...');
+
+    const selTableID = req.body.selTableID;
+    const selTableNumber = req.body.selTableNumber;
+    const selTableAdultCount = req.body.selTableAdultCount;
+    const selTableChildCount = req.body.selTableChildCount;
+
+    io.emit('print_table', {id: selTableID, number: selTableNumber, adults: selTableAdultCount, children: selTableChildCount});
+    console.log('Sending print job...');
+
+    res.send('success');
+
 });
 
 
@@ -1349,5 +1367,5 @@ app.get('/api/do/printerslist', (req, res) => {
 
     io.emit('printerlist', {msg: 'really good'});
     console.log('Listing Printers...');
-    res.send('Done');
+    res.send('success');
 });
