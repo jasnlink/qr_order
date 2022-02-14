@@ -296,10 +296,13 @@ ioClient.on('print_table', (res) => {
 
 
 
-ioClient.on('print_order', (tableInfo, res) => {
+ioClient.on('place_order', (tableInfo, res) => {
   console.log(tableInfo);
   console.log(res);
   let selectedPrinter = printerStack[res[0].printer_id];
+
+  console.log(selectedPrinter);
+
 
   selectedPrinter.alignCenter();
   selectedPrinter.setTextQuadArea();
@@ -346,4 +349,59 @@ ioClient.on('print_order', (tableInfo, res) => {
 
 })
 
+
+// ###################################################
+
+
+
+ioClient.on('print_order', (tableInfo, res) => {
+  console.log(tableInfo);
+  console.log(res);
+
+  let selectedPrinter = printerStack[2];
+
+  selectedPrinter.alignCenter();
+  selectedPrinter.setTextQuadArea();
+  selectedPrinter.bold(true);
+  selectedPrinter.println("TABLE "+tableInfo[0].table_number);
+  selectedPrinter.bold(false);
+  selectedPrinter.setTextNormal();
+  selectedPrinter.println("ORDER "+tableInfo[0].placed_order_id);
+  selectedPrinter.newLine();
+  selectedPrinter.println(tableInfo[0].datetime_placed);
+  selectedPrinter.setTextNormal();
+  selectedPrinter.bold(true);
+  if(tableInfo[0].child_count) {
+    selectedPrinter.print(tableInfo[0].adult_count+" adults : "+tableInfo[0].child_count+" children");
+  } else {
+    selectedPrinter.print(tableInfo[0].adult_count+" adults");
+  }
+  
+  selectedPrinter.println("     FRONT DESK");
+  selectedPrinter.bold(false);
+  selectedPrinter.println("________________________");
+  selectedPrinter.newLine();
+  selectedPrinter.alignLeft();
+  selectedPrinter.setTextDoubleHeight();
+
+
+    res.map((item) => {
+      selectedPrinter.print(item.quantity);
+      selectedPrinter.print("   "+item.item_name);
+      selectedPrinter.println("    ("+item.item_kitchen_name+")");
+
+    })
+
+  selectedPrinter.partialCut();
+  selectedPrinter.execute()
+  .then(() => {
+    console.log('Printing...');
+    selectedPrinter.clear();
+  })
+  .catch((err) => {
+    console.log(err);
+  })
+
+
+})
 

@@ -115,9 +115,9 @@ app.post('/api/add/category', (req, res) => {
     const selPrinters = req.body.selPrinters;
 
     //insert new row
-	const query = "INSERT INTO category_list (category_name) VALUES (?);";
-	connection.query(query, [categoryName], (err, result) => {
-		if(err) {
+    const query = "INSERT INTO category_list (category_name) VALUES (?);";
+    connection.query(query, [categoryName], (err, result) => {
+        if(err) {
             res.status(400).send(err);
             return;
         }
@@ -1113,6 +1113,49 @@ app.post('/api/delete/timegroup', (req, res) => {
 
 /***********************************************************************************
 ************************************************************************************/
+//          Order Manager Routes
+//
+//
+/***********************************************************************************
+************************************************************************************/
+
+//print current selected order
+app.post('/api/print/order', (req, res) => {
+
+    const selOrderID = req.body.selOrderID;
+    var tableInfo;
+
+    let query = "SELECT t1.placed_order_id, t2.table_number, t2.adult_count, t2.child_count, DATE_FORMAT(t1.datetime_placed,'%Y-%m-%d %H:%i') AS datetime_placed FROM placed_order AS t1 INNER JOIN table_list AS t2 ON t2.table_id = t1.table_id WHERE t1.placed_order_id=?";
+    connection.query(query, [selOrderID], (err, result) => {
+        if(err) {
+            res.status(400).send(err);
+            return;
+        }
+        console.log('Fetching Order and Table info...');
+        tableInfo = result;
+
+
+        let query = "SELECT t1.item_id, t1.quantity, t2.item_name, t2.item_kitchen_name, t2.category_id, t3.category_name, t3.category_order_index, DATE_FORMAT(t4.datetime_placed,'%Y-%m-%d %H:%i') AS datetime_placed FROM placed_in_order AS t1 INNER JOIN item_list AS t2 ON t2.item_id = t1.item_id INNER JOIN category_list AS t3 ON t3.category_id = t2.category_id INNER JOIN placed_order AS t4 ON t4.placed_order_id=?  WHERE t1.placed_order_id=? ORDER BY t3.category_order_index;";
+        connection.query(query, [selOrderID, selOrderID], (err, result) => {
+            if(err) {
+                res.status(400).send(err);
+                return;
+            }
+            if(result.length) {
+                console.log('printing order...');
+                io.emit('print_order', tableInfo, result);
+            }
+        });
+
+    });
+
+});
+
+
+
+
+/***********************************************************************************
+************************************************************************************/
 //          Customer Front Routes
 //
 //
@@ -1228,7 +1271,7 @@ app.post('/api/place/order', (req, res) => {
                                         //send printer order to local print server
                                         console.log('Fetching print order...');
                                         console.log('Printer #'+printer.printer_id);
-                                        io.emit('print_order', tableInfo, result);
+                                        io.emit('place_order', tableInfo, result);
                                     }
                                 });
                             })
@@ -1351,7 +1394,7 @@ app.get('/api/do/test', (req, res) => {
                     if(result.length) {
                         console.log('Fetching print order...');
                         console.log(printer.printer_id);
-                        io.emit('print_order', tableInfo, result);
+                        io.emit('place_order', tableInfo, result);
                     }
                 });
             })

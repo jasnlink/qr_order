@@ -56,7 +56,7 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
 	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
 
-	function handleGoback() {
+	function handleGoBack() {
 		handleOrderID(null)
 		return (
 			handleStep(curStep-1)
@@ -81,6 +81,20 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
 		.catch((e) => {
        		console.log("error ", e)});
 	}, []);
+
+    function handlePrintOrder() {
+        if(selOrderID) {
+            Axios.post("http://192.46.223.124/api/print/order", {
+            selOrderID: selOrderID,
+        })
+        .then((response) => {
+            console.log('success');
+        })
+        .catch((e) => {
+            console.log("error ", e)});
+        }
+        
+    }
 
 	return <>	
             <CssBaseline />
@@ -175,10 +189,10 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
                                         <ListItemText primary="View Order" />
                                     </ListItem>
                                     <ListItem button>
-                                        <ListItemText primary="Print Order" />
+                                        <ListItemText primary="Print Order" onClick={() => handlePrintOrder()} />
                                     </ListItem>
                                     <Divider />
-                                    <ListItem button onClick={() => handleGoback()}>
+                                    <ListItem button onClick={() => handleGoBack()}>
                                         <ListItemText primary="Go Back" />
                                     </ListItem>
                                     </>

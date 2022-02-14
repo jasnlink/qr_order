@@ -68,6 +68,20 @@ function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurO
 	}, []);
 
 
+    function handlePrintOrder() {
+        if(selOrderID) {
+            Axios.post("http://192.46.223.124/api/print/order", {
+            selOrderID: selOrderID,
+        })
+        .then((response) => {
+            console.log('success');
+        })
+        .catch((e) => {
+            console.log("error ", e)});
+        }
+    }
+
+
 
 	return <>	
             <CssBaseline />
@@ -145,7 +159,7 @@ function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurO
                                     </ListItem>
                                     <Divider />
                                     <ListItem button>
-                                        <ListItemText primary="Print Order" />
+                                        <ListItemText primary="Print Order" onClick={() => handlePrintOrder()}/>
                                     </ListItem>
                                     <Divider />
                                     <ListItem button onClick={() => handleStep(curStep-1)}>
