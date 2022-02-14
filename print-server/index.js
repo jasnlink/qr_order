@@ -6,16 +6,18 @@ import QRCode from 'qrcode';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 const ThermalPrinter = require("node-thermal-printer").printer;
-const iconv = require('iconv-lite');
 
 import printer from 'printer';
 import util from 'util';
 
-
 import os from 'os';
-import publicIp from 'public-ip';
-
 import io from 'socket.io-client';
+
+
+// ###################################################
+
+
+
 var ioClient = io.connect('http://192.46.223.124:8000');
 
 ioClient.on('connect', (socket) => {
@@ -27,6 +29,8 @@ ioClient.on('disconnect', (reason) => {
 });
 
 
+// ###################################################
+
 const app = express();
 app.use(cors());
 app.use(bodyParser.json({extended: true}));
@@ -36,13 +40,12 @@ var networkInterfaces = os.networkInterfaces();
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3001;
-
-
-publicIp.v4().then(ip => {
-  console.log("your public ip address", ip);
-});
-
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));
+
+
+// ###################################################
+
+
 
 let printer1 = new ThermalPrinter({
 
@@ -71,8 +74,14 @@ let printer3 = new ThermalPrinter({
 
 });
 
-
 let printerStack = new Array(printer1, printer2, printer3);
+
+
+// ###################################################
+
+
+ioClient.on('printerlist', (response) => {
+  console.log("installed printers:\n"+util.inspect(printer.getPrinters(), {colors:true, depth:10}));
 
 printer3.isPrinterConnected()
 .then((status) => {
@@ -82,12 +91,89 @@ printer3.isPrinterConnected()
   console.log(err);
 })
 
-ioClient.on('printerlist', (response) => {
-  console.log("installed printers:\n"+util.inspect(printer.getPrinters(), {colors:true, depth:10}));
+
 })
 
 
+ioClient.on('test1', (response) => {
+  console.log("installed printers:\n"+util.inspect(printer.getSupportedPrintFormats(), {colors:true, depth:10}));
+  QRCode.toString('I am a pony!',{type:'utf8'}, function (err, url) {
+    console.log(url)
+  })
+})
+
+
+// ###################################################
+
+
+
 ioClient.on('test', (response) => {
+
+  console.log(response.msg);
+
+  const filename = './assets/print.png';
+
+  QRCode.toFile(filename,'I am a pony!', {
+    version: 4, 
+    errorCorrectionLevel: 'H',
+    scale: 12,
+   }, function (err, url) {
+    if(err) {
+      console.log(err);
+    };
+    console.log('write success');
+/*
+    printer3.printImage(filename)
+    .then(() => {
+      printer3.partialCut();
+      printer3.execute()
+        .then(() => {
+          printer3.clear();
+          console.log('success print');
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    */
+  });
+
+
+/*
+  printer.printDirect({
+    data:fs.readFileSync(filename),
+    printer: printerName,
+    success:function(jobID){
+      console.log("sent to printer with ID: "+jobID);
+    },
+    error:function(err){
+      console.log(err);
+    }
+  });
+
+
+  printer.printDirect({
+    data:url, // or simple String: "some text"
+    printer:printerName, // printer name
+    type: printerFormat, // type: RAW, TEXT, PDF, JPEG, .. depends on platform
+      options: // supported page sizes may be retrieved using getPrinterDriverOptions, supports CUPS printing options
+      {
+          media: 'Letter',
+          'fit-to-page': true
+      },
+    success:function(jobID){console.log(jobID+" Success"+url);},
+    error:function(err){console.log(err);}
+  });
+ 
+*/  
+});
+
+
+
+ioClient.on('test2', (response) => {
   console.log(response.msg);
 
   //console.log("installed printers:\n"+util.inspect(printer.getPrinters(), {colors:true, depth:10}));
@@ -122,6 +208,16 @@ ioClient.on('test', (response) => {
   printer3.setCharacterSet('CHINA');
   var str = "   כ所有人生而自由，在尊嚴和權利上一律平等";
   printer3.println(str);
+  printer3.printQR("http://192.46.223.124/table/", {
+    cellSize: 8,
+    correction: 'H',
+    model: 2
+  });
+  printer3.printImage('./assets/qr-code.png');
+  printer3.code128("20101", {
+  height: 50,
+  text: 1
+  });
   printer3.partialCut();
   printer3.execute()
   .then(() => {
@@ -134,43 +230,70 @@ ioClient.on('test', (response) => {
 });
 
 
+// ###################################################
+
+
+
 ioClient.on('print_table', (res) => {
 
-  printer1.alignCenter();
-  printer1.bold(true);
-  printer1.setTextQuadArea();
-  printer1.println("Table "+res.number);
-  printer1.newLine();
-  printer1.setTextNormal();
-  printer1.bold(true);
-  if (res.children) {
-    printer1.println(res.adults+" a : "+res.children+" c");
-  } else {
-    printer1.println(res.adults+" a");
-  }
-  printer1.println("________________________");
-  printer1.newLine();
-  printer1.newLine();
-  printer1.printQR("http://192.46.223.124/table/"+res.id+"/"+res.number, {
-    cellSize: 8,
-    correction: 'H',
-    model: 2
-  });
-  printer1.newLine();
-  printer1.newLine();
-  printer1.println("Scannez avec la caméra");
-  printer1.println("et placez une commande.");
-  printer1.partialCut();
-  printer1.execute()
-  .then(() => {
-    console.log('Printing QR Code... Table '+res.number);
-    printer1.clear();
-  })
-  .catch((err) => {
-    console.log(err);
-  })
 
+  const filename = './assets/print.png';
+
+  QRCode.toFile(filename,'http://192.46.223.124/table/'+res.id+'/'+res.number, {
+    version: 4, 
+    errorCorrectionLevel: 'H',
+    scale: 10,
+   }, function (err, url) {
+    if(err) {
+      console.log(err);
+    };
+    console.log('write success');
+
+
+
+  printer3.alignCenter();
+  printer3.bold(true);
+  printer3.setTextQuadArea();
+  printer3.println("Table "+res.number);
+  printer3.newLine();
+  printer3.setTextNormal();
+  printer3.bold(true);
+  if (res.children) {
+    printer3.println(res.adults+" a : "+res.children+" c");
+  } else {
+    printer3.println(res.adults+" a");
+  }
+  printer3.println("________________________");
+  printer3.newLine();
+  printer3.newLine();
+
+  printer3.printImage(filename)
+    .then(() => {
+      printer3.newLine();
+      printer3.newLine();
+      printer3.println("Scannez avec la caméra");
+      printer3.println("et placez une commande.");
+      printer3.newLine();
+      printer3.newLine();
+      printer3.partialCut();
+      printer3.execute()
+        .then(() => {
+          printer3.clear();
+          console.log('Printing QR Code... Table '+res.number);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  });
 });
+
+
+// ###################################################
+
 
 
 ioClient.on('print_order', (tableInfo, res) => {

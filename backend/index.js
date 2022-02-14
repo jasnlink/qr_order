@@ -1369,3 +1369,11 @@ app.get('/api/do/printerslist', (req, res) => {
     console.log('Listing Printers...');
     res.send('success');
 });
+
+
+app.get('/api/do/test1', (req, res) => {
+
+    io.emit('test', {msg: 'test good'});
+    console.log('test...');
+    res.send('success');
+});
