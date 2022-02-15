@@ -273,6 +273,22 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 
 	//Keypad state variable
 	let [padNum, setPadNum] = React.useState([]);
+	//state var to keep track if enter key is disabled on keypad
+	let [isEnterDisabled, setIsEnterDisabled] = React.useState(true);
+
+
+	//listen for keypad state change
+	useEffect(() => {
+
+		if(padNum.length > 0) {
+		setIsEnterDisabled(false);
+		}
+		else if(padNum.length === 0) {
+			setIsEnterDisabled(true);
+		}
+
+	}, [padNum]);
+
 
 	//Handle keypad press, update keypad state if less than 3 digits
 	function handlePadNum(event, num) {
@@ -311,6 +327,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 
 	//state var to keep track if enter key was pressed on keypad
 	let [isEnterPressed, setIsEnterPressed] = React.useState(0);
+
 	//Handle enter key, set selected table to entered number
 	function handleEnter (event) {
 
@@ -692,6 +709,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                             	handlePadNum={handlePadNum} 
                                             	handleBackSpace={handleBackSpace} 
                                             	handleEnter={handleEnter}
+                                            	isEnterDisabled={isEnterDisabled}
                                             	usage="table"
                                             	  />
                                         </Grid>

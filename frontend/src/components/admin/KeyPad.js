@@ -33,7 +33,7 @@ import styles from '../../styles';
 
 
 
- function KeyPad ({ handlePadNum, handleBackSpace, handleEnter, usage }) {
+ function KeyPad ({ handlePadNum, handleBackSpace, handleEnter, isEnterDisabled, usage }) {
 
 
  	//Apply css styles from styles.js
@@ -44,7 +44,6 @@ import styles from '../../styles';
 	theme = responsiveFontSizes(theme);
 
 	const keypadConstruct = [1, 2, 3, 4 ,5 ,6, 7, 8, 9]
-
 	return (
 
 	    <Grid container direction="row">
@@ -88,10 +87,10 @@ import styles from '../../styles';
 	            </Grid>
 	            {usage === "table" &&
 	            	<Grid item xs={4}>
-		                <Card square className={classes.adminKeyPadEnterKey}>
-		                    <CardActionArea onClick={(event) => handleEnter(event)} disabled>
+		                <Card square className={isEnterDisabled ? classes.adminKeyPadEnterKeyDisabled : classes.adminKeyPadEnterKey}>
+		                    <CardActionArea onClick={(event) => handleEnter(event)} disabled={isEnterDisabled}>
 		                            <CardContent>
-		                                <Typography variant="h6" color="textPrimary" align="center" className={classes.adminKeyPadEnterText}>
+		                                <Typography variant="h6" color="textPrimary" align="center" className={isEnterDisabled ? classes.adminKeyPadEnterTextDisabled : classes.adminKeyPadEnterText}>
 		                                    ENTER
 		                                </Typography>
 		                            </CardContent>

@@ -216,11 +216,17 @@ const styles = theme => ({
 	adminKeyPadBackSpace : {
 		color: '#b2102f',
 	},
+	adminKeyPadEnterTextDisabled : {
+		color: '#9f9f9f',
+	},
+	adminKeyPadEnterKeyDisabled : {
+		backgroundColor: '#e0e0e0',
+	},
 	adminKeyPadEnterText : {
 		color: 'white',
 	},
 	adminKeyPadEnterKey : {
-		background: '#3f51b5',
+		backgroundColor: '#3f51b5',
 	},
 
 	//Admin table orders
