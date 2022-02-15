@@ -3,7 +3,6 @@ import Axios from 'axios';
 
 import { 	Typography, 
  			Button,
-            LoadingButton,
  			Chip, 
  			Card, 
  			CardActions, 
@@ -33,6 +32,9 @@ import { 	Typography,
             CircularProgress,
             Backdrop    } from '@mui/material';
 
+
+import LoadingButton from '@mui/lab/LoadingButton';
+
 import Image from 'material-ui-image';
 
 import AddIcon from '@mui/icons-material/Add';
@@ -43,6 +45,7 @@ import TranslateSharpIcon from '@mui/icons-material/TranslateSharp';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
 import HomeIcon from '@mui/icons-material/Home';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import useClasses from '../classes'
@@ -92,6 +95,9 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
 	const [drawerOpen, setDrawerOpen] = React.useState(false);
 	const [dialogOpen, setDialogOpen] = React.useState(false);
 
+    //Adding to cart loading state
+    const [loadingAddToCart, setLoadingAddToCart] = React.useState(false);
+
 
 	//Currently selected item variables, to add to cart
 	const [selectedID, setSelectedID] = React.useState("");
@@ -140,14 +146,26 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
 	//Add selected item to cart state and reset the selected item states
 	const handleAddToCart = () => {
 
-		let selectedItem = {
-			itemID : selectedID,
-			itemName : selectedName,
-			itemImg : selectedImg,
-			itemQty : selectedQuantity,
-		};
-		handleCart(cartContent => [...cartContent, selectedItem]);
-		closeDialog();
+        setLoadingAddToCart(true);
+
+        const promise = new Promise ((resolve, reject) => {
+            let selectedItem = {
+            itemID : selectedID,
+            itemName : selectedName,
+            itemImg : selectedImg,
+            itemQty : selectedQuantity,
+            };
+            handleCart(cartContent => [...cartContent, selectedItem])
+            resolve(cartContent);
+        })
+
+        promise.then((res) => {
+            setLoadingAddToCart(false);
+            closeDialog();
+        });
+
+		
+
 	}
 	//Reset cart and go back 1 step
 	function handleResetCart () {
@@ -388,9 +406,17 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                 <DialogActions>
                     <Grid container justifyContent="center">
                         <Grid item>
-                            <Button variant="contained" className={classes.dialogAddCartButton} color="primary" onClick={handleAddToCart} fullWidth>
+                            <LoadingButton 
+                                variant="contained" 
+                                className={classes.dialogAddCartButton} 
+                                color="primary" 
+                                onClick={handleAddToCart} 
+                                loading={loadingAddToCart} 
+                                loadingIndicator="Ajouter..."
+                                fullWidth
+                                >
                                 Ajouter
-                            </Button>
+                            </LoadingButton>
                         </Grid>
                     </Grid>
                 </DialogActions>

@@ -60,10 +60,13 @@ const styles = theme => ({
 		width: '100%',
 	},
 	dialogContent : {
-		padding: '0',
+		marginTop: theme.spacing(1),
+		marginBottom: theme.spacing(1),
+		padding:0,
 	},
 	dialogTitle : {
-		paddingBottom: '0',
+		paddingTop: 0,
+		paddingBottom: 0,
 		color: '#000000DE'
 	},
 	dialogText : {
@@ -74,7 +77,10 @@ const styles = theme => ({
 		color: '#1976d2',
 	},
 	dialogAddCartButton : {
-		marginRight: theme.spacing(2),
+		paddingTop: theme.spacing(1),
+		paddingBottom: theme.spacing(1),
+		paddingRight: theme.spacing(6),
+		paddingLeft: theme.spacing(6),
 	},
 	closeDialogButton : {
 		position: 'absolute',
@@ -90,7 +96,10 @@ const styles = theme => ({
 		paddingBottom: theme.spacing(8),
 	},
 	orderingDrawerCategoryListTitle: {
-		padding: theme.spacing(1),
+		paddingRight: theme.spacing(1),
+		paddingLeft: theme.spacing(1),
+		paddingTop: theme.spacing(2),
+		paddingBottom: theme.spacing(2),
 	},
 	orderingDrawerBar: {
 		top: 'auto',
