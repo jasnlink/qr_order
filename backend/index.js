@@ -440,16 +440,30 @@ app.post('/api/unoccupy/table', (req, res) => {
             return;
         }
         console.log('Unoccupying table...', result.affectedRows);
-        //fetch updated table list
-        let query = "SELECT * FROM table_list ORDER BY table_number";
-        connection.query(query, (err, result) => {
+
+        //move orders to next status
+        const query = "UPDATE placed_order SET status='1' WHERE table_id=?;";
+        connection.query(query, [selTableID], (err, result) => {
             if(err) {
                 res.status(400).send(err);
                 return;
             }
-            console.log('Fetching updated tables...');
-            res.send(result);
+            console.log('Update order status');
+
+
+            //fetch updated table list
+            let query = "SELECT * FROM table_list ORDER BY table_number";
+            connection.query(query, (err, result) => {
+                if(err) {
+                    res.status(400).send(err);
+                    return;
+                }
+                console.log('Fetching updated tables...');
+                res.send(result);
+            });
+
         });
+        
     });
 });
 
@@ -458,24 +472,37 @@ app.post('/api/unoccupy/table', (req, res) => {
 app.post('/api/delete/table', (req, res) => {
 
     const selTableID = req.body.selTableID;
-    const query = "DELETE FROM table_list WHERE table_id=?";
+
+    //move orders to next status
+    const query = "UPDATE placed_order SET status='1' WHERE table_id=? AND status='0';";
     connection.query(query, [selTableID], (err, result) => {
         if(err) {
             res.status(400).send(err);
             return;
         }
-        console.log('Deleting table...', result.affectedRows);
-        //fetch updated table list
-        let query = "SELECT * FROM table_list ORDER BY table_number";
-        connection.query(query, (err, result) => {
+        console.log('Update order status');
+
+        const query = "DELETE FROM table_list WHERE table_id=?";
+        connection.query(query, [selTableID], (err, result) => {
             if(err) {
                 res.status(400).send(err);
                 return;
             }
-            console.log('Fetching updated tables...');
-            res.send(result);
+            console.log('Deleting table...', result.affectedRows);
+            //fetch updated table list
+            let query = "SELECT * FROM table_list ORDER BY table_number";
+            connection.query(query, (err, result) => {
+                if(err) {
+                    res.status(400).send(err);
+                    return;
+                }
+                console.log('Fetching updated tables...');
+                res.send(result);
+            });
         });
+
     });
+
 });
 
 
@@ -1300,7 +1327,7 @@ app.post('/api/fetch/orders', (req, res) => {
 
     const curTableID = req.body.curTableID;
 
-    let query = 'SELECT t.placed_order_id, t.table_id, TIME_FORMAT(t.time_placed, "%H:%i") AS time_placed FROM placed_order AS t WHERE table_id=?';
+    let query = 'SELECT t.placed_order_id, t.table_id, TIME_FORMAT(t.time_placed, "%H:%i") AS time_placed FROM placed_order AS t WHERE table_id=? AND status="0"';
     connection.query(query, [curTableID], (err, result) => {
         if(err) {
             res.status(400).send(err);
