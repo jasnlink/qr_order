@@ -79,7 +79,11 @@ const styles = theme => ({
 
 	//Category selection drawer
 	orderingDrawerCategoryList: {
+		paddingTop: 0,
 		paddingBottom: theme.spacing(8),
+	},
+	orderingDrawerCategoryListTitle: {
+		padding: theme.spacing(1),
 	},
 	orderingDrawerBar: {
 		top: 'auto',

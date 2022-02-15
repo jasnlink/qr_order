@@ -19,6 +19,7 @@ import { 	Typography,
  			List,
  			ListItem,
  			ListItemText,
+            ListSubheader,
  			Dialog,
  			DialogTitle,
  			DialogContent,
@@ -73,6 +74,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
 		.then((response) => {
 			setCategoryList(response.data);
 			setSelectedCat(response.data[0].category_id);
+            setSelectedCatName(response.data[0].category_name);
 			setIsCategoryListLoading(false);
 		})
 		.catch((e) => {
@@ -96,6 +98,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
 	const [selectedQuantity, setSelectedQuantity] = React.useState(1);
 	//Currently selected category state variable
 	const [selectedCat, setSelectedCat] = React.useState(1);
+    const [selectedCatName, setSelectedCatName] = React.useState('');
 
 	//Toggle drawer open/close state
 	const toggleDrawer = () => {
@@ -150,8 +153,9 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
 		handleStep(curStep-1);
 	}
 
-	const handleSelectCategory = (event, nodeIds) => {
+	const handleSelectCategory = (event, nodeIds, nodeName) => {
 		setSelectedCat(nodeIds);
+        setSelectedCatName(nodeName);
 		toggleDrawer();
 	};
 
@@ -193,7 +197,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                     </Grid>
                     <Grid item>
                         <Typography variant="h6">
-                            Menu
+                            {selectedCatName}
                         </Typography>
                     </Grid>
                     <Grid item>
@@ -271,12 +275,13 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
         </Fab>
         <Drawer classes={{ paper: classes.paper, }} anchor="bottom" open={drawerOpen} onClose={toggleDrawer}>
             <List className={classes.orderingDrawerCategoryList}>
-                <ListItem>
-                    <Typography variant="h6">
+                <ListSubheader sx={{ padding: 0 }}>
+                    <Typography variant="h5" className={classes.orderingDrawerCategoryListTitle}>
                         Catégories
                     </Typography>
-                </ListItem>
-                <Divider />
+                    <Divider />
+                </ListSubheader>
+                
                 {isCategoryListLoading && (
 
                     <Typography>loading...</Typography>
@@ -289,7 +294,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                         <ListItem 
                             button 
                             key={index} 
-                            onClick={(event) => handleSelectCategory(event, category.category_id)} 
+                            onClick={(event) => handleSelectCategory(event, category.category_id, category.category_name)} 
                             selected={selectedCat === category.category_id}
                         >
                             <ListItemText primary={category.category_name} className={classes.PrimaryText} />
