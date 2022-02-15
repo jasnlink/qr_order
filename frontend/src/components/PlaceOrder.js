@@ -22,6 +22,8 @@ import { 	Avatar,
  			Dialog,
  			DialogContent   } from '@mui/material';
 
+import LoadingButton from '@mui/lab/LoadingButton';
+
 import Image from 'material-ui-image';
 import { palette } from '@mui/system';
 
@@ -42,15 +44,6 @@ import styles from '../styles';
 function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }) {
 
 
-	//Menu open and close handling
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const open = Boolean(anchorEl);
-  	const handleMenu = (event) => {
-    	setAnchorEl(event.currentTarget);
-  	};
-  	const handleClose = () => {
-    	setAnchorEl(null);
-  	};
 
 	//Place order success dialog open/close state
 	let [placeOpen, setPlaceOpen] = React.useState(false);
@@ -66,7 +59,11 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
 	}
 
 	let [orderNumber, setOrderNumber] = React.useState(null);
+    let [loadingPlaceOrder, setLoadingPlaceOrder] = React.useState(false);
+
 	function handlePlaceOrder() {	
+
+        setLoadingPlaceOrder(true);
 
 		Axios.post("http://192.46.223.124/api/place/order", {
 			curTableID: curTableID,
@@ -84,7 +81,13 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
 
 	function OrderTime() {
 		let d = new Date();
-		let time = d.getHours() + ':' + d.getMinutes();
+        var time;
+        if(d.getMinutes() < 10) {
+            time = d.getHours() + ':0' + d.getMinutes();
+        }
+        else {
+            time = d.getHours() + ':' + d.getMinutes();
+        }
 		return (
 
 			<Typography variant="h5" color="textPrimary">
@@ -144,51 +147,18 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
                         justifyContent="space-between"
                         alignItems="center"
                         container
-                    
-                        
-                        
                     >
-                    <Grid item>
-                        <IconButton onClick={() => handleStep(curStep-1)} color="inherit" size="large">
-                            <ArrowBackIosSharpIcon />
-                        </IconButton>
+                        <Grid item xs={5}>
+                            <IconButton onClick={() => handleStep(curStep-1)} color="inherit" size="large">
+                                <ArrowBackIosSharpIcon />
+                            </IconButton>
+                        </Grid>
+                        <Grid item xs={7}>
+                            <Typography variant="h6">
+                                Panier
+                            </Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <Typography variant="h6">
-                            Panier
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                          <IconButton
-                              aria-label="change current language"
-                              aria-controls="menu-appbar"
-                              aria-haspopup="true"
-                              onClick={handleMenu}
-                              color="inherit"
-                              edge="end"
-                              size="large">
-                            <TranslateSharpIcon />
-                          </IconButton>
-                          <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                              vertical: 'top',
-                              horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                              vertical: 'top',
-                              horizontal: 'right',
-                            }}
-                            open={open}
-                            onClose={handleClose}
-                          >
-                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>English</MenuItem>
-                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>Français</MenuItem>
-                          </Menu>
-                          </Grid>
-                      </Grid>
                 </Toolbar>
             </AppBar>
         <Container className={classes.cartCardGrid} maxWidth="md">
@@ -237,35 +207,38 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
         <AppBar color="default" className={classes.cartNav} position="fixed">
             <Toolbar>
             <Grid container justifyContent="center">
-                <Button className={classes.cartButton} disabled={cartContent.length === 0} onClick={() => handlePlaceOrder()} variant="contained" color="primary" >
+                <LoadingButton 
+                    className={classes.cartButton} 
+                    disabled={cartContent.length === 0} onClick={() => handlePlaceOrder()} 
+                    variant="contained" 
+                    color="primary"
+                    loading={loadingPlaceOrder} 
+                    loadingIndicator="En cours..."
+                    fullWidth
+                    >
                     Passer la commande
-                </Button>
+                </LoadingButton>
             </Grid>
             </Toolbar>
         </AppBar>
 
 
-        <Dialog open={placeOpen} onClose={closePlaceDialog} maxWidth="sm">
+        <Dialog open={placeOpen} maxWidth="sm" fullWidth>
         <DialogContent className={classes.cartDialog}>
-            <Grid container direction="column" justifyContent="center" alignItems="center" spacing={2}>
+            <Grid container direction="column" justifyContent="center" alignItems="center" spacing={1}>
                 <Grid item className={classes.cartDialogIcon}>
-                    <CheckCircleSharpIcon style={{fontSize: '84px', color: 'green'}} />
+                    <CheckCircleSharpIcon style={{fontSize: '128px', color: 'green'}} />
                 </Grid>
                 <Grid item>
-                    <Typography variant="h6" color="textPrimary">
-                        #{orderNumber}
-                    </Typography>
-                </Grid>
-                <Grid item>
-                    <Typography variant="h4" color="textPrimary">
+                    <Typography variant="h3" color="textPrimary">
                         Envoyé
                     </Typography>
                 </Grid>
                 <Grid item>
                     <OrderTime />
                 </Grid>
-                <Grid item>
-                    <Button onClick={closePlaceDialog} variant="contained" color="primary" className={classes.cartDialogButton}>
+                <Grid item xs={12}>
+                    <Button onClick={closePlaceDialog} variant="contained" color="primary" className={classes.cartDialogButton} fullWidth>
                         Suivant
                     </Button>
                 </Grid>
