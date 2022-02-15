@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 
-import { 	Typography, 
+import { 	Typography,
+            Badge, 
  			Button,
  			Chip, 
  			Card, 
@@ -45,7 +46,7 @@ import TranslateSharpIcon from '@mui/icons-material/TranslateSharp';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
 import HomeIcon from '@mui/icons-material/Home';
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import useClasses from '../classes'
@@ -54,16 +55,6 @@ import styles from '../styles';
 
 function Ordering({ curStep, handleStep, cartContent, handleCart }) {
 
-
-	//Menu open and close handling
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const open = Boolean(anchorEl);
-  	const handleMenu = (event) => {
-    	setAnchorEl(event.currentTarget);
-  	};
-  	const handleClose = () => {
-    	setAnchorEl(null);
-  	};
 
 	//Apply css styles from styles.js
 	const classes = useClasses(styles);
@@ -211,47 +202,28 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                         alignItems="center"
                         container
                     >
-                    <Grid item>
-                        <IconButton onClick={() => handleResetCart()} color="inherit" size="large">
-                            <HomeIcon />
-                        </IconButton>
+                        <Grid item>
+                            <IconButton onClick={() => handleResetCart()} color="inherit" size="large">
+                                <HomeIcon />
+                            </IconButton>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6">
+                                {selectedCatName}
+                            </Typography>
+                        </Grid>
+                        <Grid item>
+                              <IconButton
+                                  onClick={() => handleStep(curStep+1)} 
+                                  color="inherit"
+                                  edge="end"
+                                  size="small">
+                                <Badge badgeContent={cartContent.length} color="error" showZero>
+                                    <ShoppingCartIcon />
+                                </Badge>
+                              </IconButton>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <Typography variant="h6">
-                            {selectedCatName}
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                          <IconButton
-                              aria-label="change current language"
-                              aria-controls="menu-appbar"
-                              aria-haspopup="true"
-                              onClick={handleMenu}
-                              color="inherit"
-                              edge="end"
-                              size="large">
-                            <TranslateSharpIcon />
-                          </IconButton>
-                          <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                              vertical: 'top',
-                              horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                              vertical: 'top',
-                              horizontal: 'right',
-                            }}
-                            open={open}
-                            onClose={handleClose}
-                          >
-                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>English</MenuItem>
-                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>Français</MenuItem>
-                          </Menu>
-                          </Grid>
-                      </Grid>
                 </Toolbar>
             </AppBar>
         <Container className={classes.menuCardGrid} maxWidth="md">
