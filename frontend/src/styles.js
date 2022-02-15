@@ -226,7 +226,7 @@ const styles = theme => ({
 		color: 'white',
 	},
 	adminKeyPadEnterKey : {
-		backgroundColor: '#3f51b5',
+		backgroundColor: '#1976d2',
 	},
 
 	//Admin table orders
