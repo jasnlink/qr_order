@@ -27,11 +27,11 @@ import { 	Typography,
  			Menu,
  			MenuItem,
  			AppBar,
- 			Toolbar   } from '@mui/material';
+ 			Toolbar,
+            CircularProgress,
+            Backdrop   } from '@mui/material';
 
 
-import TranslateSharpIcon from '@mui/icons-material/TranslateSharp';
-import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
 
 import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
@@ -40,16 +40,6 @@ import styles from '../styles';
 
 
 function OrderHistory({ curStep, handleStep, handleOrder, curTableID, curOrderTime, handleOrderTime }) {
-
-	//Menu open and close handling
-	const [anchorEl, setAnchorEl] = React.useState(null);
-	const open = Boolean(anchorEl);
-  	const handleMenu = (event) => {
-    	setAnchorEl(event.currentTarget);
-  	};
-  	const handleClose = () => {
-    	setAnchorEl(null);
-  	};
 
   	let [orderList, setOrderList] = React.useState();
 	let [isOrderListLoading, setIsOrderListLoading] = React.useState(true);
@@ -92,46 +82,16 @@ function OrderHistory({ curStep, handleStep, handleOrder, curTableID, curOrderTi
                         alignItems="center"
                         container
                     >
-                        <Grid item>
+                        <Grid item xs={4}>
                             <IconButton onClick={() => handleStep(1)} color="inherit" size="large">
                                 <ArrowBackIosSharpIcon />
                             </IconButton>
                         </Grid>
-                        <Grid item>
+                        <Grid item xs={8}>
                             <Typography variant="h6">
                                 Vos commandes
                             </Typography>
                         </Grid>
-                        <Grid item>
-                          <IconButton
-                              aria-label="change current language"
-                              aria-controls="menu-appbar"
-                              aria-haspopup="true"
-                              onClick={handleMenu}
-                              color="inherit"
-                              edge="end"
-                              size="large">
-                            <TranslateSharpIcon />
-                          </IconButton>
-                          <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                              vertical: 'top',
-                              horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                              vertical: 'top',
-                              horizontal: 'right',
-                            }}
-                            open={open}
-                            onClose={handleClose}
-                          >
-                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>English</MenuItem>
-                            <MenuItem className={classes.PrimaryText} onClick={handleClose}>Français</MenuItem>
-                          </Menu>
-                          </Grid>
                       </Grid>
                 </Toolbar>
             </AppBar>
@@ -139,7 +99,9 @@ function OrderHistory({ curStep, handleStep, handleOrder, curTableID, curOrderTi
                 <Grid container direction="column" spacing={2}>
                 {isOrderListLoading && (
 
-                            <Typography>loading...</Typography>
+                    <Backdrop open={true} sx={{ color: '#fff' }}>
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
 
                 )}
                 {!isOrderListLoading && [ orderList.length === 0 && (

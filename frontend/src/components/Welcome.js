@@ -150,7 +150,7 @@ function Welcome({ curStep, handleStep, curTableID, handleTableID, curTableNumbe
                                         </Grid>
                                         <Grid item>
                                             <Button variant="outlined" color="primary" onClick={() => handleStep(11)}>
-                                                Voir l'historique
+                                                Historique de commande
                                             </Button>
                                         </Grid>
                                     </Grid>
