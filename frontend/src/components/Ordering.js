@@ -3,6 +3,7 @@ import Axios from 'axios';
 
 import { 	Typography, 
  			Button,
+            LoadingButton,
  			Chip, 
  			Card, 
  			CardActions, 
@@ -28,12 +29,14 @@ import { 	Typography,
  			Menu,
  			MenuItem,
  			AppBar,
- 			Toolbar   } from '@mui/material';
+ 			Toolbar,
+            CircularProgress,
+            Backdrop    } from '@mui/material';
 
 import Image from 'material-ui-image';
 
 import AddIcon from '@mui/icons-material/Add';
-import CloseSharpIcon from '@mui/icons-material/CloseSharp';
+import CloseIcon from '@mui/icons-material/Close';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircleSharp';
 import AddCircleIcon from '@mui/icons-material/AddCircleSharp';
 import TranslateSharpIcon from '@mui/icons-material/TranslateSharp';
@@ -238,7 +241,9 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
             <Grid container spacing={0} alignItems="stretch">
             {isItemListLoading && (
 
-                <Typography>loading...</Typography>
+                <Backdrop open={true} sx={{ color: '#fff' }}>
+                    <CircularProgress color="inherit" />
+                </Backdrop>
 
             )}
             {!isItemListLoading && (
@@ -284,7 +289,9 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                 
                 {isCategoryListLoading && (
 
-                    <Typography>loading...</Typography>
+                    <Backdrop open={true} sx={{ color: '#fff' }}>
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
 
                 )}
                 {!isCategoryListLoading && (
@@ -322,7 +329,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                         </Grid>
                         <Grid item>
                             <IconButton onClick={toggleDrawer} size="large">
-                                <CloseSharpIcon />
+                                <CloseIcon />
                             </IconButton>
                         </Grid>
                     </Grid>
@@ -332,6 +339,9 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
         <style jsx global>{`.MuiDialogContent-root{padding:0 !important;}`}
         </style>
         <Dialog className={classes.dialogBox} open={dialogOpen} onClose={closeDialog} maxWidth="xs" fullWidth>
+            <IconButton className={classes.closeDialogButton} onClick={closeDialog}>
+                <CloseIcon />
+            </IconButton>
             <Image 
                 className={classes.dialogMedia}
                 src={selectedImg}
@@ -378,12 +388,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                 <DialogActions>
                     <Grid container justifyContent="center">
                         <Grid item>
-                            <Button className={classes.dialogButton} variant="outlined" color="primary" onClick={closeDialog}>
-                                Annuler
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Button variant="contained" color="primary" onClick={handleAddToCart}>
+                            <Button variant="contained" className={classes.dialogAddCartButton} color="primary" onClick={handleAddToCart} fullWidth>
                                 Ajouter
                             </Button>
                         </Grid>

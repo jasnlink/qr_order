@@ -73,8 +73,15 @@ const styles = theme => ({
 	dialogAdjust : {
 		color: '#1976d2',
 	},
-	dialogButton : {
+	dialogAddCartButton : {
 		marginRight: theme.spacing(2),
+	},
+	closeDialogButton : {
+		position: 'absolute',
+		top: theme.spacing(1),
+		right: theme.spacing(1),
+		zIndex: 10,
+		backgroundColor: '#f5f5f591',
 	},
 
 	//Category selection drawer
