@@ -18,16 +18,15 @@ const styles = theme => ({
 	},
 
 	//Preface card style
-	prefaceDialogBoxHidden : {
+	prefaceCameraContentHidden : {
+		width: '100%',
+		padding: 0,
 		display: 'none',
 	},
-	prefaceDialogBox : {
+	prefaceCameraContent : {
+		width: '100%',
 		padding: 0,
 		display: 'flex',
-		justifyContent: 'center',
-	},
-	prefaceDialogContent : {
-		width: '100%',
 	},
 
 	//Welcome card style

@@ -19,6 +19,9 @@ import { 	Typography,
  			Menu,
  			Dialog   } from '@mui/material';
 
+import LoadingButton from '@mui/lab/LoadingButton';
+
+
 import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import useClasses from '../classes'
 import styles from '../styles';
@@ -53,23 +56,15 @@ function Preface({ step, setStep }) {
   	};
 
 
-    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const [scanOpen, setScanOpen] = React.useState(false);
 
     function handleScan() {
 
+        setScanOpen(true);
         const videoElem = document.getElementById('camera-video');
         const scanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
 
-        if(dialogOpen === false) {
-            setDialogOpen(true);
-            scanner.start();
-        } else if(dialogOpen === true) {
-            scanner.stop();
-            scanner.destroy();
-            setDialogOpen(false);
-        }
-        console.log(dialogOpen);
-        
+        scanner.start(); 
     }
 
 
@@ -141,21 +136,18 @@ function Preface({ step, setStep }) {
                                         <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
                                             Scannez le code QR pour commander.
                                         </Typography>
-                                        
                                     </ThemeProvider>
                                 </StyledEngineProvider>
+                                <CardMedia component="video" className={scanOpen ? classes.prefaceCameraContent : classes.prefaceCameraContentHidden} id="camera-video" />
                             </CardContent>
                             <CardActions>
-                                    <Button variant="contained" onClick={() => handleScan()} fullWidth>
+                                    <LoadingButton loading={scanOpen} loadingIndicator="..." variant="contained" onClick={() => handleScan()} fullWidth>
                                         Scanner avec la caméra
-                                    </Button>
+                                    </LoadingButton>
                             </CardActions>
                     </Card>
                     </Container>
                 </div>
-                <Dialog className={dialogOpen ? classes.prefaceDialogBox : classes.prefaceDialogBoxHidden} open={true} onClose={handleScan} maxWidth="xs" fullWidth sx={{ display: 'none', }}>
-                    <CardMedia component="video" className={classes.prefaceDialogContent} id="camera-video" />
-                </Dialog>
             </main>
         </>;
 }
