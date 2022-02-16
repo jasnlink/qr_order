@@ -16,6 +16,15 @@ const styles = theme => ({
 	PrimaryText : {
 		color: '#000000DE'
 	},
+
+	//Preface card style
+	prefaceDialogBox : {
+		padding: 0,
+	},
+	prefaceDialogContent : {
+		width: '100%',
+	},
+
 	//Welcome card style
 	welcomeCardGrid : {
 		marginTop: theme.spacing(10)

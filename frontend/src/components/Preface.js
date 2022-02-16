@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useParams } from "react-router-dom";
 import QrScanner from 'qr-scanner';
 
@@ -52,11 +52,24 @@ function Preface({ step, setStep }) {
     	setAnchorEl(null);
   	};
 
+
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+
     function handleScan() {
 
         const videoElem = document.getElementById('camera-video');
         const scanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
-        scanner.start();
+
+        if(dialogOpen === false) {
+            setDialogOpen(true);
+            scanner.start();
+        } else {
+            scanner.stop();
+            scanner.destroy();
+            setDialogOpen(false);
+        }
+        
+        
     }
 
 
@@ -122,30 +135,28 @@ function Preface({ step, setStep }) {
                                         <Typography variant="h3" align="center" color="textPrimary" gutterBottom>
                                             Mitsuki DIX30
                                         </Typography>
-                                        <Typography variant="h5" align="center" color="textSecondary">
+                                        <Typography variant="h5" align="center" color="textSecondary" gutterBottom>
                                             Menu à volonté
                                         </Typography>
-                                        <Typography variant="h3" align="center" color="textPrimary" gutterBottom>
-                                            Scannez le code QR!
-                                        </Typography>
                                         <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
-                                            Vous n'avez pas de table assignée.
+                                            Scannez le code QR pour commander.
                                         </Typography>
-                                        <CardMedia component="video" className={classes.qrmedia} id="camera-video" />
+                                        
                                     </ThemeProvider>
                                 </StyledEngineProvider>
+                                <CardMedia component="video" className={classes.prefaceDialogContent} id="camera-video" />
                             </CardContent>
                             <CardActions>
-                                    <Button onClick={() => handleScan()}>
+                                    <Button variant="contained" onClick={() => handleScan()} fullWidth>
                                         Scanner avec la caméra
                                     </Button>
                             </CardActions>
                     </Card>
                     </Container>
                 </div>
-                <Dialog maxWidth="xs" fullWidth>
+                <Dialog className={classes.prefaceDialogBox} open={dialogOpen} onClose={handleScan} maxWidth="xs" fullWidth>
+                    <CardMedia component="video" className={classes.prefaceDialogContent} id="camera-video" />
                 </Dialog>
-                
             </main>
         </>;
 }
