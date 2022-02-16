@@ -68,7 +68,7 @@ function Preface({ step, setStep }) {
             scanner.destroy();
             setDialogOpen(false);
         }
-        
+        console.log(dialogOpen);
         
     }
 
