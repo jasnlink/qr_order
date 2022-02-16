@@ -30,6 +30,7 @@ import styles from '../styles';
 import TranslateSharpIcon from '@mui/icons-material/TranslateSharp';
 import MenuIcon from '@mui/icons-material/Menu';
 import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
 import useStyles from '../styles';
 
@@ -62,7 +63,7 @@ function Preface({ step, setStep }) {
 
         setScanOpen(true);
         const videoElem = document.getElementById('camera-video');
-        const scanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
+        const scanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result), { highlightScanRegion: true, highlightCodeOutline: true, });
 
         scanner.start(); 
     }
@@ -138,10 +139,12 @@ function Preface({ step, setStep }) {
                                         </Typography>
                                     </ThemeProvider>
                                 </StyledEngineProvider>
-                                <CardMedia component="video" className={scanOpen ? classes.prefaceCameraContent : classes.prefaceCameraContentHidden} id="camera-video" />
+                                <div id="video-container">
+                                    <CardMedia component="video" className={scanOpen ? classes.prefaceCameraContent : classes.prefaceCameraContentHidden} id="camera-video" />
+                                </div>
                             </CardContent>
                             <CardActions>
-                                    <LoadingButton loading={scanOpen} loadingIndicator="..." variant="contained" onClick={() => handleScan()} fullWidth>
+                                    <LoadingButton loading={scanOpen} loadingIndicator="..." variant="contained" onClick={() => handleScan()} endIcon={<PhotoCameraIcon />} fullWidth>
                                         Scanner avec la caméra
                                     </LoadingButton>
                             </CardActions>
