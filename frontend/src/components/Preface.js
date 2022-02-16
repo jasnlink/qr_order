@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, useParams } from "react-router-dom";
+import QrScanner from 'qr-scanner';
 
 
 import { 	Typography, 
@@ -30,7 +31,7 @@ import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
 import useStyles from '../styles';
 
 
-function Welcome({ step, setStep, curTableID, curTableNumber, cart, setCart }) {
+function Preface({ step, setStep }) {
 
 	//Apply css styles from styles.js
 	const classes = useClasses(styles);
@@ -50,6 +51,13 @@ function Welcome({ step, setStep, curTableID, curTableNumber, cart, setCart }) {
   	const handleClose = () => {
     	setAnchorEl(null);
   	};
+
+    function handleScan() {
+
+        const videoElem = document.getElementById('camera-video');
+        const scan = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
+    }
+
 
 	return <>
             <CssBaseline />
@@ -116,25 +124,20 @@ function Welcome({ step, setStep, curTableID, curTableNumber, cart, setCart }) {
                                         <Typography variant="h5" align="center" color="textSecondary">
                                             Menu à volonté
                                         </Typography>
-                                        <Typography variant="h6" align="center" color="textPrimary">
-                                            Table {curTableNumber}
+                                        <Typography variant="h3" align="center" color="textPrimary" gutterBottom>
+                                            Scannez le code QR!
                                         </Typography>
+                                        <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
+                                            Vous n'avez pas de table assignée.
+                                        </Typography>
+                                        <video id="camera-video"></video>
                                     </ThemeProvider>
                                 </StyledEngineProvider>
                             </CardContent>
                             <CardActions>
-                                    <Grid container spacing={2} justifyContent="center" alignItems="center">
-                                        <Grid item>
-                                            <Button variant="contained" color="primary" onClick={() => setStep(step+1)}>
-                                                Placer une commande
-                                            </Button>
-                                        </Grid>
-                                        <Grid item>
-                                            <Button variant="outlined" color="primary" onClick={() => setStep(11)}>
-                                                Historique de commande
-                                            </Button>
-                                        </Grid>
-                                    </Grid>
+                                    <Button onClick={() => handleScan()}>
+                                        Scanner avec la caméra
+                                    </Button>
                             </CardActions>
                     </Card>
                     </Container>
@@ -146,4 +149,4 @@ function Welcome({ step, setStep, curTableID, curTableNumber, cart, setCart }) {
         </>;
 }
 
-export default Welcome;
+export default Preface;

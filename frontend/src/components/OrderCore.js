@@ -3,7 +3,7 @@ import Axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, useParams } from "react-router-dom";
 
 
-
+import Preface from './Preface';
 import Welcome from './Welcome';
 import Ordering from './Ordering';
 import PlaceOrder from './PlaceOrder';
@@ -52,6 +52,21 @@ function OrderCore() {
 
 	const classes = useClasses(styles);
 
+	function SetTable() {
+
+  		const params = useParams();
+		setCurTableID(params.id);
+  		setCurTableNumber(params.num);
+  		return (<Welcome 
+					step={step} 
+					setStep={step => setStep(step)}
+					curTableID={curTableID}
+					curTableNumber={curTableNumber}
+					cart={cart} 
+					setCart={cart => setCart(cart)} 
+				/>);
+
+  	}
 
 	switch(step) {
 			case 1:
@@ -60,19 +75,14 @@ function OrderCore() {
 						<Router>
 							<Switch>
 								<Route exact path="/admin" render={() => setStep(1000)} />
+								<Route exact path="/table/:id/:num">
+									<SetTable />
+								</Route>
+								<Route path="/*">
+									<Preface />
+								</Route>
 							</Switch>
 						</Router>
-
-						<Welcome 
-							step={step} 
-							setStep={step => setStep(step)}
-							curTableID={curTableID}
-							setCurTableID={table => setCurTableID(table)}
-							curTableNumber={curTableNumber}
-							setCurTableNumber={num => setCurTableNumber(num)}
-							cart={cart} 
-							setCart={cart => setCart(cart)} 
-						/>
 					</div>
 					)
 			case 2:
