@@ -131,7 +131,7 @@ function Preface({ step, setStep }) {
                                         <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
                                             Vous n'avez pas de table assignée.
                                         </Typography>
-                                        <video id="camera-video"></video>
+                                        <CardMedia component="video" className={classes.qrmedia} id="camera-video" />
                                     </ThemeProvider>
                                 </StyledEngineProvider>
                             </CardContent>
