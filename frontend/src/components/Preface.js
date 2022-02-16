@@ -144,7 +144,6 @@ function Preface({ step, setStep }) {
                                         
                                     </ThemeProvider>
                                 </StyledEngineProvider>
-                                <CardMedia component="video" className={classes.prefaceDialogContent} id="camera-video" />
                             </CardContent>
                             <CardActions>
                                     <Button variant="contained" onClick={() => handleScan()} fullWidth>
@@ -154,7 +153,7 @@ function Preface({ step, setStep }) {
                     </Card>
                     </Container>
                 </div>
-                <Dialog className={classes.prefaceDialogBox} open={dialogOpen} onClose={handleScan} maxWidth="xs" fullWidth>
+                <Dialog className={dialogOpen ? classes.prefaceDialogBox : classes.prefaceDialogBoxHidden} open={true} onClose={handleScan} maxWidth="xs" fullWidth sx={{ display: 'none', }}>
                     <CardMedia component="video" className={classes.prefaceDialogContent} id="camera-video" />
                 </Dialog>
             </main>

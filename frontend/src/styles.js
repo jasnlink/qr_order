@@ -18,8 +18,13 @@ const styles = theme => ({
 	},
 
 	//Preface card style
+	prefaceDialogBoxHidden : {
+		display: 'none',
+	},
 	prefaceDialogBox : {
 		padding: 0,
+		display: 'flex',
+		justifyContent: 'center',
 	},
 	prefaceDialogContent : {
 		width: '100%',
