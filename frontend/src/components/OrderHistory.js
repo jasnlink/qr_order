@@ -39,7 +39,7 @@ import useClasses from '../classes'
 import styles from '../styles';
 
 
-function OrderHistory({ curStep, handleStep, handleOrder, curTableID, curOrderTime, handleOrderTime }) {
+function OrderHistory({ step, setStep, setCurOrderID, curTableID, curOrderTime, setCurOrderTime }) {
 
   	let [orderList, setOrderList] = React.useState();
 	let [isOrderListLoading, setIsOrderListLoading] = React.useState(true);
@@ -59,9 +59,9 @@ function OrderHistory({ curStep, handleStep, handleOrder, curTableID, curOrderTi
 
   	//Get selected order that we want to look at and go to OrderDetail page
   	function handleViewOrder(event, curOrder, curTime) {
-  		handleOrder(curOrder);
-  		handleStep(curStep+1);
-  		handleOrderTime(curTime);
+  		setCurOrderID(curOrder);
+  		setStep(step+1);
+  		setCurOrderTime(curTime);
   	}
 
 	//Apply css styles from styles.js
@@ -83,7 +83,7 @@ function OrderHistory({ curStep, handleStep, handleOrder, curTableID, curOrderTi
                         container
                     >
                         <Grid item xs={4}>
-                            <IconButton onClick={() => handleStep(1)} color="inherit" size="large">
+                            <IconButton onClick={() => setStep(1)} color="inherit" size="large">
                                 <ArrowBackIosSharpIcon />
                             </IconButton>
                         </Grid>

@@ -51,7 +51,7 @@ import useClasses from '../../classes'
 import styles from '../../styles';
 
 
-function AdminTimeManager({ curStep, handleStep }) {
+function AdminTimeManager({ step, setStep }) {
 
 
 	//Apply css styles from styles.js
@@ -129,7 +129,6 @@ function AdminTimeManager({ curStep, handleStep }) {
 			})
 		.then((response) => {
 			setCategoriesData(response.data);
-			console.log(categoriesData);
 		})
 		.catch((e) => {
        		console.log("error ", e)});
@@ -160,7 +159,6 @@ function AdminTimeManager({ curStep, handleStep }) {
 			.then((response) => {
 				setCategoryList(response.data);
 				setIsCategoryListLoading(false);
-				console.log("fetched");
 			})
 			.catch((e) => {
 	       		console.log("error ", e)});
@@ -460,7 +458,7 @@ function AdminTimeManager({ curStep, handleStep }) {
                                         <ListItemText primary="Remove Time Group"/>
                                     </ListItem>
                                     <Divider />
-                                    <ListItem button onClick={() => handleStep(1000)}>
+                                    <ListItem button onClick={() => setStep(1000)}>
                                         <ListItemText primary="Go Back"/>
                                     </ListItem>
                                     </>

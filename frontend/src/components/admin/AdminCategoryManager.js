@@ -47,7 +47,7 @@ import useClasses from '../../classes'
 import styles from '../../styles';
 
 
-function AdminCategoryManager({ curStep, handleStep }) {
+function AdminCategoryManager({ step, setStep }) {
 
 
 	//Apply css styles from styles.js
@@ -226,7 +226,6 @@ function AdminCategoryManager({ curStep, handleStep }) {
 			nextRowOrderID: nextRowOrderID,
 		})
 		.then((response) => {
-			console.log("moved");
 			//update category list with new data
 			setCategoryList(response.data);
 
@@ -438,7 +437,7 @@ function AdminCategoryManager({ curStep, handleStep }) {
                                         <ListItemText primary="Remove Category" />
                                     </ListItem>
                                     <Divider />
-                                    <ListItem button onClick={() => handleStep(1000)}>
+                                    <ListItem button onClick={() => setStep(1000)}>
                                         <ListItemText primary="Go Back"/>
                                     </ListItem>
                                     </>

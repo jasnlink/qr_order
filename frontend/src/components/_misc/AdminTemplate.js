@@ -41,7 +41,7 @@ import { createTheme, responsiveFontSizes, ThemeProvider, StyledEngineProvider }
 import useStyles from '../../styles';
 
 
-function AdminAddTable({ curStep, handleStep }) {
+function AdminAddTable({ step, setStep }) {
 
 
 		//Apply css styles from styles.js

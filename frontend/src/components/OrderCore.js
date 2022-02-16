@@ -17,8 +17,6 @@ import AdminCategoryManager from './admin/AdminCategoryManager';
 import AdminMenuManager from './admin/AdminMenuManager';
 import AdminTimeManager from './admin/AdminTimeManager';
 
-import KeyPad from './admin/KeyPad';
-
 
 import useClasses from '../classes'
 import styles from '../styles';
@@ -35,7 +33,7 @@ function OrderCore() {
 	let [cart, setCart] = React.useState([]);
 
 	//Currently selected order to view in order history
-	let [curOrder, setCurOrder] = React.useState(null);
+	let [curOrderID, setCurOrderID] = React.useState(null);
 	//Currently selected order time placed
 	let [curOrderTime, setCurOrderTime] = React.useState(null);
 
@@ -62,19 +60,18 @@ function OrderCore() {
 						<Router>
 							<Switch>
 								<Route exact path="/admin" render={() => setStep(1000)} />
-								<Route exact path="/keypad" render={() => setStep(2000)} />
 							</Switch>
 						</Router>
 
 						<Welcome 
-							curStep={step} 
-							handleStep={step => setStep(step)}
+							step={step} 
+							setStep={step => setStep(step)}
 							curTableID={curTableID}
-							handleTableID={table => setCurTableID(table)}
+							setCurTableID={table => setCurTableID(table)}
 							curTableNumber={curTableNumber}
-							handleTableNumber={num => setCurTableNumber(num)}
-							cartContent={cart} 
-							handleCart={cart => setCart(cart)} 
+							setCurTableNumber={num => setCurTableNumber(num)}
+							cart={cart} 
+							setCart={cart => setCart(cart)} 
 						/>
 					</div>
 					)
@@ -82,10 +79,10 @@ function OrderCore() {
 				return (
 					<div>
 						<Ordering 
-							curStep={step} 
-							handleStep={step => setStep(step)}
-							cartContent={cart} 
-							handleCart={cart => setCart(cart)} 
+							step={step} 
+							setStep={step => setStep(step)}
+							cart={cart} 
+							setCart={cart => setCart(cart)} 
 						/>
 					</div>
 					)
@@ -93,11 +90,11 @@ function OrderCore() {
 				return (
 					<div>
 						<PlaceOrder 
-							curStep={step} 
-							handleStep={step => setStep(step)}
+							step={step} 
+							setStep={step => setStep(step)}
 							curTableID={curTableID}
-							cartContent={cart} 
-							handleCart={cart => setCart(cart)} 
+							cart={cart} 
+							setCart={cart => setCart(cart)} 
 						/>
 					</div>
 					)
@@ -105,12 +102,12 @@ function OrderCore() {
 				return (
 					<div>
 						<OrderHistory 
-							curStep={step} 
-							handleStep={step => setStep(step)}
-							handleOrder={order => setCurOrder(order)}
+							step={step} 
+							setStep={step => setStep(step)}
+							setCurOrderID={order => setCurOrderID(order)}
 							curTableID={curTableID}
 							curOrderTime={curOrderTime}
-							handleOrderTime={time => setCurOrderTime(time)} 
+							setCurOrderTime={time => setCurOrderTime(time)} 
 						/>
 					</div>
 					)
@@ -118,9 +115,9 @@ function OrderCore() {
 				return (
 					<div>
 						<OrderDetail 
-							curStep={step} 
-							handleStep={step => setStep(step)} 
-							selOrder={curOrder}
+							step={step} 
+							setStep={step => setStep(step)} 
+							curOrderID={curOrderID}
 							curOrderTime={curOrderTime}
 						/>
 					</div>
@@ -129,14 +126,14 @@ function OrderCore() {
 				return (
 					<div>
 						<Admin 
-							curStep={step} 
-							handleStep={step => setStep(step)} 
-							selTableID={adminCurTableID}
-							handleTableID={table => setAdminCurTableID(table)}
-							selTableNumber={adminCurTableNumber}
-							handleTableNumber={tableNumber => setAdminCurTableNumber(tableNumber)}
-							selTableOccupied={adminCurTableOccupied}
-							handleTableOccupied={occupied => setAdminCurTableOccupied(occupied)}
+							step={step} 
+							setStep={step => setStep(step)} 
+							adminCurTableID={adminCurTableID}
+							setAdminCurTableID={table => setAdminCurTableID(table)}
+							adminCurTableNumber={adminCurTableNumber}
+							setAdminCurTableNumber={tableNumber => setAdminCurTableNumber(tableNumber)}
+							adminCurTableOccupied={adminCurTableOccupied}
+							setAdminCurTableOccupied={occupied => setAdminCurTableOccupied(occupied)}
 						/>
 					</div>
 					)
@@ -144,15 +141,15 @@ function OrderCore() {
 				return (
 					<div>
 						<AdminViewTableOrders 
-							curStep={step} 
-							handleStep={step => setStep(step)} 
-							selTableID={adminCurTableID}
-							handleTableID={table => setAdminCurTableID(table)}
-							selOrderID={adminCurOrderID}
-							handleOrderID={setAdminCurOrderID}
+							step={step} 
+							setStep={step => setStep(step)} 
+							adminCurTableID={adminCurTableID}
+							setAdminCurTableID={table => setAdminCurTableID(table)}
+							adminCurOrderID={adminCurOrderID}
+							setAdminCurOrderID={setAdminCurOrderID}
 							adminCurTableNumber={adminCurTableNumber}
 							adminCurOrderTime={adminCurOrderTime}
-							handleOrderTime={time => setAdminCurOrderTime(time)}
+							setAdminCurOrderTime={time => setAdminCurOrderTime(time)}
 						/>
 					</div>
 					)
@@ -160,10 +157,10 @@ function OrderCore() {
 				return (
 					<div>
 						<AdminViewOrder 
-							curStep={step} 
-							handleStep={step => setStep(step)} 
-							selTableID={adminCurTableID}
-							selOrderID={adminCurOrderID}
+							step={step} 
+							setStep={step => setStep(step)} 
+							adminCurTableID={adminCurTableID}
+							adminCurOrderID={adminCurOrderID}
 							adminCurOrderTime={adminCurOrderTime}
 						/>
 					</div>
@@ -172,8 +169,8 @@ function OrderCore() {
 				return (
 					<div>
 						<AdminCategoryManager 
-							curStep={step} 
-							handleStep={step => setStep(step)}
+							step={step} 
+							setStep={step => setStep(step)}
 						/>
 					</div>
 					)
@@ -181,8 +178,8 @@ function OrderCore() {
 				return (
 					<div>
 						<AdminMenuManager 
-							curStep={step} 
-							handleStep={step => setStep(step)}
+							step={step} 
+							setStep={step => setStep(step)}
 						/>
 					</div>
 					)
@@ -190,15 +187,9 @@ function OrderCore() {
 				return (
 					<div>
 						<AdminTimeManager 
-							curStep={step} 
-							handleStep={step => setStep(step)}
+							step={step} 
+							setStep={step => setStep(step)}
 						/>
-					</div>
-					)
-			case 2000:
-				return (
-					<div>
-						<KeyPad />
 					</div>
 					)
 		}

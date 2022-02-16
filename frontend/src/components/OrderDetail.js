@@ -45,7 +45,7 @@ import useClasses from '../classes'
 import styles from '../styles';
 
 
-function OrderDetail({ curStep, handleStep, selOrder, curOrderTime }) {
+function OrderDetail({ step, setStep, curOrderID, curOrderTime }) {
 
 	
 	//Apply css styles from styles.js
@@ -60,7 +60,7 @@ function OrderDetail({ curStep, handleStep, selOrder, curOrderTime }) {
 	//fetch in order items
 	useEffect(()=> {
 		Axios.post("http://192.46.223.124/api/fetch/in_order", {
-			selOrder: selOrder,
+			curOrderID: curOrderID,
 		})
 		.then((response) => {
 			setInOrderList(response.data);
@@ -83,13 +83,13 @@ function OrderDetail({ curStep, handleStep, selOrder, curOrderTime }) {
                         container
                     >
                         <Grid item xs={4}>
-                            <IconButton onClick={() => handleStep(curStep-1)} color="inherit" size="large">
+                            <IconButton onClick={() => setStep(step-1)} color="inherit" size="large">
                                 <ArrowBackIosSharpIcon />
                             </IconButton>
                         </Grid>
                         <Grid item xs={8}>
                             <Typography variant="h6">
-                                Commande #{selOrder}
+                                Commande #{curOrderID}
                             </Typography>
                         </Grid>
                       </Grid>

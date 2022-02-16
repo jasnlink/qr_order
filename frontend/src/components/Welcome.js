@@ -30,7 +30,7 @@ import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
 import useStyles from '../styles';
 
 
-function Welcome({ curStep, handleStep, curTableID, handleTableID, curTableNumber, handleTableNumber, cartContent, handleCart }) {
+function Welcome({ step, setStep, curTableID, setCurTableID, curTableNumber, setCurTableNumber, cart, setCart }) {
 
 	//Apply css styles from styles.js
 	const classes = useClasses(styles);
@@ -54,8 +54,8 @@ function Welcome({ curStep, handleStep, curTableID, handleTableID, curTableNumbe
   	function SetTable() {
 
   		const params = useParams();
-  		handleTableID(params.id);
-  		handleTableNumber(params.num);
+  		setCurTableID(params.id);
+  		setCurTableNumber(params.num);
   		return (<></>);
   	}
 
@@ -144,12 +144,12 @@ function Welcome({ curStep, handleStep, curTableID, handleTableID, curTableNumbe
                             <CardActions>
                                     <Grid container spacing={2} justifyContent="center" alignItems="center">
                                         <Grid item>
-                                            <Button variant="contained" color="primary" onClick={() => handleStep(curStep+1)}>
+                                            <Button variant="contained" color="primary" onClick={() => setStep(step+1)}>
                                                 Placer une commande
                                             </Button>
                                         </Grid>
                                         <Grid item>
-                                            <Button variant="outlined" color="primary" onClick={() => handleStep(11)}>
+                                            <Button variant="outlined" color="primary" onClick={() => setStep(11)}>
                                                 Historique de commande
                                             </Button>
                                         </Grid>

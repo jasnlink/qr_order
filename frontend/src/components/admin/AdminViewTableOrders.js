@@ -47,7 +47,7 @@ import useClasses from '../../classes'
 import styles from '../../styles';
 
 
-function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, selOrderID, handleOrderID, adminCurTableNumber, adminCurOrderTime, handleOrderTime }) {
+function AdminViewTableOrders({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurOrderID, setAdminCurOrderID, adminCurTableNumber, adminCurOrderTime, setAdminCurOrderTime }) {
 
 	//Apply css styles from styles.js
 	const classes = useClasses(styles);
@@ -57,14 +57,14 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
 	theme = responsiveFontSizes(theme);
 
 	function handleGoBack() {
-		handleOrderID(null)
+		setAdminCurOrderID(null)
 		return (
-			handleStep(curStep-1)
+			setStep(step-1)
 			)
 	}
 	function handleViewOrder(id, time) {
-		handleOrderID(id);
-		handleOrderTime(time);
+		setAdminCurOrderID(id);
+		setAdminCurOrderTime(time);
 	}
 
 	let [orderList, setOrderList] = React.useState();
@@ -72,7 +72,7 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
 	//fetch orders
 	useEffect(()=> {
 		Axios.post("http://192.46.223.124/api/fetch/orders", {
-			curTableID: selTableID,
+			curTableID: adminCurTableID,
 		})
 		.then((response) => {
 			setOrderList(response.data);
@@ -83,12 +83,12 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
 	}, []);
 
     function handlePrintOrder() {
-        if(selOrderID) {
+        if(adminCurOrderID) {
             Axios.post("http://192.46.223.124/api/print/order", {
-            selOrderID: selOrderID,
+            adminCurOrderID: adminCurOrderID,
         })
         .then((response) => {
-            console.log('success');
+            return;
         })
         .catch((e) => {
             console.log("error ", e)});
@@ -164,7 +164,7 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
                         <Paper elevation={1}>
                             <Container maxWidth={false} className={classes.adminNavigationContainer}>
                                 <List>
-                                {selOrderID === null && (
+                                {adminCurOrderID === null && (
                                     <>
                                     <ListItem>
                                         <Typography variant="h5" color="textPrimary" align="center">
@@ -172,20 +172,20 @@ function AdminViewTableOrders({ curStep, handleStep, selTableID, handleTableID, 
                                         </Typography>
                                     </ListItem>
                                     <Divider />
-                                    <ListItem button onClick={() => handleStep(curStep-1)}>
+                                    <ListItem button onClick={() => setStep(step-1)}>
                                         <ListItemText primary="Go Back" />
                                     </ListItem>
                                     </>
                                 )}
-                                {selOrderID !== null && (
+                                {adminCurOrderID !== null && (
                                     <>
                                     <ListItem>
                                         <Typography variant="h5" color="textPrimary" align="center">
-                                            Order #{selOrderID}
+                                            Order #{adminCurOrderID}
                                         </Typography>
                                     </ListItem>
                                     <Divider />
-                                    <ListItem button onClick={() => handleStep(curStep+1)}>
+                                    <ListItem button onClick={() => setStep(step+1)}>
                                         <ListItemText primary="View Order" />
                                     </ListItem>
                                     <ListItem button>

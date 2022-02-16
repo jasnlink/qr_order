@@ -398,20 +398,20 @@ app.get('/api/fetch/tables', (req, res) => {
 //Seat table
 app.post('/api/occupy/table', (req, res) => {
 
-    const selTableID = req.body.selTableID;
-    const selTableNumber = req.body.selTableNumber;
+    const adminCurTableID = req.body.adminCurTableID;
+    const adminCurTableNumber = req.body.adminCurTableNumber;
     const seatTableAdultCount = req.body.seatTableAdultCount;
     const seatTableChildCount = req.body.seatTableChildCount;
 
     const query = "UPDATE table_list SET occupied='1', adult_count=?, child_count=? WHERE table_id=?;";
-    connection.query(query, [seatTableAdultCount, seatTableChildCount, selTableID], (err, result) => {
+    connection.query(query, [seatTableAdultCount, seatTableChildCount, adminCurTableID], (err, result) => {
         if(err) {
             res.status(400).send(err);
             return;
         }
         console.log('Occupying table...', result.affectedRows);
 
-        io.emit('print_table', {id: selTableID, number: selTableNumber, adults: seatTableAdultCount, children: seatTableChildCount});
+        io.emit('print_table', {id: adminCurTableID, number: adminCurTableNumber, adults: seatTableAdultCount, children: seatTableChildCount});
         console.log('Sending print job...');
 
         //fetch updated table list
@@ -431,10 +431,10 @@ app.post('/api/occupy/table', (req, res) => {
 //Unseat table
 app.post('/api/unoccupy/table', (req, res) => {
 
-    const selTableID = req.body.selTableID;
+    const adminCurTableID = req.body.adminCurTableID;
 
     const query = "UPDATE table_list SET occupied='0', adult_count='null', child_count='null' WHERE table_id=?;";
-    connection.query(query, [selTableID], (err, result) => {
+    connection.query(query, [adminCurTableID], (err, result) => {
         if(err) {
             res.status(400).send(err);
             return;
@@ -443,7 +443,7 @@ app.post('/api/unoccupy/table', (req, res) => {
 
         //move orders to next status
         const query = "UPDATE placed_order SET status='1' WHERE table_id=?;";
-        connection.query(query, [selTableID], (err, result) => {
+        connection.query(query, [adminCurTableID], (err, result) => {
             if(err) {
                 res.status(400).send(err);
                 return;
@@ -471,11 +471,11 @@ app.post('/api/unoccupy/table', (req, res) => {
 //Delete table
 app.post('/api/delete/table', (req, res) => {
 
-    const selTableID = req.body.selTableID;
+    const adminCurTableID = req.body.adminCurTableID;
 
     //move orders to next status
     const query = "UPDATE placed_order SET status='1' WHERE table_id=? AND status='0';";
-    connection.query(query, [selTableID], (err, result) => {
+    connection.query(query, [adminCurTableID], (err, result) => {
         if(err) {
             res.status(400).send(err);
             return;
@@ -483,7 +483,7 @@ app.post('/api/delete/table', (req, res) => {
         console.log('Update order status');
 
         const query = "DELETE FROM table_list WHERE table_id=?";
-        connection.query(query, [selTableID], (err, result) => {
+        connection.query(query, [adminCurTableID], (err, result) => {
             if(err) {
                 res.status(400).send(err);
                 return;
@@ -509,10 +509,10 @@ app.post('/api/delete/table', (req, res) => {
 //find table when input from kaypad
 app.post('/api/find/table', (req, res) => {
 
-    const selTableNumber = req.body.selTableNumber;
+    const adminCurTableNumber = req.body.adminCurTableNumber;
 
     let query = "SELECT * FROM table_list WHERE table_number=?";
-    connection.query(query, [selTableNumber], (err, result) => {
+    connection.query(query, [adminCurTableNumber], (err, result) => {
         if(err) {
             res.status(400).send(err);
             return;
@@ -529,11 +529,11 @@ app.post('/api/add/table', (req, res) => {
 
     console.log('Table not found...');
 
-    const selTableNumber = req.body.selTableNumber;
+    const adminCurTableNumber = req.body.adminCurTableNumber;
 
     //insert new row
     const query = "INSERT INTO table_list (table_number) VALUES (?);";
-    connection.query(query, [selTableNumber], (err, result) => {
+    connection.query(query, [adminCurTableNumber], (err, result) => {
         if(err) {
             res.status(400).send(err);
             return;
@@ -551,12 +551,12 @@ app.post('/api/print/table', (req, res) => {
 
     console.log('Printing table QR code...');
 
-    const selTableID = req.body.selTableID;
-    const selTableNumber = req.body.selTableNumber;
+    const adminCurTableID = req.body.adminCurTableID;
+    const adminCurTableNumber = req.body.adminCurTableNumber;
     const selTableAdultCount = req.body.selTableAdultCount;
     const selTableChildCount = req.body.selTableChildCount;
 
-    io.emit('print_table', {id: selTableID, number: selTableNumber, adults: selTableAdultCount, children: selTableChildCount});
+    io.emit('print_table', {id: adminCurTableID, number: adminCurTableNumber, adults: selTableAdultCount, children: selTableChildCount});
     console.log('Sending print job...');
 
     res.send('success');
@@ -1149,11 +1149,11 @@ app.post('/api/delete/timegroup', (req, res) => {
 //print current selected order
 app.post('/api/print/order', (req, res) => {
 
-    const selOrderID = req.body.selOrderID;
+    const adminCurOrderID = req.body.adminCurOrderID;
     var tableInfo;
 
     let query = "SELECT t1.placed_order_id, t2.table_number, t2.adult_count, t2.child_count, DATE_FORMAT(t1.datetime_placed,'%Y-%m-%d %H:%i') AS datetime_placed FROM placed_order AS t1 INNER JOIN table_list AS t2 ON t2.table_id = t1.table_id WHERE t1.placed_order_id=?";
-    connection.query(query, [selOrderID], (err, result) => {
+    connection.query(query, [adminCurOrderID], (err, result) => {
         if(err) {
             res.status(400).send(err);
             return;
@@ -1163,7 +1163,7 @@ app.post('/api/print/order', (req, res) => {
 
 
         let query = "SELECT t1.item_id, t1.quantity, t2.item_name, t2.item_kitchen_name, t2.category_id, t3.category_name, t3.category_order_index, DATE_FORMAT(t4.datetime_placed,'%Y-%m-%d %H:%i') AS datetime_placed FROM placed_in_order AS t1 INNER JOIN item_list AS t2 ON t2.item_id = t1.item_id INNER JOIN category_list AS t3 ON t3.category_id = t2.category_id INNER JOIN placed_order AS t4 ON t4.placed_order_id=?  WHERE t1.placed_order_id=? ORDER BY t3.category_order_index;";
-        connection.query(query, [selOrderID, selOrderID], (err, result) => {
+        connection.query(query, [adminCurOrderID, adminCurOrderID], (err, result) => {
             if(err) {
                 res.status(400).send(err);
                 return;
@@ -1224,7 +1224,7 @@ app.post('/api/fetch/timed_categories', (req, res) => {
 app.post('/api/place/order', (req, res) => {
 
     const curTableID = req.body.curTableID;
-    const cartContent = req.body.cartContent;
+    const cart = req.body.cart;
 
 
 
@@ -1249,7 +1249,7 @@ app.post('/api/place/order', (req, res) => {
                 const lastInsertID = result.insertId;
 
                 Promise.all(              
-                    cartContent.map((item) => {
+                    cart.map((item) => {
                         let query = "INSERT INTO placed_in_order (placed_order_id, item_id, quantity) VALUES (?, ?, ?)";
                         connection.query(query, [lastInsertID, item.itemID, item.itemQty], (err, result) => {
                             if(err) {
@@ -1341,10 +1341,10 @@ app.post('/api/fetch/orders', (req, res) => {
 //fetch all orders placed from selected table
 app.post('/api/fetch/in_order', (req, res) => {
 
-    const selOrder = req.body.selOrder;
+    const curOrderID = req.body.curOrderID;
 
     let query = 'SELECT t1.placed_in_order_id, t1.placed_order_id, t1.item_id, t1.quantity, t2.item_name FROM placed_in_order AS t1 INNER JOIN item_list AS t2 ON t2.item_id = t1.item_id WHERE t1.placed_order_id=?;';
-    connection.query(query, [selOrder], (err, result) => {
+    connection.query(query, [curOrderID], (err, result) => {
         if(err) {
             res.status(400).send(err);
             return;

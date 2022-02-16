@@ -77,7 +77,7 @@ import KeyPad from './KeyPad';
 
 
 
-function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber, handleTableNumber, selTableOccupied, handleTableOccupied }) {
+function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTableNumber, setAdminCurTableNumber, adminCurTableOccupied, setAdminCurTableOccupied }) {
 
 
 
@@ -99,7 +99,6 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 			tableRanger(response.data)
 				.then((res) => {
 					setIsListLoading(false);
-					console.log("fetched");	
 				})
 				.catch((e) => {
        				console.log("error ", e)});
@@ -128,9 +127,9 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 	//handle table selection
 	function handleSelTable(id, number, occupied, adult, child, enter) {
 
-		handleTableID(id);
-		handleTableNumber(number);
-		handleTableOccupied(occupied);
+		setAdminCurTableID(id);
+		setAdminCurTableNumber(number);
+		setAdminCurTableOccupied(occupied);
 		setIsEnterPressed(enter);
 		setSelTableAdultCount(adult);
 		setSelTableChildCount(child);
@@ -156,15 +155,15 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 	//toggled seated and unseated
 	function handleOccupyTable() {
 
-		if(selTableID && selTableOccupied === 0 && seatTableAdultCount && seatTableAdultCount > 0) {
+		if(adminCurTableID && adminCurTableOccupied === 0 && seatTableAdultCount && seatTableAdultCount > 0) {
 
-			handleTableOccupied(1);
+			setAdminCurTableOccupied(1);
 			if(seatTableChildCount.length === 0) {
 				setSeatTableChildCount(0);
 			}
 			Axios.post("http://192.46.223.124/api/occupy/table", {
-				selTableID: selTableID,
-				selTableNumber: selTableNumber,
+				adminCurTableID: adminCurTableID,
+				adminCurTableNumber: adminCurTableNumber,
 				seatTableAdultCount: seatTableAdultCount,
 				seatTableChildCount: seatTableChildCount,
 			})
@@ -179,12 +178,12 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 			
 		}
 
-		if(selTableID && selTableOccupied === 1) {
+		if(adminCurTableID && adminCurTableOccupied === 1) {
 
-			handleTableOccupied(0);
+			setAdminCurTableOccupied(0);
 
 			Axios.post("http://192.46.223.124/api/unoccupy/table", {
-				selTableID: selTableID,
+				adminCurTableID: adminCurTableID,
 			})
 			.then((response) => {
 				setTableList(response.data);
@@ -201,10 +200,10 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 
 	//delete table
 	function handleDeleteTable() {
-		if(selTableID) {
+		if(adminCurTableID) {
 
 			Axios.post("http://192.46.223.124/api/delete/table", {
-				selTableID: selTableID,
+				adminCurTableID: adminCurTableID,
 			})
 			.then((response) => {
 				//update category list with fresh data
@@ -231,7 +230,6 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 		if(childSeatKeyPadNumber.length < 3 && seatBoxFocus === 1) {
 			setChildSeatKeyPadNumber(childSeatKeyPadNumber => [...childSeatKeyPadNumber, num]);
 		}
-		console.log(seatTableChildCount);
 	}
 	//listen for keypad state change
 	useEffect(() => {
@@ -338,7 +336,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 			//Shallow copy of keypad state
 			let dispNum = padNum;
 			//Set selected table to joined array into digits
-			handleTableNumber(dispNum.join(''));
+			setAdminCurTableNumber(dispNum.join(''));
 			
 			//Reset keypad state after setting table
 			return (
@@ -348,14 +346,14 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 			return null
 		}
 	}
-	//listen to see if selTableNumber changed
+	//listen to see if adminCurTableNumber changed
 	useEffect(() => {
 
 		//check that enter key was pressed on num pad
 		if(isEnterPressed === 1) {
 			//try to find table
 			Axios.post("http://192.46.223.124/api/find/table", {
-				selTableNumber: selTableNumber,
+				adminCurTableNumber: adminCurTableNumber,
 			})
 			.then((response) => {
 				//if table found
@@ -365,7 +363,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 					//select found table
 					handleSelTable	(
 										foundTable.table_id, 
-										selTableNumber, 
+										adminCurTableNumber, 
 										foundTable.occupied, 
 										0
 									);
@@ -375,7 +373,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 				if(response.data.length === 0) {
 					//add table number as new table
 					Axios.post("http://192.46.223.124/api/add/table", {
-						selTableNumber: selTableNumber,
+						adminCurTableNumber: adminCurTableNumber,
 					})
 					.then((response) => {
 						//get last inserted row
@@ -383,7 +381,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 						//select newly added table
 						handleSelTable	(
 										lastInsertRow.insertId, 
-										selTableNumber, 
+										adminCurTableNumber, 
 										0,
 										0
 
@@ -393,7 +391,6 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 						.then((response) => {
 							setTableList(response.data);
 							setIsListLoading(false);
-							console.log("fetched");
 						})
 						.catch((e) => {
 				       		console.log("error ", e)});
@@ -417,20 +414,20 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
 			return;
 		}
 
-	}, [selTableNumber]);
+	}, [adminCurTableNumber]);
 
 
 
 	function handlePrintQr() {
-		if(selTableID) {
+		if(adminCurTableID) {
 			Axios.post("http://192.46.223.124/api/print/table", {
-				selTableID: selTableID,
-				selTableNumber: selTableNumber,
+				adminCurTableID: adminCurTableID,
+				adminCurTableNumber: adminCurTableNumber,
 				selTableAdultCount: selTableAdultCount,
 				selTableChildCount: selTableChildCount,
 			})
 			.then((response) => {
-				console.log('yes');
+				return;
 			})
 			.catch((e) => {
 	       		console.log("error ", e)});
@@ -652,29 +649,29 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                             <Grid item xs={4}>
                             <Paper elevation={1}>
                                 <Container maxWidth={false} className={classes.adminNavigationContainer}>
-                                {selTableID !== null && (
+                                {adminCurTableID !== null && (
 
                                         <List>
                                             <ListItem>
                                                 <Typography variant="h5" color="textPrimary" align="center">
-                                                    Table {selTableNumber}
+                                                    Table {adminCurTableNumber}
                                                 </Typography>
                                             </ListItem>
                                             <Divider />
-                                            {selTableOccupied === 1 && (
+                                            {adminCurTableOccupied === 1 && (
                                                 <ListItem button onClick={() => handleOccupyTable()}>
                                                     <ListItemText primary="Close Table" />
                                                 </ListItem>
                                             )}
-                                            {selTableOccupied === 0 && (
+                                            {adminCurTableOccupied === 0 && (
                                                 <ListItem button onClick={() => handleOccupyButton()}>
                                                     <ListItemText primary="Seat Table" />
                                                 </ListItem>
                                             )}
-                                            <ListItem disabled={selTableOccupied === 0} button>
+                                            <ListItem disabled={adminCurTableOccupied === 0} button>
                                                 <ListItemText primary="Print QR Code" onClick={() => handlePrintQr()} />
                                             </ListItem>
-                                            <ListItem button disabled={selTableOccupied === 0} onClick={() => handleStep(1001)}>
+                                            <ListItem button disabled={adminCurTableOccupied === 0} onClick={() => setStep(1001)}>
                                                 <ListItemText primary="View Orders" />
                                             </ListItem>
                                             <ListItem button onClick={() => handleDeleteTable()}>
@@ -687,7 +684,7 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                         </List>
 
                                     )}
-                                {selTableID === null && (
+                                {adminCurTableID === null && (
                                     <>
                                     <Grid container direction="column" justifyContent="space-around" className={classes.adminNavigationGridColumn}>
                                         <Grid item className={classes.adminNavigationTitle}>
@@ -716,13 +713,13 @@ function Admin({ curStep, handleStep, selTableID, handleTableID, selTableNumber,
                                     </Grid>
                                     <List>
                                         <Divider />
-                                        <ListItem button onClick={() => handleStep(1010)}>
+                                        <ListItem button onClick={() => setStep(1010)}>
                                             <ListItemText primary="Category Manager" />
                                         </ListItem>
-                                        <ListItem button onClick={() => handleStep(1020)}>
+                                        <ListItem button onClick={() => setStep(1020)}>
                                             <ListItemText primary="Menu Manager" />
                                         </ListItem>
-                                        <ListItem button onClick={() => handleStep(1030)}>
+                                        <ListItem button onClick={() => setStep(1030)}>
                                             <ListItemText primary="Time Manager" />
                                         </ListItem>
                                         <ListItem button onClick={() => handleTest()}>

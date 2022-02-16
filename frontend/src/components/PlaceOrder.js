@@ -41,7 +41,7 @@ import styles from '../styles';
 
 
 
-function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }) {
+function PlaceOrder({ step, setStep, curTableID, cart, setCart }) {
 
 
 
@@ -54,8 +54,8 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
 	//Toggle place order dialog close state
 	const closePlaceDialog = () => {
 		setPlaceOpen(false);
-		handleCart([]);
-		handleStep(1);
+		setCart([]);
+		setStep(1);
 	}
 
 	let [orderNumber, setOrderNumber] = React.useState(null);
@@ -67,7 +67,7 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
 
 		Axios.post("http://192.46.223.124/api/place/order", {
 			curTableID: curTableID,
-			cartContent: cartContent,
+			cart: cart,
 		})
 		.then((response) => {
 			openPlaceDialog();
@@ -107,7 +107,7 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
 	//Increment cart item
 	function handleIncrement(event, id) {
 		//Create a shallow copy of the array
-		let tempCartContent = [...cartContent];
+		let tempCartContent = [...cart];
 		//Create a shallow copy of the item in the array to be updated
 		let incrementedItem = {...tempCartContent[id]};
 		//Update item
@@ -115,23 +115,23 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
 		//Update array with new item
 		tempCartContent[id] = incrementedItem;
 		//Replace cart state array with new updated array
-		handleCart(tempCartContent);
+		setCart(tempCartContent);
 	}
 
 	//Decrement or delete cart item
 	function handleDecrement(event, id) {
-		let tempCartContent = [...cartContent];
+		let tempCartContent = [...cart];
 		let decrementedItem = {...tempCartContent[id]};
 		//Check item quantity if last one
 		if(decrementedItem.itemQty === 1) {
 			//Search array for the item and filter it out from array
 			//Replace current copy of cart with new filtered array
 			let cleanTempCartContent = tempCartContent.filter((item, index) => index !== id);
-			handleCart(cleanTempCartContent);
+			setCart(cleanTempCartContent);
 		} else {
 			decrementedItem.itemQty =  decrementedItem.itemQty-1;
 			tempCartContent[id] = decrementedItem;
-			handleCart(tempCartContent);
+			setCart(tempCartContent);
 		}
 		
 	}
@@ -149,7 +149,7 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
                         container
                     >
                         <Grid item xs={5}>
-                            <IconButton onClick={() => handleStep(curStep-1)} color="inherit" size="large">
+                            <IconButton onClick={() => setStep(step-1)} color="inherit" size="large">
                                 <ArrowBackIosSharpIcon />
                             </IconButton>
                         </Grid>
@@ -163,7 +163,7 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
             </AppBar>
         <Container className={classes.cartCardGrid} maxWidth="md">
             <Grid container direction="column" spacing={1}>
-            {cartContent.map((cart, index) => (
+            {cart.map((cart, index) => (
                 <Grid item key={index}>
                     <Card className={classes.cartCard}>
                         <Grid container alignItems="center" justifyContent="space-between">
@@ -209,7 +209,7 @@ function PlaceOrder({ curStep, handleStep, curTableID, cartContent, handleCart }
             <Grid container justifyContent="center">
                 <LoadingButton 
                     className={classes.cartButton} 
-                    disabled={cartContent.length === 0} onClick={() => handlePlaceOrder()} 
+                    disabled={cart.length === 0} onClick={() => handlePlaceOrder()} 
                     variant="contained" 
                     color="primary"
                     loading={loadingPlaceOrder} 

@@ -49,7 +49,7 @@ import useClasses from '../../classes'
 import styles from '../../styles';
 
 
-function AdminMenuManager({ curStep, handleStep }) {
+function AdminMenuManager({ step, setStep }) {
 
 
 	//Apply css styles from styles.js
@@ -129,7 +129,6 @@ function AdminMenuManager({ curStep, handleStep }) {
 		.then((response) => {
 			setCategoryList(response.data);
 			setIsCategoryListLoading(false);
-			console.log("fetched categories");
 		})
 		.catch((e) => {
        		console.log("error ", e)});
@@ -146,7 +145,6 @@ function AdminMenuManager({ curStep, handleStep }) {
 		.then((response) => {
 			setItemList(response.data);
 			setIsItemListLoading(false);
-			console.log("fetched items");
 		})
 		.catch((e) => {
        		console.log("error ", e)});
@@ -386,7 +384,6 @@ function AdminMenuManager({ curStep, handleStep }) {
 			nextRowOrderID: nextRowOrderID,
 		})
 		.then((response) => {
-			console.log("moved");
 			//update item list with new data
 			setItemList(response.data);
 
@@ -678,7 +675,7 @@ function AdminMenuManager({ curStep, handleStep }) {
                                         <ListItemText primary="Remove Item"/>
                                     </ListItem>
                                     <Divider />
-                                    <ListItem button onClick={() => handleStep(1000)}>
+                                    <ListItem button onClick={() => setStep(1000)}>
                                         <ListItemText primary="Go Back"/>
                                     </ListItem>
                                     </>

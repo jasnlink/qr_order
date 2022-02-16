@@ -21,7 +21,7 @@ import useStyles from '../styles';
 
 function CurrentTitle(props) {
 
-  	switch(props.curStep) {
+  	switch(props.step) {
 
   		case 1:
   		return (
@@ -50,7 +50,7 @@ function CurrentTitle(props) {
 
 
 
-function HeaderBar({ curStep, handleStep }) {
+function HeaderBar({ step, setStep }) {
 
 	const classes = useStyles();
 	let theme = createTheme();
@@ -80,13 +80,13 @@ function HeaderBar({ curStep, handleStep }) {
                     
                     
                 >
-            {curStep !== 1 && (
-                <IconButton onClick={() => handleStep(curStep-1)} color="inherit" size="large">
+            {step !== 1 && (
+                <IconButton onClick={() => setStep(step-1)} color="inherit" size="large">
                     <ArrowBackIosSharpIcon />
                 </IconButton>
             )}
                 <Grid item>
-                    <CurrentTitle curStep={curStep} />
+                    <CurrentTitle step={step} />
                 </Grid>
                 <Grid item>
                       <IconButton

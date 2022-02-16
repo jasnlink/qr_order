@@ -43,7 +43,7 @@ import useClasses from '../../classes'
 import styles from '../../styles';
 
 
-function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurOrderTime }) {
+function AdminViewOrder({ step, setStep, adminCurTableID, adminCurOrderID, adminCurOrderTime }) {
 
 	//Apply css styles from styles.js
 	const classes = useClasses(styles);
@@ -57,7 +57,7 @@ function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurO
 	//fetch in order items
 	useEffect(()=> {
 		Axios.post("http://192.46.223.124/api/fetch/in_order", {
-			selOrder: selOrderID,
+			curOrderID: adminCurOrderID,
 		})
 		.then((response) => {
 			setInOrderList(response.data);
@@ -69,12 +69,12 @@ function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurO
 
 
     function handlePrintOrder() {
-        if(selOrderID) {
+        if(adminCurOrderID) {
             Axios.post("http://192.46.223.124/api/print/order", {
-            selOrderID: selOrderID,
+            adminCurOrderID: adminCurOrderID,
         })
         .then((response) => {
-            console.log('success');
+            return;
         })
         .catch((e) => {
             console.log("error ", e)});
@@ -117,7 +117,7 @@ function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurO
                                         <Grid container justifyContent="space-between">
                                             <Grid item className={classes.adminOrderDetailsCardTitle}>
                                                 <Typography variant="h6" color="textPrimary">
-                                                    Order #{selOrderID}
+                                                    Order #{adminCurOrderID}
                                                 </Typography>
                                             </Grid>
                                             <Grid item className={classes.adminOrderDetailsCardTitle}>
@@ -154,7 +154,7 @@ function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurO
                                     <>
                                     <ListItem>
                                         <Typography variant="h5" color="textPrimary" align="center">
-                                            Order #{selOrderID}
+                                            Order #{adminCurOrderID}
                                         </Typography>
                                     </ListItem>
                                     <Divider />
@@ -162,7 +162,7 @@ function AdminViewOrder({ curStep, handleStep, selTableID, selOrderID, adminCurO
                                         <ListItemText primary="Print Order" onClick={() => handlePrintOrder()}/>
                                     </ListItem>
                                     <Divider />
-                                    <ListItem button onClick={() => handleStep(curStep-1)}>
+                                    <ListItem button onClick={() => setStep(step-1)}>
                                         <ListItemText primary="Go Back" />
                                     </ListItem>
                                     </>

@@ -53,7 +53,7 @@ import useClasses from '../classes'
 import styles from '../styles';
 
 
-function Ordering({ curStep, handleStep, cartContent, handleCart }) {
+function Ordering({ step, setStep, cart, setCart }) {
 
 
 	//Apply css styles from styles.js
@@ -146,8 +146,8 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
             itemImg : selectedImg,
             itemQty : selectedQuantity,
             };
-            handleCart(cartContent => [...cartContent, selectedItem])
-            resolve(cartContent);
+            setCart(cart => [...cart, selectedItem])
+            resolve(cart);
         })
 
         promise.then((res) => {
@@ -161,8 +161,8 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
 	//Reset cart and go back 1 step
 	function handleResetCart () {
 		let initialCartState = [];
-		handleCart(initialCartState);
-		handleStep(curStep-1);
+		setCart(initialCartState);
+		setStep(step-1);
 	}
 
 	const handleSelectCategory = (event, nodeIds, nodeName) => {
@@ -214,11 +214,11 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                         </Grid>
                         <Grid item>
                               <IconButton
-                                  onClick={() => handleStep(curStep+1)} 
+                                  onClick={() => setStep(step+1)} 
                                   color="inherit"
                                   edge="end"
                                   size="small">
-                                <Badge badgeContent={cartContent.length} color="error" showZero>
+                                <Badge badgeContent={cart.length} color="error" showZero>
                                     <ShoppingCartIcon />
                                 </Badge>
                               </IconButton>
@@ -311,7 +311,7 @@ function Ordering({ curStep, handleStep, cartContent, handleCart }) {
                         alignItems="center"
                     >
                         <Grid item>
-                            <Button onClick={() => handleStep(curStep+1)} 
+                            <Button onClick={() => setStep(step+1)} 
                                     variant="contained" 
                                     color="primary">
                                         Voir le panier
