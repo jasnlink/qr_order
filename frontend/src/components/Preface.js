@@ -63,7 +63,7 @@ function Preface({ step, setStep }) {
         if(dialogOpen === false) {
             setDialogOpen(true);
             scanner.start();
-        } else {
+        } else if(dialogOpen === true) {
             scanner.stop();
             scanner.destroy();
             setDialogOpen(false);
