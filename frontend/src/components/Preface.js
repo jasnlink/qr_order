@@ -55,7 +55,8 @@ function Preface({ step, setStep }) {
     function handleScan() {
 
         const videoElem = document.getElementById('camera-video');
-        const scan = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
+        const scanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result));
+        scanner.start();
     }
 
 
