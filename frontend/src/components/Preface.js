@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, useParams } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import QrScanner from 'qr-scanner';
 
 
@@ -58,16 +58,22 @@ function Preface({ step, setStep }) {
 
 
     const [scanOpen, setScanOpen] = React.useState(false);
+    const [scanResult, setScanResult] = React.useState(null);
 
     function handleScan() {
 
         setScanOpen(true);
         const videoElem = document.getElementById('camera-video');
-        const scanner = new QrScanner(videoElem, result => console.log('decoded qr code:', result), { highlightScanRegion: true, highlightCodeOutline: true, });
+        const scanner = new QrScanner(videoElem, result => setScanResult(result.data), { highlightScanRegion: true, highlightCodeOutline: true, });
 
         scanner.start(); 
     }
 
+
+    if(scanResult) {
+        window.location.href = scanResult;
+        return null;
+    }
 
 	return <>
             <CssBaseline />
