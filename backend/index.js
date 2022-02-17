@@ -26,7 +26,7 @@ const __dirname = path.resolve();
 // public image directory
 const cdnDir = path.join(__dirname, 'public');
 // set website address
-const SITE = 'http://192.46.223.124';
+const SITE = 'https://arandesign.ca';
 
 
 

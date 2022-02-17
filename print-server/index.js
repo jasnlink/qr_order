@@ -15,13 +15,14 @@ import io from 'socket.io-client';
 
 
 
-const SITE = 'http://192.46.223.124';
+const SITE = 'https://arandesign.ca';
+const SOCKET_IP = 'http://192.46.223.124';
 
 // ###################################################
 
 
 
-var ioClient = io.connect(SITE+':8000');
+var ioClient = io.connect(SOCKET_IP+':8000');
 
 ioClient.on('connect', (socket) => {
   console.log('Connected to cloud...');

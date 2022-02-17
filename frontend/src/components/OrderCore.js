@@ -25,7 +25,7 @@ import styles from '../styles';
 function OrderCore() {
 
 	//Website domain var
-	const [site, setSite] = React.useState('http://192.46.223.124');
+	const [site, setSite] = React.useState('https://arandesign.ca');
 
 	//Application step var
 	const [step, setStep] = useState(1);

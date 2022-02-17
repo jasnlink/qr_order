@@ -2,7 +2,7 @@
   "name": "qr-order",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://192.46.223.124/",
+  "homepage": "https://arandesign.ca/",
   "dependencies": {
     "@emotion/css": "^11.7.1",
     "@emotion/react": "^11.7.1",

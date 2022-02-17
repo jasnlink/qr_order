@@ -124,20 +124,20 @@ function Preface({ site }) {
                 </Toolbar>
             </AppBar>
                 <div className={classes.container}>
-                    <Container className={classes.welcomeCardGrid} maxWidth="sm">
-                    <Card className={classes.welcomeCard}>
+                    <Container className={classes.prefaceCardGrid} maxWidth="sm">
+                    <Card className={classes.prefaceCard}>
                         <CardMedia
-                            className={classes.welcomeCardMedia}
+                            className={scanOpen ? classes.Hidden : classes.prefaceCardMedia}
                             image={site+"/assets/mitsuki_logo_black.jpg"}
                             title="Image title"
                         />
-                            <CardContent className={classes.welcomeCardContent}>
+                            <CardContent className={classes.prefaceCardContent}>
                                 <StyledEngineProvider injectFirst>
                                     <ThemeProvider theme={theme}>
-                                        <Typography variant="h3" align="center" color="textPrimary" gutterBottom>
+                                        <Typography className={scanOpen ? classes.Hidden : classes.Visible} variant="h3" align="center" color="textPrimary" gutterBottom>
                                             Mitsuki DIX30
                                         </Typography>
-                                        <Typography variant="h5" align="center" color="textSecondary" gutterBottom>
+                                        <Typography className={scanOpen ? classes.Hidden : classes.Visible} variant="h5" align="center" color="textSecondary" gutterBottom>
                                             Menu à volonté
                                         </Typography>
                                         <Typography variant="h4" align="center" color="textPrimary" gutterBottom>
@@ -145,10 +145,8 @@ function Preface({ site }) {
                                         </Typography>
                                     </ThemeProvider>
                                 </StyledEngineProvider>
-                                <div id="video-container">
-                                    <CardMedia component="video" className={scanOpen ? classes.prefaceCameraContent : classes.prefaceCameraContentHidden} id="camera-video" />
-                                </div>
                             </CardContent>
+                            <CardMedia component="video" className={scanOpen ? classes.prefaceCameraContent : classes.Hidden} id="camera-video" />
                             <CardActions>
                                     <LoadingButton loading={scanOpen} loadingIndicator="..." variant="contained" onClick={() => handleScan()} endIcon={<PhotoCameraIcon />} fullWidth>
                                         Scanner avec la caméra

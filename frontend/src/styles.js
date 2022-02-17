@@ -17,16 +17,34 @@ const styles = theme => ({
 		color: '#000000DE'
 	},
 
-	//Preface card style
-	prefaceCameraContentHidden : {
-		width: '100%',
-		padding: 0,
+	//Hide element
+	Hidden : {
 		display: 'none',
 	},
+	Visible : {
+		
+	},
+
+	//Preface card style
 	prefaceCameraContent : {
 		width: '100%',
 		padding: 0,
 		display: 'flex',
+	},
+	prefaceCardGrid : {
+		marginTop: theme.spacing(10)
+	},
+	prefaceCard : {
+		height: '100%',
+		display: 'flex',
+		flexDirection: 'column',
+		paddingBottom: theme.spacing(2)
+	},
+	prefaceCardMedia : {
+		paddingTop: '56.25%' //16:9
+	},
+	prefaceCardContent : {
+		flexGrow: 1,
 	},
 
 	//Welcome card style
