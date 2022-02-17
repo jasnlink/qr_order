@@ -167,15 +167,15 @@ function PlaceOrder({ site, step, setStep, curTableID, cart, setCart }) {
                 <Grid item key={index}>
                     <Card className={classes.cartCard}>
                         <Grid container alignItems="center" justifyContent="space-between">
-                            <Grid item>
+                            <Grid item xs={3}>
                                 <Avatar className={classes.cartMedia} src={cart.itemImg} variant="rounded" />
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={6}>
                                 <Typography variant="subtitle2" color="textPrimary">
                                     {cart.itemName}
                                 </Typography>
                             </Grid>
-                            <Grid item>
+                            <Grid item xs={3}>
                                 <CardActions>
                                     <Chip label={cart.itemQty} />
                                     <Grid container direction="column">
