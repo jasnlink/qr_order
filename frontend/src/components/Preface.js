@@ -35,7 +35,7 @@ import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 import useStyles from '../styles';
 
 
-function Preface({ step, setStep }) {
+function Preface({ site }) {
 
 	//Apply css styles from styles.js
 	const classes = useClasses(styles);
@@ -128,7 +128,7 @@ function Preface({ step, setStep }) {
                     <Card className={classes.welcomeCard}>
                         <CardMedia
                             className={classes.welcomeCardMedia}
-                            image="http://192.46.223.124/assets/mitsuki_logo_black.jpg"
+                            image={site+"/assets/mitsuki_logo_black.jpg"}
                             title="Image title"
                         />
                             <CardContent className={classes.welcomeCardContent}>

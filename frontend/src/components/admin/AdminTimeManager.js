@@ -51,7 +51,7 @@ import useClasses from '../../classes'
 import styles from '../../styles';
 
 
-function AdminTimeManager({ step, setStep }) {
+function AdminTimeManager({ site, step, setStep }) {
 
 
 	//Apply css styles from styles.js
@@ -68,7 +68,7 @@ function AdminTimeManager({ step, setStep }) {
 
 	//fetch time groups
 	useEffect(()=> {
-		Axios.get("http://192.46.223.124/api/fetch/timegroup")
+		Axios.get(site+"/api/fetch/timegroup")
 		.then((response) => {
 			setTimeGroupList(response.data);
 			setIsTimeGroupListLoading(false);
@@ -113,7 +113,7 @@ function AdminTimeManager({ step, setStep }) {
 
 	//fetch time data (selected days) from selected timegroup
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124/api/fetch/timedata", {
+		Axios.post(site+"/api/fetch/timedata", {
 				selTimeGroupID: selTimeGroupID,
 			})
 		.then((response) => {
@@ -124,7 +124,7 @@ function AdminTimeManager({ step, setStep }) {
        		console.log("error ", e)});
 
 		//fetch selected categories from time group
-		Axios.post("http://192.46.223.124/api/fetch/timecategories", {
+		Axios.post(site+"/api/fetch/timecategories", {
 				selTimeGroupID: selTimeGroupID,
 			})
 		.then((response) => {
@@ -155,7 +155,7 @@ function AdminTimeManager({ step, setStep }) {
 			//set the state var to value of temp array
 			setSelDays(daysData);
 			//fetch category list to populate select list
-			Axios.get("http://192.46.223.124/api/fetch/categories")
+			Axios.get(site+"/api/fetch/categories")
 			.then((response) => {
 				setCategoryList(response.data);
 				setIsCategoryListLoading(false);
@@ -199,7 +199,7 @@ function AdminTimeManager({ step, setStep }) {
 			let insertFromTime = fromTime+":00";
 			let insertToTime = toTime+":00";
 
-			Axios.post("http://192.46.223.124/api/save/timegroup", {
+			Axios.post(site+"/api/save/timegroup", {
 					selTimeGroupID: selTimeGroupID,
 					fromTime: insertFromTime,
 					toTime: insertToTime,
@@ -236,7 +236,7 @@ function AdminTimeManager({ step, setStep }) {
 	function handleAddTimeGroup() {
 
 		if(newTimeGroupName) {
-			Axios.post("http://192.46.223.124/api/add/timegroup", {
+			Axios.post(site+"/api/add/timegroup", {
 						newTimeGroupName: newTimeGroupName,
 					})
 				.then((response) => {
@@ -270,7 +270,7 @@ function AdminTimeManager({ step, setStep }) {
 	
 	function handleEditTimeGroup() {
 		if(newTimeGroupName) {
-			Axios.post("http://192.46.223.124/api/edit/timegroup", {
+			Axios.post(site+"/api/edit/timegroup", {
 					selTimeGroupID: selTimeGroupID,
 					newTimeGroupName: newTimeGroupName,
 				})
@@ -290,7 +290,7 @@ function AdminTimeManager({ step, setStep }) {
 	}
 	function handleDeleteTimeGroup() {
 		if(selTimeGroupID) {
-			Axios.post("http://192.46.223.124/api/delete/timegroup", {
+			Axios.post(site+"/api/delete/timegroup", {
 					selTimeGroupID: selTimeGroupID,
 				})
 			.then((response) => {

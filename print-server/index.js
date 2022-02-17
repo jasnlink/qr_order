@@ -14,11 +14,14 @@ import os from 'os';
 import io from 'socket.io-client';
 
 
+
+const SITE = 'http://192.46.223.124';
+
 // ###################################################
 
 
 
-var ioClient = io.connect('http://192.46.223.124:8000');
+var ioClient = io.connect(SITE+':8000');
 
 ioClient.on('connect', (socket) => {
   console.log('Connected to cloud...');
@@ -208,7 +211,7 @@ ioClient.on('test2', (response) => {
   printer3.setCharacterSet('CHINA');
   var str = "   כ所有人生而自由，在尊嚴和權利上一律平等";
   printer3.println(str);
-  printer3.printQR("http://192.46.223.124/table/", {
+  printer3.printQR(SITE+"/table/", {
     cellSize: 8,
     correction: 'H',
     model: 2
@@ -239,7 +242,7 @@ ioClient.on('print_table', (res) => {
 
   const filename = './assets/print.png';
 
-  QRCode.toFile(filename,'http://192.46.223.124/table/'+res.id+'/'+res.number, {
+  QRCode.toFile(filename, SITE+'/table/'+res.id+'/'+res.number, {
     version: 4, 
     errorCorrectionLevel: 'H',
     scale: 10,

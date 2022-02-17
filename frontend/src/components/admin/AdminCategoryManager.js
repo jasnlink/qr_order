@@ -47,7 +47,7 @@ import useClasses from '../../classes'
 import styles from '../../styles';
 
 
-function AdminCategoryManager({ step, setStep }) {
+function AdminCategoryManager({ site, step, setStep }) {
 
 
 	//Apply css styles from styles.js
@@ -62,7 +62,7 @@ function AdminCategoryManager({ step, setStep }) {
 	let [isListLoading, setIsListLoading] = React.useState(true);
 	//fetch categories
 	useEffect(()=> {
-		Axios.get("http://192.46.223.124/api/fetch/categories")
+		Axios.get(site+"/api/fetch/categories")
 		.then((response) => {
 			setCategoryList(response.data);
 			setIsListLoading(false);
@@ -75,7 +75,7 @@ function AdminCategoryManager({ step, setStep }) {
 	let [isPrinterListLoading, setIsPrinterListLoading] = React.useState(true);
 	//fetch printers list
 	useEffect(()=> {
-		Axios.get("http://192.46.223.124/api/fetch/printers")
+		Axios.get(site+"/api/fetch/printers")
 		.then((response) => {
 			setPrinterList(response.data);
 			setIsPrinterListLoading(false);
@@ -125,7 +125,7 @@ function AdminCategoryManager({ step, setStep }) {
 
 		if(categoryName) {
 
-			Axios.post("http://192.46.223.124/api/add/category", {
+			Axios.post(site+"/api/add/category", {
 				categoryName: categoryName,
 				selPrinters: selPrinters,
 			})
@@ -146,7 +146,7 @@ function AdminCategoryManager({ step, setStep }) {
 	function handleDeleteCategory() {
 		if(selCategory) {
 
-			Axios.post("http://192.46.223.124/api/delete/category", {
+			Axios.post(site+"/api/delete/category", {
 				selCategory: selCategory,
 			})
 			.then((response) => {
@@ -219,7 +219,7 @@ function AdminCategoryManager({ step, setStep }) {
 		}
 
 		//send to backend
-		Axios.post("http://192.46.223.124/api/move/category", {
+		Axios.post(site+"/api/move/category", {
 			currentRowID: currentRowID,
 			currentRowOrderID: currentRowOrderID,
 			nextRowID: nextRowID,
@@ -255,7 +255,7 @@ function AdminCategoryManager({ step, setStep }) {
 	useEffect(()=> {
 		if(selCategory) {
 			//fetch selected printer list of selected category
-			Axios.post("http://192.46.223.124/api/fetch/selected_printers", {
+			Axios.post(site+"/api/fetch/selected_printers", {
 				selCategory: selCategory,
 			})
 			.then((response) => {
@@ -280,7 +280,7 @@ function AdminCategoryManager({ step, setStep }) {
 	function handleEditCategory() {
 		if(selCategoryName) {
 
-			Axios.post("http://192.46.223.124/api/edit/category", {
+			Axios.post(site+"/api/edit/category", {
 				categoryName: selCategoryName,
 				selCategory: selCategory,
 				selPrinters: selPrinters
@@ -308,7 +308,7 @@ function AdminCategoryManager({ step, setStep }) {
 
 		if(selCategory) {
 
-			Axios.post("http://192.46.223.124/api/toggle/category", {
+			Axios.post(site+"/api/toggle/category", {
 				disabled: disabled,
 				selCategory: selCategory,
 			})

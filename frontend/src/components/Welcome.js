@@ -30,7 +30,7 @@ import ArrowBackIosSharpIcon from '@mui/icons-material/ArrowBackIosSharp';
 import useStyles from '../styles';
 
 
-function Welcome({ step, setStep, curTableID, curTableNumber, cart, setCart }) {
+function Welcome({ site, step, setStep, curTableID, curTableNumber, cart, setCart }) {
 
 	//Apply css styles from styles.js
 	const classes = useClasses(styles);
@@ -104,7 +104,7 @@ function Welcome({ step, setStep, curTableID, curTableNumber, cart, setCart }) {
                     <Card className={classes.welcomeCard}>
                         <CardMedia
                             className={classes.welcomeCardMedia}
-                            image="http://192.46.223.124/assets/mitsuki_logo_black.jpg"
+                            image={site+"/assets/mitsuki_logo_black.jpg"}
                             title="Image title"
                         />
                             <CardContent className={classes.welcomeCardContent}>

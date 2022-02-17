@@ -39,13 +39,13 @@ import useClasses from '../classes'
 import styles from '../styles';
 
 
-function OrderHistory({ step, setStep, setCurOrderID, curTableID, curOrderTime, setCurOrderTime }) {
+function OrderHistory({ site, step, setStep, setCurOrderID, curTableID, curOrderTime, setCurOrderTime }) {
 
   	let [orderList, setOrderList] = React.useState();
 	let [isOrderListLoading, setIsOrderListLoading] = React.useState(true);
 	//fetch orders
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124/api/fetch/orders", {
+		Axios.post(site+"/api/fetch/orders", {
 			curTableID: curTableID,
 		})
 		.then((response) => {

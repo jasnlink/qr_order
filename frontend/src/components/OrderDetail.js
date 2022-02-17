@@ -45,7 +45,7 @@ import useClasses from '../classes'
 import styles from '../styles';
 
 
-function OrderDetail({ step, setStep, curOrderID, curOrderTime }) {
+function OrderDetail({ site, step, setStep, curOrderID, curOrderTime }) {
 
 	
 	//Apply css styles from styles.js
@@ -59,7 +59,7 @@ function OrderDetail({ step, setStep, curOrderID, curOrderTime }) {
 	let [isInOrderListLoading, setIsInOrderListLoading] = React.useState(true);
 	//fetch in order items
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124/api/fetch/in_order", {
+		Axios.post(site+"/api/fetch/in_order", {
 			curOrderID: curOrderID,
 		})
 		.then((response) => {

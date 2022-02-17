@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { BrowserRouter as Router, Route, Switch, useParams } from "react-router-dom";
 
-
 import Preface from './Preface';
 import Welcome from './Welcome';
 import Ordering from './Ordering';
@@ -21,14 +20,20 @@ import AdminTimeManager from './admin/AdminTimeManager';
 import useClasses from '../classes'
 import styles from '../styles';
 
+
+
 function OrderCore() {
 
+	//Website domain var
+	const [site, setSite] = React.useState('http://192.46.223.124');
+
+	//Application step var
 	const [step, setStep] = useState(1);
 
 	//Current table id of customer
-	let [curTableID, setCurTableID] = useState(null);
+	let [curTableID, setCurTableID] = React.useState(null);
 	//Current table number of customer
-	let [curTableNumber, setCurTableNumber] = useState(null);
+	let [curTableNumber, setCurTableNumber] = React.useState(null);
 	//Cart contents
 	let [cart, setCart] = React.useState([]);
 
@@ -58,6 +63,7 @@ function OrderCore() {
 		setCurTableID(params.id);
   		setCurTableNumber(params.num);
   		return (<Welcome 
+					site={site}
 					step={step} 
 					setStep={step => setStep(step)}
 					curTableID={curTableID}
@@ -79,7 +85,7 @@ function OrderCore() {
 									<SetTable />
 								</Route>
 								<Route path="/*">
-									<Preface />
+									<Preface site={site} />
 								</Route>
 							</Switch>
 						</Router>
@@ -88,7 +94,8 @@ function OrderCore() {
 			case 2:
 				return (
 					<div>
-						<Ordering 
+						<Ordering
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)}
 							cart={cart} 
@@ -99,7 +106,8 @@ function OrderCore() {
 			case 3:
 				return (
 					<div>
-						<PlaceOrder 
+						<PlaceOrder
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)}
 							curTableID={curTableID}
@@ -111,7 +119,8 @@ function OrderCore() {
 			case 11:
 				return (
 					<div>
-						<OrderHistory 
+						<OrderHistory
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)}
 							setCurOrderID={order => setCurOrderID(order)}
@@ -124,7 +133,8 @@ function OrderCore() {
 			case 12:
 				return (
 					<div>
-						<OrderDetail 
+						<OrderDetail
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)} 
 							curOrderID={curOrderID}
@@ -135,7 +145,8 @@ function OrderCore() {
 			case 1000:
 				return (
 					<div>
-						<Admin 
+						<Admin
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)} 
 							adminCurTableID={adminCurTableID}
@@ -150,7 +161,8 @@ function OrderCore() {
 			case 1001:
 				return (
 					<div>
-						<AdminViewTableOrders 
+						<AdminViewTableOrders
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)} 
 							adminCurTableID={adminCurTableID}
@@ -166,7 +178,8 @@ function OrderCore() {
 			case 1002:
 				return (
 					<div>
-						<AdminViewOrder 
+						<AdminViewOrder
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)} 
 							adminCurTableID={adminCurTableID}
@@ -178,7 +191,8 @@ function OrderCore() {
 			case 1010:
 				return (
 					<div>
-						<AdminCategoryManager 
+						<AdminCategoryManager
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)}
 						/>
@@ -187,7 +201,8 @@ function OrderCore() {
 			case 1020:
 				return (
 					<div>
-						<AdminMenuManager 
+						<AdminMenuManager
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)}
 						/>
@@ -196,7 +211,8 @@ function OrderCore() {
 			case 1030:
 				return (
 					<div>
-						<AdminTimeManager 
+						<AdminTimeManager
+							site={site} 
 							step={step} 
 							setStep={step => setStep(step)}
 						/>

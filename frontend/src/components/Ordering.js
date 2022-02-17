@@ -53,7 +53,7 @@ import useClasses from '../classes'
 import styles from '../styles';
 
 
-function Ordering({ step, setStep, cart, setCart }) {
+function Ordering({ site, step, setStep, cart, setCart }) {
 
 
 	//Apply css styles from styles.js
@@ -67,7 +67,7 @@ function Ordering({ step, setStep, cart, setCart }) {
 	let [isCategoryListLoading, setIsCategoryListLoading] = React.useState(true);
 	//fetch categories
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124/api/fetch/timed_categories")
+		Axios.post(site+"/api/fetch/timed_categories")
 		.then((response) => {
 			setCategoryList(response.data);
 			setSelectedCat(response.data[0].category_id);
@@ -176,7 +176,7 @@ function Ordering({ step, setStep, cart, setCart }) {
 	let [isItemListLoading, setIsItemListLoading] = React.useState(true);
 	//fetch items
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124/api/fetch/items", {
+		Axios.post(site+"/api/fetch/items", {
 			selCategoryID: selectedCat,
 		})
 		.then((response) => {

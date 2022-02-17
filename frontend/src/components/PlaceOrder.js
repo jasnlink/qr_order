@@ -41,7 +41,7 @@ import styles from '../styles';
 
 
 
-function PlaceOrder({ step, setStep, curTableID, cart, setCart }) {
+function PlaceOrder({ site, step, setStep, curTableID, cart, setCart }) {
 
 
 
@@ -65,7 +65,7 @@ function PlaceOrder({ step, setStep, curTableID, cart, setCart }) {
 
         setLoadingPlaceOrder(true);
 
-		Axios.post("http://192.46.223.124/api/place/order", {
+		Axios.post(site+"/api/place/order", {
 			curTableID: curTableID,
 			cart: cart,
 		})

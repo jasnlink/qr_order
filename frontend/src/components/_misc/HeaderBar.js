@@ -50,7 +50,7 @@ function CurrentTitle(props) {
 
 
 
-function HeaderBar({ step, setStep }) {
+function HeaderBar({ site, step, setStep }) {
 
 	const classes = useStyles();
 	let theme = createTheme();

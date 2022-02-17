@@ -47,7 +47,7 @@ import useClasses from '../../classes'
 import styles from '../../styles';
 
 
-function AdminViewTableOrders({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurOrderID, setAdminCurOrderID, adminCurTableNumber, adminCurOrderTime, setAdminCurOrderTime }) {
+function AdminViewTableOrders({ site, step, setStep, adminCurTableID, setAdminCurTableID, adminCurOrderID, setAdminCurOrderID, adminCurTableNumber, adminCurOrderTime, setAdminCurOrderTime }) {
 
 	//Apply css styles from styles.js
 	const classes = useClasses(styles);
@@ -71,7 +71,7 @@ function AdminViewTableOrders({ step, setStep, adminCurTableID, setAdminCurTable
 	let [isOrderListLoading, setIsOrderListLoading] = React.useState(true);
 	//fetch orders
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124/api/fetch/orders", {
+		Axios.post(site+"/api/fetch/orders", {
 			curTableID: adminCurTableID,
 		})
 		.then((response) => {
@@ -84,7 +84,7 @@ function AdminViewTableOrders({ step, setStep, adminCurTableID, setAdminCurTable
 
     function handlePrintOrder() {
         if(adminCurOrderID) {
-            Axios.post("http://192.46.223.124/api/print/order", {
+            Axios.post(site+"/api/print/order", {
             adminCurOrderID: adminCurOrderID,
         })
         .then((response) => {

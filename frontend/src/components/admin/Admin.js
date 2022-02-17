@@ -77,7 +77,7 @@ import KeyPad from './KeyPad';
 
 
 
-function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTableNumber, setAdminCurTableNumber, adminCurTableOccupied, setAdminCurTableOccupied }) {
+function Admin({ site, step, setStep, adminCurTableID, setAdminCurTableID, adminCurTableNumber, setAdminCurTableNumber, adminCurTableOccupied, setAdminCurTableOccupied }) {
 
 
 
@@ -93,7 +93,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
 	let [isListLoading, setIsListLoading] = React.useState(true);
 	//fetch tables
 	useEffect(()=> {
-		Axios.get("http://192.46.223.124/api/fetch/tables")
+		Axios.get(site+"/api/fetch/tables")
 		.then((response) => {
 			setTableList(response.data);
 			tableRanger(response.data)
@@ -161,7 +161,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
 			if(seatTableChildCount.length === 0) {
 				setSeatTableChildCount(0);
 			}
-			Axios.post("http://192.46.223.124/api/occupy/table", {
+			Axios.post(site+"/api/occupy/table", {
 				adminCurTableID: adminCurTableID,
 				adminCurTableNumber: adminCurTableNumber,
 				seatTableAdultCount: seatTableAdultCount,
@@ -182,7 +182,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
 
 			setAdminCurTableOccupied(0);
 
-			Axios.post("http://192.46.223.124/api/unoccupy/table", {
+			Axios.post(site+"/api/unoccupy/table", {
 				adminCurTableID: adminCurTableID,
 			})
 			.then((response) => {
@@ -202,7 +202,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
 	function handleDeleteTable() {
 		if(adminCurTableID) {
 
-			Axios.post("http://192.46.223.124/api/delete/table", {
+			Axios.post(site+"/api/delete/table", {
 				adminCurTableID: adminCurTableID,
 			})
 			.then((response) => {
@@ -352,7 +352,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
 		//check that enter key was pressed on num pad
 		if(isEnterPressed === 1) {
 			//try to find table
-			Axios.post("http://192.46.223.124/api/find/table", {
+			Axios.post(site+"/api/find/table", {
 				adminCurTableNumber: adminCurTableNumber,
 			})
 			.then((response) => {
@@ -372,7 +372,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
 				//if table not found
 				if(response.data.length === 0) {
 					//add table number as new table
-					Axios.post("http://192.46.223.124/api/add/table", {
+					Axios.post(site+"/api/add/table", {
 						adminCurTableNumber: adminCurTableNumber,
 					})
 					.then((response) => {
@@ -387,7 +387,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
 
 									);
 
-						Axios.get("http://192.46.223.124/api/fetch/tables")
+						Axios.get(site+"/api/fetch/tables")
 						.then((response) => {
 							setTableList(response.data);
 							setIsListLoading(false);
@@ -420,7 +420,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
 
 	function handlePrintQr() {
 		if(adminCurTableID) {
-			Axios.post("http://192.46.223.124/api/print/table", {
+			Axios.post(site+"/api/print/table", {
 				adminCurTableID: adminCurTableID,
 				adminCurTableNumber: adminCurTableNumber,
 				selTableAdultCount: selTableAdultCount,
@@ -438,7 +438,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
 	
 
 	function handleTest() {
-		Axios.get("http://192.46.223.124/api/do/test")
+		Axios.get(site+"/api/do/test")
 		.then((response) => {
 			console.log('yes');
 		})
@@ -446,7 +446,7 @@ function Admin({ step, setStep, adminCurTableID, setAdminCurTableID, adminCurTab
        		console.log("error ", e)});
 	}
 	function handlePrinterList() {
-		Axios.get("http://192.46.223.124/api/do/printerslist")
+		Axios.get(site+"/api/do/printerslist")
 		.then((response) => {
 			console.log('yes');
 		})

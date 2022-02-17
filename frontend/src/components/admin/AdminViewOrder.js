@@ -43,7 +43,7 @@ import useClasses from '../../classes'
 import styles from '../../styles';
 
 
-function AdminViewOrder({ step, setStep, adminCurTableID, adminCurOrderID, adminCurOrderTime }) {
+function AdminViewOrder({ site, step, setStep, adminCurTableID, adminCurOrderID, adminCurOrderTime }) {
 
 	//Apply css styles from styles.js
 	const classes = useClasses(styles);
@@ -56,7 +56,7 @@ function AdminViewOrder({ step, setStep, adminCurTableID, adminCurOrderID, admin
 	let [isInOrderListLoading, setIsInOrderListLoading] = React.useState(true);
 	//fetch in order items
 	useEffect(()=> {
-		Axios.post("http://192.46.223.124/api/fetch/in_order", {
+		Axios.post(site+"/api/fetch/in_order", {
 			curOrderID: adminCurOrderID,
 		})
 		.then((response) => {
@@ -70,7 +70,7 @@ function AdminViewOrder({ step, setStep, adminCurTableID, adminCurOrderID, admin
 
     function handlePrintOrder() {
         if(adminCurOrderID) {
-            Axios.post("http://192.46.223.124/api/print/order", {
+            Axios.post(site+"/api/print/order", {
             adminCurOrderID: adminCurOrderID,
         })
         .then((response) => {

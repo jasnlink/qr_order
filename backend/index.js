@@ -26,7 +26,7 @@ const __dirname = path.resolve();
 // public image directory
 const cdnDir = path.join(__dirname, 'public');
 // set website address
-const SITE = 'http://192.46.223.124/';
+const SITE = 'http://192.46.223.124';
 
 
 
@@ -622,7 +622,7 @@ app.post('/api/add/item', (req, res) => {
     const itemName = req.body.itemName;
     const itemDesc = req.body.itemDesc;
     const itemKitchenName = req.body.itemKitchenName;
-    const itemImgURL = SITE+'assets/'+fileName;
+    const itemImgURL = SITE+'/assets/'+fileName;
 
 
         //insert new row
@@ -694,7 +694,7 @@ app.post('/api/edit/item', (req, res) => {
         const selItemName = req.body.selItemName;
         const selItemDesc = req.body.selItemDesc;
         const selItemKitchenName = req.body.selItemKitchenName;
-        const itemImgURL = SITE+'assets/'+fileName;
+        const itemImgURL = SITE+'/assets/'+fileName;
 
 
             //update item row
