@@ -1354,6 +1354,29 @@ app.post('/api/fetch/in_order', (req, res) => {
     });
 });
 
+
+//check if table is open or closed
+app.post('/api/check/table', (req, res) => {
+
+    const curTableID = req.body.curTableID;
+
+    let query = "SELECT * FROM table_list WHERE table_id=? AND occupied='1';";
+    connection.query(query, [curTableID], (err, result) => {
+        if(err) {
+            res.status(400).send(err);
+            return;
+        }
+        console.log('Checking table...');
+        if(result.length) {
+            console.log('Table found...');
+            res.send(result);
+         } else {
+            console.log('Table is closed... Sending error...');
+            res.status(999).send("ERR 2: Demandez de l'assistance. Votre table est fermée.");
+        }
+    });
+});
+
 /***********************************************************************************
 ************************************************************************************/
 //          TESTING123

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch, useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
 
 
 import { 	Typography, 
@@ -38,6 +38,26 @@ function Welcome({ site, step, setStep, curTableID, curTableNumber, cart, setCar
 	//Auto responsive font sizes by viewport
 	let theme = createTheme();
 	theme = responsiveFontSizes(theme);
+
+
+    const [tableClosed, setTableClosed] = React.useState(true);
+    //fetch categories
+    useEffect(()=> {
+        if(curTableID) {
+            Axios.post(site+"/api/check/table", {
+                curTableID: curTableID,
+            })
+            .then((response) => {
+                setTableClosed(false);
+            })
+            .catch((e) => {
+                console.log("error ", e);
+                alert(e.response.data);
+            });
+        }
+    }, []);
+
+
 
 	//Menu open and close handling
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -125,12 +145,12 @@ function Welcome({ site, step, setStep, curTableID, curTableNumber, cart, setCar
                             <CardActions>
                                     <Grid container spacing={2} justifyContent="center" alignItems="center">
                                         <Grid item>
-                                            <Button variant="contained" color="primary" onClick={() => setStep(step+1)}>
+                                            <Button variant="contained" color="primary" onClick={() => setStep(step+1)} disabled={tableClosed}>
                                                 Placer une commande
                                             </Button>
                                         </Grid>
                                         <Grid item>
-                                            <Button variant="outlined" color="primary" onClick={() => setStep(11)}>
+                                            <Button variant="outlined" color="primary" onClick={() => setStep(11)} disabled={tableClosed}>
                                                 Historique de commande
                                             </Button>
                                         </Grid>
