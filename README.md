@@ -31,7 +31,8 @@
 
 ## Demo
 ### Admin
-- http://192.46.223.124/admin
+- https://arandesign.ca/admin
 
 ### Customer
-- http://192.46.223.124/table/2/52
+- https://arandesign.ca/table/110/52
+- https://arandesign.ca
