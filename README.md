@@ -1,7 +1,7 @@
 # Scan to Order with Table Management System
 
 ## Project purpose and goal
-This is a react app made for all you can eat restaurants. The idea is that a unique QR code is generated for every table. The customer scans the QR code to access the app with their table information automatically entered. The customer can order anything they please on the web app and then send the order directly to the kitchen. The web server receives the order and then sends it to an onsite node.js server that distributes the order to be printed to different receipt printers depending on the item to the kitchen. The chefs can then see what the customers ordered and are ready to fulfill them.
+This is a react app made for all you can eat restaurants. The idea is that a unique QR code is generated for every table. The customer scans the QR code to access the app with their table information automatically entered. The customer can order anything they please on the web app and then send the order directly to the kitchen. The web server receives the order and then sends it to an onsite node.js server that distributes the order to be printed to different receipt printers depending on the item. The chefs can then see what the customers ordered and fulfill them.
 
 On the administrative side to be accessed through an onsite tablet, there is a table management system so that the staff can add, remove, open and close tables. There is a management system for the food so that the restaurant can update the menu themselves. There is also an order management system so that the staff can see what each table has ordered
  
