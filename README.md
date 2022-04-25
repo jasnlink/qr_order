@@ -1,10 +1,24 @@
-# Scan to Order with Table Management System
+# AYCEHub - All You Can Eat Tableside Scan to Order with Table Management System
 
-## Project purpose and goal
-This is a react app made for all you can eat restaurants. The idea is that a unique QR code is generated for every table. The customer scans the QR code to access the app with their table information automatically entered. The customer can order anything they please on the web app and then send the order directly to the kitchen. The web server receives the order and then sends it to an onsite node.js server that distributes the order to be printed to different receipt printers depending on the item. The chefs can then see what the customers ordered and fulfill them.
+## Purpose
+This app allows customers to scan a QR code at the table and start ordering. When the order is placed, the order is printed directly in the kitchen.
 
-On the administrative side to be accessed through an onsite tablet, there is a table management system so that the staff can add, remove, open and close tables. There is a management system for the food so that the restaurant can update the menu themselves. There is also an order management system so that the staff can see what each table has ordered
+This solution removes the need to use paper checklists to capture orders and reduces the amount of staff needed to run the restaurant.
+
+This is a better and lower cost solution to using tablets at every table with the advent of COVID.
+
+## Challenges faced
+I needed a way to bridge orders placed on the web app to local thermal printers.
+
+I used a local machine running a nodeJS server that listens for socket.io requests from the web app's backend. The local machine receives the orders placed and then sends them to be printed on thermal printers in the kitchen.
  
+ Table management
+ ![table management](https://msmtech.ca/wp-content/uploads/2022/04/1-2.jpg)
+ 
+ Customer view after scanning the QR code.
+ ![orderflow](https://msmtech.ca/wp-content/uploads/2022/04/4-2.jpg)
+ ![orderflow](https://msmtech.ca/wp-content/uploads/2022/04/2-3.jpg)
+
  
 ## Technologies used:
 - react.js
@@ -17,13 +31,10 @@ On the administrative side to be accessed through an onsite tablet, there is a t
 - LEMP stack setup on Linode
 
 ## Main features
-- Customers scan a QR code to access the app
-- Navigate categories and choose food items to add
-- Select and zoom in to get more information on each item
-- Add items to a cart system
-- Cart drawer with order summary
-- Customer places order and the order is sent to the kitchen
-- Orders are printed directly from a local server to a thermal printer
+- Included QR code scanner on the web app.
+- Conveniently assign QR codes and print them to each table with the table management system.
+- Easily navigate the menu and place orders to be placed.
+- Magically send orders straight to the kitchen, removing the need for paper checklists and reducing the number of staff needed.
 
 ## Admin side features
 - Generate QR code for a table
