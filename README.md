@@ -12,11 +12,11 @@ I needed a way to bridge orders placed on the web app to local thermal printers.
 
 I used a local machine running a nodeJS server that listens for socket.io requests from the web app's backend. The local machine receives the orders placed and then sends them to be printed on thermal printers in the kitchen.
  
- Table management
+ #### Table management
  
  ![table management](https://msmtech.ca/wp-content/uploads/2022/04/1-2.jpg)
  
- Customer view after scanning the QR code.
+ #### Customer view after scanning the QR code.
  
  ![orderflow](https://msmtech.ca/wp-content/uploads/2022/04/4-2.jpg)
  ![orderflow](https://msmtech.ca/wp-content/uploads/2022/04/2-3.jpg)
